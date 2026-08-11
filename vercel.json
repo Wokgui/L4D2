@@ -1,10 +1,23 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "rewrites": [
+    {"source": "/api/campaigns", "destination": "/campaigns-api.json"},
+    {"source": "/api/photos-a", "destination": "https://catalogue-l4d2-data0.vercel.app/photos.json"},
+    {"source": "/api/photos-b", "destination": "https://catalogue-l4d2-data1.vercel.app/photos.json"}
+  ],
   "headers": [
     {
-      "source": "/sw.js",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "source": "/(index.html|app.js|bootstrap-data.js|polish.css|sw.js|manifest.webmanifest|cloud-backup.js|vendor/supabase/supabase.js)",
+      "headers": [{"key": "Cache-Control", "value": "public, max-age=0, must-revalidate"}]
+    },
+    {
+      "source": "/api/campaigns",
+      "headers": [{"key": "Cache-Control", "value": "no-store, max-age=0"}]
+    },
+    {
+      "source": "/api/photos-(.*)",
+      "headers": [{"key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800"}]
     }
   ]
 }
