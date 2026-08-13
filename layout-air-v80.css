@@ -1,0 +1,194 @@
+/* v80 — ajustements fins après validation visuelle */
+
+/* Accueil : conserver de l'air, mais utiliser réellement la hauteur disponible. */
+.draw .selector-card{
+  margin:7px 0 10px;
+  padding-top:17px;
+  padding-bottom:18px;
+}
+.selector-card .selector-title{
+  margin-top:0;
+  margin-bottom:14px;
+}
+.draw .res.home-res{
+  padding-top:4px;
+  gap:13px;
+}
+.draw .home-res .welcome{
+  flex:1 1 auto;
+  height:auto;
+  min-height:145px;
+  max-height:225px;
+}
+.steam-access{
+  padding:9px 0 12px;
+}
+.steam-access-title{
+  margin:0 0 10px;
+}
+.home-res .welcome-actions{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+/* Favoris Steam : une étoile est plus cohérente qu'un cœur avec les autres badges. */
+.steam-quick.favorites:after,
+.welcome-actions .favorites .welcome-steam-icon:after{
+  content:"★";
+  background:var(--g);
+}
+
+/* Campagnes gardées : recherche légèrement plus compacte, sans casser l'alignement. */
+#k .head{
+  margin-top:12px;
+  margin-bottom:18px;
+}
+#k .search{
+  width:100%;
+  max-width:460px;
+  margin:0 auto 12px;
+}
+#k .search input{
+  min-height:44px;
+  padding:10px 14px;
+  border:1px solid #d8c7aa;
+  border-radius:14px;
+  background:linear-gradient(155deg,#fffdf8,#fff9ef);
+  box-shadow:0 6px 16px #715f4012,inset 0 1px 0 #fff;
+}
+#k .sort{
+  display:block;
+  width:100%;
+  max-width:460px;
+  min-height:46px;
+  margin:0 auto 16px;
+  padding:11px 14px;
+  border:1px solid #d8c7aa;
+  border-radius:15px;
+  background:linear-gradient(155deg,#fffdf8,#f8efe2);
+  box-shadow:0 7px 18px #715f4012,inset 0 1px 0 #fff;
+  font-weight:850;
+}
+#k .backup{
+  margin-bottom:18px;
+  gap:8px;
+}
+#k .list{
+  padding-top:2px;
+}
+
+/* Autres campagnes : détacher clairement l'en-tête et les filtres de la liste. */
+#o .head{
+  margin-top:12px;
+  margin-bottom:18px;
+}
+#o .cat{
+  margin:0 0 18px;
+  padding:12px 10px;
+  gap:7px;
+  border:1px solid #ddcdb4;
+  border-radius:17px;
+  background:linear-gradient(155deg,#fffdf8,#f8efe2);
+  box-shadow:0 7px 18px #715f4012,inset 0 1px 0 #fff;
+}
+#o .cat .chip{
+  padding:8px 11px;
+  font-size:12.5px;
+}
+#o .list{
+  padding-top:2px;
+}
+
+@media(max-width:420px){
+  .draw .selector-card{
+    margin:6px 0 9px;
+    padding-top:15px;
+    padding-bottom:16px;
+  }
+  .selector-card .selector-title{
+    margin-bottom:12px;
+  }
+  .draw .res.home-res{
+    padding-top:3px;
+    gap:11px;
+  }
+  .draw .home-res .welcome{
+    flex:1 1 auto;
+    height:auto;
+    min-height:138px;
+    max-height:210px;
+  }
+  .steam-access{
+    padding:8px 0 12px;
+  }
+  .steam-access-title{
+    margin-bottom:9px;
+  }
+  #k .head,#o .head{
+    margin-top:10px;
+    margin-bottom:17px;
+  }
+  #k .search{
+    margin-bottom:11px;
+  }
+  #k .search input{
+    min-height:43px;
+    padding:9px 12px;
+    border-radius:13px;
+  }
+  #k .sort{
+    min-height:45px;
+    margin-bottom:15px;
+    padding:10px 12px;
+  }
+  #k .backup{
+    margin-bottom:17px;
+  }
+  #o .cat{
+    margin-bottom:17px;
+    padding:11px 8px;
+  }
+}
+
+@media(max-height:720px){
+  .draw .selector-card{
+    margin:4px 0 6px;
+    padding-top:11px;
+    padding-bottom:12px;
+  }
+  .selector-card .selector-title{
+    margin-bottom:8px;
+  }
+  .draw .res.home-res{
+    gap:7px;
+    padding-top:2px;
+  }
+  .draw .home-res .welcome{
+    flex:0 1 auto;
+    height:clamp(116px,18dvh,136px);
+    min-height:116px;
+    max-height:136px;
+  }
+  .steam-access{
+    padding:5px 0 6px;
+  }
+  .steam-access-title{
+    margin-bottom:6px;
+  }
+  #k .head,#o .head{
+    margin-top:8px;
+    margin-bottom:13px;
+  }
+  #k .search input{
+    min-height:41px;
+    padding:8px 11px;
+  }
+  #k .sort{
+    min-height:42px;
+    margin-bottom:12px;
+    padding:8px 11px;
+  }
+  #k .backup,#o .cat{
+    margin-bottom:13px;
+  }
+}
