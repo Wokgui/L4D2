@@ -6,7 +6,7 @@ module.exports=async function(req,res){
   try{
     const body=typeof req.body==="string"?JSON.parse(req.body):req.body;
     if(!Array.isArray(body?.campaigns)||!Array.isArray(body?.otherCampaigns))return res.status(400).json({error:"Données invalides"});
-    const savedAt=new Date().toISOString(),content=Buffer.from(JSON.stringify({savedAt,campaigns:body.campaigns,otherCampaigns:body.otherCampaigns,lastPlayed:body.lastPlayed||null},null,2)).toString("base64");
+    const savedAt=new Date().toISOString(),content=Buffer.from(JSON.stringify({savedAt,campaigns:body.campaigns,otherCampaigns:body.otherCampaigns,lastDrawn:body.lastDrawn||null},null,2)).toString("base64");
     const url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`,headers={Authorization:`Bearer ${token}`,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","User-Agent":"catalogue-l4d2"};
     const oldResponse=await fetch(`${url}?ref=${encodeURIComponent(BRANCH)}`,{headers}),old=oldResponse.ok?await oldResponse.json():null;
     const response=await fetch(url,{method:"PUT",headers:{...headers,"Content-Type":"application/json"},body:JSON.stringify({message:`Sauvegarde automatique L4D2 ${savedAt}`,content,branch:BRANCH,...(old?.sha?{sha:old.sha}:{})})});
