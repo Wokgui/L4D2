@@ -18,6 +18,6 @@
   };
 
   const s=document.createElement('style');
-  s.textContent='.result-card.has-last-played .result-content{gap:8px!important}.last-played-inline{margin-top:0!important}@media(max-height:720px){.result-card.has-last-played .result-content{gap:6px!important}.last-played-inline{margin-top:0!important}}';
+  s.textContent='.result-card.has-last-played .result-content{gap:8px!important}.result-card .campaign-description{margin-top:0!important}.last-played-inline{margin-top:0!important}@media(max-height:720px){.result-card.has-last-played .result-content{gap:6px!important}.result-card .campaign-description{margin-top:0!important}.last-played-inline{margin-top:0!important}}';
   document.head.appendChild(s);
 })();
