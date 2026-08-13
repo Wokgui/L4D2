@@ -79,6 +79,10 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
 
 /* Airier vertical rhythm from the draw header to the campaign image */
 .draw .title{margin-bottom:1.8px}
+.brand-workshop{display:block;width:44px;height:44px;border-radius:12px;touch-action:manipulation}
+.brand-workshop .brand-icon{display:block;width:100%;height:100%}
+.brand-workshop:focus-visible{outline:3px solid #2f796d;outline-offset:3px}
+@media(max-height:720px){.brand-workshop{width:39px;height:39px}}
 .selector-title{margin-top:15.3px;margin-bottom:18px}
 .draw .chips{margin-top:3.6px;margin-bottom:4.5px}
 .draw .drawbtn{margin-top:12.6px;margin-bottom:7.2px}
