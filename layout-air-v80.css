@@ -192,3 +192,96 @@
     margin-bottom:13px;
   }
 }
+/* Derniere campagne jouee, integree a la fiche tiree */
+.draw .result-card.has-last-played>img,
+.draw .result-card.has-last-played>.photo-fallback{
+  flex-basis:24dvh;
+  height:24dvh;
+  max-height:230px;
+}
+.result-card.has-last-played .result-content{
+  padding-bottom:8px;
+}
+.last-played-inline{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:7px;
+  margin-top:5px;
+  padding:7px 8px;
+  border:1px solid #dfceb2;
+  border-radius:11px;
+  background:linear-gradient(145deg,#f5ead8,#fff9ef);
+}
+.last-played-copy{
+  min-width:0;
+  text-align:left;
+}
+.last-played-copy b{
+  display:block;
+  font-size:8.5px;
+  line-height:1.1;
+  text-transform:uppercase;
+  letter-spacing:.055em;
+  color:var(--g);
+}
+.last-played-copy span{
+  display:block;
+  margin-top:2px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:11.5px;
+  line-height:1.15;
+  font-weight:900;
+  color:var(--i);
+}
+.last-played-copy .last-played-none{
+  color:var(--m);
+  font-weight:750;
+}
+.last-played-steam{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  color:#123f67;
+  text-decoration:none;
+}
+.last-played-steam img{
+  width:27px;
+  height:27px;
+  border-radius:50%;
+  object-fit:contain;
+}
+.last-played-steam span{
+  font-size:9.5px;
+  font-weight:900;
+}
+.mark-played{
+  min-width:61px;
+  padding:7px 8px;
+  border:1px solid #b9aa91;
+  border-radius:9px;
+  background:#fffdf9;
+  color:var(--i);
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+}
+.mark-played.on{
+  border-color:var(--g);
+  background:var(--g);
+  color:#fff;
+}
+@media(max-width:420px){
+  .last-played-inline{gap:5px;padding:6px 7px}
+  .last-played-steam span{display:none}
+  .mark-played{min-width:58px;padding:7px 6px}
+}
+@media(max-height:720px){
+  .last-played-inline{margin-top:6px;padding:5px 6px}
+  .last-played-copy b{font-size:7.5px}
+  .last-played-copy span{font-size:10px}
+  .last-played-steam img{width:23px;height:23px}
+  .mark-played{min-width:54px;padding:6px 5px;font-size:9px}
+}
