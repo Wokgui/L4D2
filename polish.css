@@ -108,3 +108,86 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
 /* Accès direct aux favoris Workshop */
 .steam-quick.favorites:after{content:"♥";background:#b95555}
 .welcome-actions .favorites .welcome-steam-icon:after{content:"♥";background:#b95555}
+
+/* v78 — accueil réorganisé, fidèle à la maquette validée */
+.app>.draw.page.on{padding:14px 16px 8px;gap:0}
+.draw .title{position:relative;flex:0 0 58px;height:58px;margin:0 0 9px;display:flex;align-items:center;justify-content:flex-start}
+.brand-lockup{height:100%;display:flex;align-items:center;gap:12px;min-width:0}
+.draw .title-profile{position:static!important;width:50px;height:50px;flex:0 0 50px}
+.draw .title-profile .title-icon{position:static;width:100%;height:100%;display:block;object-fit:cover;border:2px solid #fffaf2;border-radius:15px;box-shadow:0 5px 15px #4b3d2730}
+.title-brand{height:50px;display:flex;align-items:center;transform:translateY(-2px);font-size:clamp(29px,7vw,39px);line-height:1;font-weight:1000;letter-spacing:-.065em;color:#20211d;text-shadow:.4px .4px 0 #20211d}
+.draw .header-status{top:50%;right:0;transform:translateY(-50%);line-height:1.05}
+.draw .header-status .count{font-size:17px;color:#6c6a60;font-weight:950;white-space:nowrap}
+.draw .header-status small{font-size:10px;max-width:none;margin:0;white-space:nowrap}
+.draw .sync-row{margin-top:4px;gap:5px}
+.draw .sync-row button{width:22px;height:22px;font-size:16px;line-height:22px}
+
+.draw .selector-card{flex:0 0 auto;padding:16px 18px 17px;border:1px solid #deceb4;border-radius:24px;background:linear-gradient(155deg,#fffdf8e8,#fff9efdb);box-shadow:0 10px 28px #715f4017,inset 0 1px 0 #fff}
+.selector-card .selector-title{font-size:clamp(24px,6.3vw,34px);margin:1px 0 16px;gap:12px}
+.selector-card .selector-title:before,.selector-card .selector-title:after{width:44px;height:3px}
+.selector-card .filter-row{display:grid;grid-template-columns:minmax(86px,.72fr) minmax(0,2.28fr);align-items:center;gap:13px;min-height:43px;padding:7px 0}
+.selector-card .filter-row+.filter-row{border-top:1px solid #e3d5bd}
+.selector-card .lab{display:block!important;margin:0;text-align:left;text-transform:none;letter-spacing:-.02em;color:var(--i);font-size:17px;line-height:1.1;font-weight:900}
+.selector-card .chips{display:flex;flex-wrap:nowrap;justify-content:stretch;gap:8px;margin:0}
+.selector-card .chip{flex:1 1 0;min-width:0;padding:9px 7px;border-color:#ddcdb4;background:#fffaf3;font-size:14px;line-height:1.1;white-space:nowrap}
+.selector-card .chip.on{background:#20211d;border-color:#20211d;color:#fff}
+.selector-card .drawbtn{display:block;width:100%;max-width:none;margin:13px 0 0;padding:13px 20px;border-radius:16px;font-size:18px;line-height:1.1;background:linear-gradient(135deg,#318878,#287267)}
+
+.draw .res{min-height:0}
+.draw .res.home-res{flex:1;overflow:hidden;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:11px;padding:12px 0 0}
+.draw .home-res .welcome{flex:1 1 auto;width:100%;height:auto;min-height:145px;max-height:none;border-radius:22px;background:#211b15 url('/welcome-cover.png') center/cover no-repeat;border-color:#6d5942;box-shadow:0 11px 27px #2c21172b}
+.steam-access{flex:0 0 auto;width:100%}
+.steam-access-title{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 8px;font-size:20px;line-height:1.1;font-weight:950;letter-spacing:-.025em}
+.steam-access-title:before,.steam-access-title:after{content:"";height:2px;flex:1;border-radius:2px;background:linear-gradient(90deg,transparent,var(--g))}
+.steam-access-title:after{background:linear-gradient(90deg,var(--g),transparent)}
+.home-res .welcome-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:0}
+.home-res .welcome-actions a{min-width:0;min-height:91px;padding:9px 4px 8px;gap:7px;border:1px solid #d9c7a9;border-radius:16px;background:linear-gradient(155deg,#fffdf8,#f4e9d7)!important;color:var(--i);text-decoration:none;text-align:center;font-size:12px;line-height:1.05;font-weight:900;box-shadow:0 7px 17px #715f4019,inset 0 1px 0 #fff!important}
+.home-res .welcome-actions a:nth-child(1){box-shadow:0 7px 17px #715f4019,inset 0 3px 0 #2876a2!important}
+.home-res .welcome-actions a:nth-child(2){box-shadow:0 7px 17px #715f4019,inset 0 3px 0 #2f796d!important}
+.home-res .welcome-actions a:nth-child(3){box-shadow:0 7px 17px #715f4019,inset 0 3px 0 #2f796d!important}
+.home-res .welcome-actions a:nth-child(4){box-shadow:0 7px 17px #715f4019,inset 0 3px 0 #d8841f!important}
+.home-res .welcome-steam-icon{width:40px;height:40px;flex:0 0 40px;margin:0}
+.home-res .welcome-steam-icon img,.home-res .shortcut-custom svg{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
+.home-res .shortcut-custom:after{display:none}
+.home-res .welcome-actions .favorites .welcome-steam-icon:after,.home-res .welcome-actions .news .welcome-steam-icon:after{width:15px;height:15px;font-size:9px}
+
+@media(max-width:420px){
+  .draw .title{flex-basis:49px;height:49px;margin-bottom:7px}
+  .draw .title-profile{width:43px;height:43px;flex-basis:43px}
+  .title-brand{height:43px;font-size:29px;transform:translateY(-2px)}
+  .brand-lockup{gap:9px}
+  .draw .header-status .count{font-size:14px}
+  .draw .header-status small{font-size:8px}
+  .draw .sync-row{margin-top:2px;gap:2px}
+  .draw .sync-row button{width:18px;height:18px;font-size:13px;line-height:18px}
+  .draw .selector-card{padding:12px 12px 13px;border-radius:20px}
+  .selector-card .selector-title{font-size:22px;margin:0 0 10px;gap:8px}
+  .selector-card .selector-title:before,.selector-card .selector-title:after{width:24px;height:2px}
+  .selector-card .filter-row{grid-template-columns:75px minmax(0,1fr);gap:7px;min-height:37px;padding:5px 0}
+  .selector-card .lab{font-size:14px}
+  .selector-card .chips{gap:4px}
+  .selector-card .chip{padding:7px 2px;font-size:11.5px}
+  .selector-card .drawbtn{margin-top:9px;padding:10px 14px;border-radius:13px;font-size:16px}
+  .draw .res.home-res{gap:8px;padding-top:9px}
+  .steam-access-title{font-size:17px;gap:8px;margin-bottom:6px}
+  .home-res .welcome-actions{gap:5px}
+  .home-res .welcome-actions a{min-height:76px;padding:7px 2px 6px;gap:5px;border-radius:13px;font-size:10.5px}
+  .home-res .welcome-steam-icon{width:34px;height:34px;flex-basis:34px}
+}
+
+@media(max-height:720px){
+  .app>.draw.page.on{padding-top:8px}
+  .draw .title{flex-basis:43px;height:43px;margin-bottom:5px}
+  .draw .title-profile{width:39px;height:39px;flex-basis:39px}
+  .title-brand{height:39px;font-size:27px;transform:translateY(-2px)}
+  .draw .selector-card{padding-top:9px;padding-bottom:10px}
+  .selector-card .selector-title{font-size:20px;margin-bottom:7px}
+  .selector-card .filter-row{min-height:32px;padding:3px 0}
+  .selector-card .chip{padding-top:5px;padding-bottom:5px}
+  .selector-card .drawbtn{margin-top:7px;padding-top:8px;padding-bottom:8px}
+  .draw .res.home-res{padding-top:7px;gap:6px}
+  .draw .home-res .welcome{min-height:125px}
+  .steam-access-title{font-size:16px;margin-bottom:5px}
+  .home-res .welcome-actions a{min-height:65px;padding-top:5px;padding-bottom:5px;gap:3px}
+  .home-res .welcome-steam-icon{width:29px;height:29px;flex-basis:29px}
+}
