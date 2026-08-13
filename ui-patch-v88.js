@@ -35,11 +35,14 @@
     if(homeGap===null||!selector||!res||res.classList.contains('home-res'))return;
     const card=res.querySelector('.result-card');
     if(!card)return;
+    const photo=card.querySelector(':scope > img, :scope > .photo-fallback');
+    if(!photo)return;
+
     card.style.transform='none';
     requestAnimationFrame(()=>{
-      const targetTop=selector.getBoundingClientRect().bottom+homeGap;
-      const currentTop=card.getBoundingClientRect().top;
-      const delta=Math.round(targetTop-currentTop);
+      const targetPhotoTop=selector.getBoundingClientRect().bottom+homeGap;
+      const currentPhotoTop=photo.getBoundingClientRect().top;
+      const delta=Math.round(targetPhotoTop-currentPhotoTop);
       card.style.transform=`translateY(${delta}px)`;
     });
   }
