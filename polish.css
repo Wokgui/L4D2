@@ -104,3 +104,7 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
 .editable-meta-box{padding:0!important;overflow:hidden}
 .editable-meta-box b{padding-top:7px}
 .editable-meta-box input,.editable-meta-box select{width:100%;min-height:31px;border:0;background:transparent;color:var(--g);font-weight:900;text-align:center;text-align-last:center;padding:2px 3px 7px;cursor:pointer}
+
+/* Accès direct aux favoris Workshop */
+.steam-quick.favorites:after{content:"♥";background:#b95555}
+.welcome-actions .favorites .welcome-steam-icon:after{content:"♥";background:#b95555}
