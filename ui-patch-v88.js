@@ -28,15 +28,8 @@
   function lowerLastTile(card){
     const tile=card&&card.querySelector('.last-played-inline');
     if(!card||!tile)return;
-
+    /* Aucun décalage dynamique : il faussait l'égalité visuelle des deux marges du descriptif. */
     tile.style.setProperty('transform','none','important');
-    requestAnimationFrame(()=>{
-      const cardRect=card.getBoundingClientRect();
-      const tileRect=tile.getBoundingClientRect();
-      const remainingGap=Math.max(0,cardRect.bottom-tileRect.bottom);
-      const shift=remainingGap*.10;
-      tile.style.setProperty('transform',`translateY(${Math.round(shift*10)/10}px)`,'important');
-    });
   }
 
   fitDescription=function(){
@@ -101,15 +94,22 @@
     }
     .result-card.has-last-played .meta{margin:0!important}
 
-    /* Environ 2/3 d'espace en moins autour du descriptif. */
+    /* Espacement strictement identique au-dessus et au-dessous du descriptif. */
     .result-card.has-last-played .campaign-description{
+      margin:0!important;
+    }
+    .result-card.has-last-played .meta + .campaign-description{
       margin-top:4.5px!important;
-      margin-bottom:4.5px!important;
+    }
+    .result-card.has-last-played .campaign-description + .last-played-inline{
+      margin-top:4.5px!important;
     }
 
     /* Encore plus compacte : 1 px d'air autour du bouton Steam de 44 px. */
     .result-card.has-last-played .last-played-inline{
-      margin:0!important;
+      margin-left:0!important;
+      margin-right:0!important;
+      margin-bottom:0!important;
       flex:0 0 ${LAST_TILE_HEIGHT}px!important;
       position:relative!important;
       grid-template-columns:minmax(0,1fr)!important;
@@ -200,7 +200,8 @@
     @media(max-height:720px){
       .result-card.has-last-played .result-content{padding-top:8px!important}
       .result-card.has-last-played .rhead{margin-bottom:8px!important}
-      .result-card.has-last-played .campaign-description{margin-top:3px!important;margin-bottom:3px!important}
+      .result-card.has-last-played .meta + .campaign-description{margin-top:3px!important}
+      .result-card.has-last-played .campaign-description + .last-played-inline{margin-top:3px!important}
       .draw .res:not(.home-res){padding-top:2px!important}
     }
   `;
