@@ -3,17 +3,20 @@
     const d=document.querySelector('#res .campaign-description');
     if(!d)return;
 
+    const reference=document.querySelector('#res .last-played-copy b');
+    const baseSize=reference?(parseFloat(getComputedStyle(reference).fontSize)||8.5):8.5;
+
     d.style.fontFamily='inherit';
-    d.style.fontSize='11.5px';
+    d.style.fontSize=baseSize+'px';
     d.style.lineHeight='1.15';
     d.style.fontWeight='900';
 
     requestAnimationFrame(()=>{
-      const lh=parseFloat(getComputedStyle(d).lineHeight)||13.25;
+      const lh=parseFloat(getComputedStyle(d).lineHeight)||baseSize*1.15;
       const lines=Math.max(1,Math.ceil(d.scrollHeight/lh));
-      if(lines===2){d.style.fontSize='11px';d.style.lineHeight='1.2';d.style.fontWeight='750'}
-      else if(lines===3){d.style.fontSize='10.5px';d.style.lineHeight='1.2';d.style.fontWeight='750'}
-      else if(lines>=4){d.style.fontSize='9.5px';d.style.lineHeight='1.18';d.style.fontWeight='750'}
+      if(lines===2){d.style.fontSize=Math.max(6,baseSize-.5)+'px';d.style.lineHeight='1.2';d.style.fontWeight='750'}
+      else if(lines===3){d.style.fontSize=Math.max(6,baseSize-1)+'px';d.style.lineHeight='1.2';d.style.fontWeight='750'}
+      else if(lines>=4){d.style.fontSize=Math.max(6,baseSize-2)+'px';d.style.lineHeight='1.18';d.style.fontWeight='750'}
     });
   };
 
