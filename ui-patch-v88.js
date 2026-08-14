@@ -61,7 +61,17 @@
     }
     .result-card.has-last-played .meta{margin:0!important}
     .result-card.has-last-played .campaign-description{margin-top:14px!important;margin-bottom:0!important}
-    .result-card.has-last-played .last-played-inline{margin:0!important;flex:0 0 auto!important}
+
+    /* La tuile du bas garde sa hauteur compacte d'avant. Le grand Steam est sorti du flux pour ne pas l'agrandir. */
+    .result-card.has-last-played .last-played-inline{
+      margin:0!important;
+      flex:0 0 auto!important;
+      position:relative!important;
+      grid-template-columns:minmax(0,1fr)!important;
+      padding:6px 58px 6px 7px!important;
+      min-height:0!important;
+      overflow:visible!important;
+    }
 
     /* Le titre + le gros bouton Steam occupent une ligne de 44 px, avec exactement le même espace au-dessus et au-dessous. */
     .result-card.has-last-played .rhead{
@@ -97,6 +107,13 @@
       right:0!important;
       transform:translateY(-50%)!important;
     }
+    .result-card.has-last-played .last-played-steam{
+      position:absolute!important;
+      right:10px!important;
+      top:50%!important;
+      transform:translateY(-50%)!important;
+      margin:0!important;
+    }
     .result-card.has-last-played .rhead .wk img,
     .result-card.has-last-played .last-played-steam img{
       display:block!important;
@@ -130,6 +147,7 @@
       .result-card.has-last-played .result-content{padding-top:8px!important}
       .result-card.has-last-played .rhead{margin-bottom:8px!important}
       .result-card.has-last-played .campaign-description{margin-top:9px!important}
+      .result-card.has-last-played .last-played-inline{padding-top:5px!important;padding-bottom:5px!important}
       .draw .res:not(.home-res){padding-top:2px!important}
     }
   `;
