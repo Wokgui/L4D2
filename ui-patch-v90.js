@@ -1,6 +1,7 @@
 (()=>{
   const OUTER_BOTTOM_GAP=14;
   const INNER_BOTTOM_GAP=14;
+  const DESC_MIN_HEIGHT=60;
 
   const s=document.createElement('style');
   s.textContent=`
@@ -23,20 +24,40 @@
       box-sizing:border-box!important;
     }
 
+    /* Descriptif : un peu plus haut et texte réellement centré verticalement. */
+    .result-card.has-last-played .campaign-description{
+      min-height:${DESC_MIN_HEIGHT}px!important;
+      box-sizing:border-box!important;
+      display:flex!important;
+      align-items:center!important;
+      justify-content:flex-start!important;
+      text-align:left!important;
+      overflow:hidden!important;
+    }
+    .result-card.has-last-played .campaign-description-text{
+      display:-webkit-box!important;
+      -webkit-box-orient:vertical!important;
+      -webkit-line-clamp:4!important;
+      overflow:hidden!important;
+      width:100%!important;
+    }
+
     @media(max-height:720px){
       .draw .res:not(.home-res){padding-bottom:10px!important}
       .result-card.has-last-played .result-content{padding-bottom:10px!important}
+      .result-card.has-last-played .campaign-description{min-height:52px!important}
     }
 
-    /* Plus de crayon : le titre devient directement éditable quand la fiche Gardées est ouverte. */
+    /* Aucun indicateur visuel permanent pour signaler que les noms sont modifiables. */
     #k .rename-campaign{display:none!important}
-    #k .item.open .name{
-      cursor:text;
-      text-decoration:underline dotted rgba(47,121,109,.45);
-      text-underline-offset:3px;
+    #k .item.open .name,
+    .draw .result-card .rname{
+      text-decoration:none!important;
+      border:0!important;
+      outline:0!important;
     }
 
-    /* Éditeur de titre pleine largeur et multilignes : tout le nom reste visible. */
+    /* Éditeur de titre pleine largeur et multilignes dans Gardées. */
     #k .campaign-name-block{
       margin:0 0 10px;
     }
@@ -76,6 +97,17 @@
     textarea.style.height=Math.max(48,textarea.scrollHeight)+'px';
   }
 
+  function wrapDescription(){
+    const d=document.querySelector('#res .result-card.has-last-played .campaign-description');
+    if(!d||d.querySelector('.campaign-description-text'))return;
+    const text=d.textContent||'';
+    d.textContent='';
+    const span=document.createElement('span');
+    span.className='campaign-description-text';
+    span.textContent=text;
+    d.appendChild(span);
+  }
+
   function fitAdaptiveCard(){
     const res=document.getElementById('res');
     const card=res&&res.querySelector('.result-card.has-last-played');
@@ -97,29 +129,53 @@
         desc.style.setProperty('line-height','1.1','important');
         guard++;
       }
-
-      /* Cas extrême : conserver malgré tout la marge basse sans toucher à la photo. */
-      let padTop=parseFloat(getComputedStyle(desc).paddingTop)||0;
-      let padBottom=parseFloat(getComputedStyle(desc).paddingBottom)||0;
-      guard=0;
-      while(last.getBoundingClientRect().bottom>targetBottom+.5&&(padTop>3||padBottom>3)&&guard<20){
-        padTop=Math.max(3,padTop-.5);
-        padBottom=Math.max(3,padBottom-.5);
-        desc.style.setProperty('padding-top',padTop+'px','important');
-        desc.style.setProperty('padding-bottom',padBottom+'px','important');
-        guard++;
-      }
     }));
   }
 
-  /* Le fit existant garde ses règles de descriptif ; on ajoute seulement la marge basse garantie. */
+  /* Le fit existant garde ses règles de descriptif ; on ajoute centrage et marge basse garantie. */
   const previousFit=typeof fitDescription==='function'?fitDescription:null;
   if(previousFit){
     fitDescription=function(){
       previousFit();
-      fitAdaptiveCard();
+      requestAnimationFrame(()=>{
+        wrapDescription();
+        fitAdaptiveCard();
+      });
     };
   }
+
+  function saveRenamedCampaign(c,value){
+    const newName=(value||'').trim();
+    if(!newName)return false;
+    c.name=newName;
+    if(LP&&String(LP.id)===String(c.id)){
+      LP.name=newName;
+      localStorage.setItem(LPK,JSON.stringify(LP));
+    }
+    save();
+    return true;
+  }
+
+  /* Dans Tirage, toucher simplement le nom permet de le changer, sans aucun signe visible. */
+  const previousDraw=draw;
+  draw=function(c){
+    previousDraw(c);
+    wrapDescription();
+
+    const title=document.querySelector('#res .result-card .rname');
+    if(title){
+      title.onclick=e=>{
+        e.stopPropagation();
+        const value=prompt('Nom de la campagne',c.name||'');
+        if(value===null)return;
+        if(!value.trim())return alert('Le nom de la campagne ne peut pas être vide.');
+        if(saveRenamedCampaign(c,value))draw(c);
+      };
+    }
+
+    if(typeof fitDescription==='function')fitDescription();
+    else fitAdaptiveCard();
+  };
 
   const previousKept=kept;
 
@@ -156,7 +212,10 @@
       }
 
       autoHeight(editor);
-      editor.addEventListener('input',()=>autoHeight(editor));
+      if(!editor.dataset.autoHeightReady){
+        editor.dataset.autoHeightReady='1';
+        editor.addEventListener('input',()=>autoHeight(editor));
+      }
 
       /* Un appui sur le nom, une fois la campagne ouverte, amène directement à l'éditeur complet. */
       name.onclick=e=>{
@@ -199,8 +258,12 @@
 
   requestAnimationFrame(()=>{
     if(document.getElementById('k')?.classList.contains('on'))kept();
+    wrapDescription();
     fitAdaptiveCard();
   });
 
-  window.addEventListener('resize',fitAdaptiveCard);
+  window.addEventListener('resize',()=>{
+    wrapDescription();
+    fitAdaptiveCard();
+  });
 })();
