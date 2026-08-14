@@ -39,24 +39,31 @@
       padding-bottom:8px!important;
     }
 
-    /* Centre visuellement le libellé et le nom de la dernière campagne tirée. */
+    /* Le texte de la dernière campagne est centré sur la tuile entière,
+       indépendamment du bouton Steam à droite. */
     .result-card.has-last-played .last-played-inline{
-      padding-left:58px!important;
+      padding-left:9px!important;
       padding-right:58px!important;
     }
     .result-card.has-last-played .last-played-copy{
+      position:absolute!important;
+      left:50%!important;
+      top:50%!important;
+      width:calc(100% - 116px)!important;
+      transform:translate(-50%,-50%)!important;
       text-align:center!important;
       align-items:center!important;
     }
     .result-card.has-last-played .last-played-copy b,
     .result-card.has-last-played .last-played-copy span{
+      width:100%!important;
       text-align:center!important;
     }
 
-    /* Accueil : la photo prend tout l'espace restant, avec le même écart au-dessus et au-dessous. */
+    /* Accueil : même espace au-dessus et au-dessous de la photo. */
     .draw .res.home-res{
       padding-top:11px!important;
-      gap:11px!important;
+      gap:21px!important;
     }
     .draw .res.home-res .welcome{
       flex:1 1 auto!important;
@@ -95,7 +102,7 @@
     @media(max-width:420px){
       .draw .res.home-res{
         padding-top:9px!important;
-        gap:9px!important;
+        gap:18px!important;
       }
       .draw .res.home-res .steam-access{
         padding:0 0 9px!important;
@@ -121,7 +128,7 @@
     @media(max-height:720px){
       .draw .res.home-res{
         padding-top:7px!important;
-        gap:7px!important;
+        gap:13px!important;
       }
       .draw .res.home-res .steam-access{
         padding:0 0 7px!important;
