@@ -175,8 +175,8 @@
         flex-basis:37px!important;
       }
       .draw .steam-chat-top{
-        width:34px!important;
-        height:34px!important;
+        width:46px!important;
+        height:46px!important;
       }
       .draw .steam-chat-top img{
         width:32px!important;
