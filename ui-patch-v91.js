@@ -39,14 +39,37 @@
       padding-bottom:8px!important;
     }
 
-    /* Accueil : utiliser le vide sous les quatre accès Steam. */
-    .draw .res.home-res .steam-access{
+    /* Centre visuellement le libellé et le nom de la dernière campagne tirée. */
+    .result-card.has-last-played .last-played-inline{
+      padding-left:58px!important;
+      padding-right:58px!important;
+    }
+    .result-card.has-last-played .last-played-copy{
+      text-align:center!important;
+      align-items:center!important;
+    }
+    .result-card.has-last-played .last-played-copy b,
+    .result-card.has-last-played .last-played-copy span{
+      text-align:center!important;
+    }
+
+    /* Accueil : la photo prend tout l'espace restant, avec le même écart au-dessus et au-dessous. */
+    .draw .res.home-res{
+      padding-top:11px!important;
+      gap:11px!important;
+    }
+    .draw .res.home-res .welcome{
       flex:1 1 auto!important;
+      min-height:0!important;
+      max-height:none!important;
+    }
+    .draw .res.home-res .steam-access{
+      flex:0 0 auto!important;
       min-height:0!important;
       display:flex!important;
       flex-direction:column!important;
-      justify-content:center!important;
-      padding:10px 0 14px!important;
+      justify-content:flex-start!important;
+      padding:0 0 11px!important;
     }
     .draw .res.home-res .steam-access-title{
       margin-bottom:12px!important;
@@ -70,8 +93,12 @@
     }
 
     @media(max-width:420px){
+      .draw .res.home-res{
+        padding-top:9px!important;
+        gap:9px!important;
+      }
       .draw .res.home-res .steam-access{
-        padding:8px 0 12px!important;
+        padding:0 0 9px!important;
       }
       .draw .res.home-res .steam-access-title{
         margin-bottom:9px!important;
@@ -92,8 +119,12 @@
     }
 
     @media(max-height:720px){
+      .draw .res.home-res{
+        padding-top:7px!important;
+        gap:7px!important;
+      }
       .draw .res.home-res .steam-access{
-        padding:5px 0 7px!important;
+        padding:0 0 7px!important;
       }
       .draw .res.home-res .steam-access-title{
         margin-bottom:6px!important;
