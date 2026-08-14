@@ -63,7 +63,7 @@
     /* Accueil : même espace au-dessus et au-dessous de la photo. */
     .draw .res.home-res{
       padding-top:11px!important;
-      gap:21px!important;
+      gap:16.5px!important;
     }
     .draw .res.home-res .welcome{
       flex:1 1 auto!important;
@@ -79,7 +79,7 @@
       padding:0 0 11px!important;
     }
     .draw .res.home-res .steam-access-title{
-      margin-bottom:12px!important;
+      margin-bottom:16.5px!important;
     }
     .draw .res.home-res .welcome-actions{
       grid-template-columns:repeat(2,minmax(0,1fr))!important;
@@ -102,13 +102,13 @@
     @media(max-width:420px){
       .draw .res.home-res{
         padding-top:9px!important;
-        gap:18px!important;
+        gap:13.5px!important;
       }
       .draw .res.home-res .steam-access{
         padding:0 0 9px!important;
       }
       .draw .res.home-res .steam-access-title{
-        margin-bottom:9px!important;
+        margin-bottom:13.5px!important;
       }
       .draw .res.home-res .welcome-actions{
         gap:9px 8px!important;
@@ -128,13 +128,13 @@
     @media(max-height:720px){
       .draw .res.home-res{
         padding-top:7px!important;
-        gap:13px!important;
+        gap:9.5px!important;
       }
       .draw .res.home-res .steam-access{
         padding:0 0 7px!important;
       }
       .draw .res.home-res .steam-access-title{
-        margin-bottom:6px!important;
+        margin-bottom:9.5px!important;
       }
       .draw .res.home-res .welcome-actions{
         gap:6px 7px!important;
