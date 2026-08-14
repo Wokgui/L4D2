@@ -1,7 +1,7 @@
 (()=>{
   const HEADER_OFFSET_KEY='l4d2_header_status_offset_v1';
   const STEAM_SIZE=44;
-  const LAST_TILE_HEIGHT=62;
+  const LAST_TILE_HEIGHT=50;
 
   function fitCampaignTitle(card){
     const title=card&&card.querySelector('.rname');
@@ -92,7 +92,7 @@
       margin-bottom:4.5px!important;
     }
 
-    /* Tuile dernière campagne plus grande et de hauteur strictement constante. */
+    /* Hauteur minimale esthétique : le bouton Steam de 44 px garde 3 px d'air en haut et en bas. */
     .result-card.has-last-played .last-played-inline{
       margin:0!important;
       flex:0 0 ${LAST_TILE_HEIGHT}px!important;
@@ -102,11 +102,14 @@
       height:${LAST_TILE_HEIGHT}px!important;
       min-height:${LAST_TILE_HEIGHT}px!important;
       max-height:${LAST_TILE_HEIGHT}px!important;
-      padding:8px 58px 8px 9px!important;
+      padding:3px 58px 3px 9px!important;
       box-sizing:border-box!important;
       overflow:visible!important;
     }
-    .result-card.has-last-played .last-played-copy{align-self:center!important}
+    .result-card.has-last-played .last-played-copy{
+      align-self:center!important;
+      line-height:1.05!important;
+    }
 
     /* Le titre reste centré avec le gros bouton Steam. */
     .result-card.has-last-played .rhead{
