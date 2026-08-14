@@ -99,7 +99,7 @@
       flex-basis:42px!important;
     }
 
-    /* Raccourci Chat Steam : icône compacte exactement centrée dans l'en-tête. */
+    /* Raccourci Chat Steam : Steam domine, la bulle n'est qu'un petit indicateur. */
     .draw .title{
       position:relative!important;
     }
@@ -109,8 +109,8 @@
       top:50%!important;
       transform:translate(-50%,-50%)!important;
       z-index:6!important;
-      width:34px!important;
-      height:34px!important;
+      width:36px!important;
+      height:36px!important;
       padding:0!important;
       display:grid!important;
       place-items:center!important;
@@ -123,25 +123,25 @@
     }
     .draw .steam-chat-top img{
       display:block!important;
-      width:22px!important;
-      height:22px!important;
-      min-width:22px!important;
+      width:28px!important;
+      height:28px!important;
+      min-width:28px!important;
       object-fit:contain!important;
       border-radius:50%!important;
     }
     .draw .steam-chat-top .steam-chat-bubble{
       position:absolute!important;
-      right:-3px!important;
-      bottom:-2px!important;
-      width:15px!important;
-      height:15px!important;
-      padding:2.5px!important;
+      right:-1px!important;
+      bottom:-1px!important;
+      width:11px!important;
+      height:11px!important;
+      padding:1px!important;
       border-radius:50%!important;
       background:var(--g)!important;
       color:#fff!important;
-      border:2px solid var(--p)!important;
+      border:1.5px solid var(--p)!important;
       overflow:visible!important;
-      box-sizing:content-box!important;
+      box-sizing:border-box!important;
     }
     .draw .steam-chat-top .steam-chat-bubble path{
       fill:currentColor!important;
@@ -175,17 +175,18 @@
         flex-basis:37px!important;
       }
       .draw .steam-chat-top{
-        width:32px!important;
-        height:32px!important;
+        width:34px!important;
+        height:34px!important;
       }
       .draw .steam-chat-top img{
-        width:20px!important;
-        height:20px!important;
-        min-width:20px!important;
+        width:26px!important;
+        height:26px!important;
+        min-width:26px!important;
       }
       .draw .steam-chat-top .steam-chat-bubble{
-        width:14px!important;
-        height:14px!important;
+        width:10px!important;
+        height:10px!important;
+        padding:.8px!important;
       }
     }
 
