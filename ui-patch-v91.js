@@ -123,9 +123,9 @@
     }
     .draw .steam-chat-top img{
       display:block!important;
-      width:28px!important;
-      height:28px!important;
-      min-width:28px!important;
+      width:30px!important;
+      height:30px!important;
+      min-width:30px!important;
       object-fit:contain!important;
       border-radius:50%!important;
     }
@@ -133,8 +133,8 @@
       position:absolute!important;
       right:-1px!important;
       bottom:-1px!important;
-      width:11px!important;
-      height:11px!important;
+      width:13px!important;
+      height:13px!important;
       padding:1px!important;
       border-radius:50%!important;
       background:var(--g)!important;
@@ -179,13 +179,13 @@
         height:34px!important;
       }
       .draw .steam-chat-top img{
-        width:26px!important;
-        height:26px!important;
-        min-width:26px!important;
+        width:28px!important;
+        height:28px!important;
+        min-width:28px!important;
       }
       .draw .steam-chat-top .steam-chat-bubble{
-        width:10px!important;
-        height:10px!important;
+        width:12px!important;
+        height:12px!important;
         padding:.8px!important;
       }
     }
