@@ -1,132 +1,190 @@
 (()=>{
+  const OUTER_BOTTOM_GAP=14;
+  const INNER_BOTTOM_GAP=14;
+
   const s=document.createElement('style');
   s.textContent=`
-    /* Garde l'aération interne de la grande fiche. */
-    .result-card.has-last-played .result-content{
-      padding-bottom:30px!important;
+    /* La grande fiche utilise automatiquement toute la hauteur disponible. */
+    .draw .res:not(.home-res){
+      padding-bottom:${OUTER_BOTTOM_GAP}px!important;
     }
-
-    /* Laisse toujours un peu plus d'air entre la grande fiche et la navigation. */
-    .draw .res{
-      padding-bottom:14px!important;
+    .draw .res:not(.home-res) .result-card.has-last-played{
+      height:100%!important;
+      max-height:100%!important;
+      min-height:0!important;
+      align-self:stretch!important;
+      margin-bottom:0!important;
+      box-sizing:border-box!important;
+    }
+    .result-card.has-last-played .result-content{
+      flex:1 1 auto!important;
+      min-height:0!important;
+      padding-bottom:${INNER_BOTTOM_GAP}px!important;
+      box-sizing:border-box!important;
     }
 
     @media(max-height:720px){
-      .result-card.has-last-played .result-content{
-        padding-bottom:22px!important;
-      }
-      .draw .res{
-        padding-bottom:10px!important;
-      }
+      .draw .res:not(.home-res){padding-bottom:10px!important}
+      .result-card.has-last-played .result-content{padding-bottom:10px!important}
     }
 
-    /* Champ de renommage dans le panneau Modifier. */
+    /* Plus de crayon : le titre devient directement éditable quand la fiche Gardées est ouverte. */
+    #k .rename-campaign{display:none!important}
+    #k .item.open .name{
+      cursor:text;
+      text-decoration:underline dotted rgba(47,121,109,.45);
+      text-underline-offset:3px;
+    }
+
+    /* Éditeur de titre pleine largeur et multilignes : tout le nom reste visible. */
+    #k .campaign-name-block{
+      margin:0 0 10px;
+    }
+    #k .campaign-name-block .dlab{
+      margin-top:0;
+    }
     #k .campaign-name-edit{
-      width:100%;
-      border:2px solid var(--g);
-      border-radius:9px;
-      background:#fff;
-      padding:9px;
-      font:inherit;
-      font-weight:800;
+      display:block;
+      width:100%!important;
+      min-height:48px!important;
+      height:auto;
+      overflow:hidden!important;
+      resize:none!important;
+      white-space:pre-wrap!important;
+      overflow-wrap:anywhere!important;
+      border:2px solid var(--g)!important;
+      border-radius:10px!important;
+      background:#fff!important;
+      padding:10px 11px!important;
+      box-sizing:border-box!important;
+      font:inherit!important;
+      font-size:16px!important;
+      line-height:1.25!important;
+      font-weight:900!important;
+      color:var(--i)!important;
     }
-
-    /* Bouton de renommage visible directement à côté du nom. */
-    #k .campaign-name-line{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      min-width:0;
-    }
-    #k .campaign-name-line .name{
-      flex:1;
-      min-width:0;
-    }
-    #k .rename-campaign{
-      flex:0 0 auto;
-      width:30px;
-      height:30px;
-      border:1px solid var(--l);
-      border-radius:9px;
-      background:var(--p2);
-      color:var(--i);
-      display:grid;
-      place-items:center;
-      padding:0;
-      font-size:17px;
-      font-weight:900;
-      line-height:1;
+    #k .campaign-name-edit:focus{
+      outline:2px solid rgba(47,121,109,.18);
+      outline-offset:2px;
     }
   `;
   document.head.appendChild(s);
 
-  const previousKept=kept;
-
-  function renameCampaign(c){
-    const value=prompt('Nom de la campagne',c.name||'');
-    if(value===null)return;
-    const newName=value.trim();
-    if(!newName)return alert('Le nom de la campagne ne peut pas être vide.');
-    c.name=newName;
-    if(LP&&String(LP.id)===String(c.id)){
-      LP.name=newName;
-      localStorage.setItem(LPK,JSON.stringify(LP));
-    }
-    save();
-    kept();
+  function autoHeight(textarea){
+    if(!textarea)return;
+    textarea.style.height='auto';
+    textarea.style.height=Math.max(48,textarea.scrollHeight)+'px';
   }
+
+  function fitAdaptiveCard(){
+    const res=document.getElementById('res');
+    const card=res&&res.querySelector('.result-card.has-last-played');
+    const content=card&&card.querySelector('.result-content');
+    const desc=card&&card.querySelector('.campaign-description');
+    const last=card&&card.querySelector('.last-played-inline');
+    if(!res||!card||!content||!desc||!last)return;
+
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      const shortScreen=window.matchMedia('(max-height:720px)').matches;
+      const innerGap=shortScreen?10:INNER_BOTTOM_GAP;
+      const targetBottom=card.getBoundingClientRect().bottom-innerGap;
+
+      let size=parseFloat(getComputedStyle(desc).fontSize)||11.5;
+      let guard=0;
+      while(last.getBoundingClientRect().bottom>targetBottom+.5&&size>7&&guard<30){
+        size=Math.max(7,size-.25);
+        desc.style.setProperty('font-size',size+'px','important');
+        desc.style.setProperty('line-height','1.1','important');
+        guard++;
+      }
+
+      /* Cas extrême : conserver malgré tout la marge basse sans toucher à la photo. */
+      let padTop=parseFloat(getComputedStyle(desc).paddingTop)||0;
+      let padBottom=parseFloat(getComputedStyle(desc).paddingBottom)||0;
+      guard=0;
+      while(last.getBoundingClientRect().bottom>targetBottom+.5&&(padTop>3||padBottom>3)&&guard<20){
+        padTop=Math.max(3,padTop-.5);
+        padBottom=Math.max(3,padBottom-.5);
+        desc.style.setProperty('padding-top',padTop+'px','important');
+        desc.style.setProperty('padding-bottom',padBottom+'px','important');
+        guard++;
+      }
+    }));
+  }
+
+  /* Le fit existant garde ses règles de descriptif ; on ajoute seulement la marge basse garantie. */
+  const previousFit=typeof fitDescription==='function'?fitDescription:null;
+  if(previousFit){
+    fitDescription=function(){
+      previousFit();
+      fitAdaptiveCard();
+    };
+  }
+
+  const previousKept=kept;
 
   function enhanceKept(){
     const root=document.getElementById('kl');
     if(!root)return;
 
+    root.querySelectorAll('.rename-campaign').forEach(button=>button.remove());
+
     root.querySelectorAll('.item').forEach(item=>{
       const campaign=C.find(c=>String(c.id)===String(item.dataset.id));
       if(!campaign)return;
 
-      /* Bouton crayon visible directement sur la ligne du nom. */
       const main=item.querySelector('.main');
-      const name=main?.querySelector('.name');
-      if(main&&name&&!main.querySelector('.rename-campaign')){
-        const line=document.createElement('div');
-        line.className='campaign-name-line';
-        name.parentNode.insertBefore(line,name);
-        line.appendChild(name);
-        const button=document.createElement('button');
-        button.type='button';
-        button.className='rename-campaign';
-        button.setAttribute('aria-label','Modifier le nom de '+campaign.name);
-        button.textContent='✎';
-        button.onclick=e=>{
-          e.stopPropagation();
-          renameCampaign(campaign);
-        };
-        line.appendChild(button);
+      const name=main&&main.querySelector('.name');
+      const det=item.querySelector('.det');
+      const grid=det&&det.querySelector('.grid');
+      if(!name||!det||!grid)return;
+
+      /* Si l'ancien wrapper du crayon existe encore, remettre simplement le nom dans .main. */
+      const oldLine=name.closest('.campaign-name-line');
+      if(oldLine){
+        oldLine.parentNode.insertBefore(name,oldLine);
+        oldLine.remove();
       }
 
-      /* Conserve aussi un champ texte complet dans le panneau Modifier. */
-      const det=item.querySelector('.det');
-      if(!det||det.querySelector('.campaign-name-edit'))return;
-      const grid=det.querySelector('.grid');
-      if(!grid)return;
-      grid.insertAdjacentHTML('afterend',`<div class="dlab">Nom de la campagne</div><input class="campaign-name-edit" value="${E(campaign.name||'')}">`);
+      let editor=det.querySelector('.campaign-name-edit');
+      if(!editor){
+        const block=document.createElement('div');
+        block.className='campaign-name-block';
+        block.innerHTML=`<div class="dlab">Nom de la campagne</div><textarea class="campaign-name-edit" rows="1">${E(campaign.name||'')}</textarea>`;
+        det.insertBefore(block,grid);
+        editor=block.querySelector('.campaign-name-edit');
+      }
+
+      autoHeight(editor);
+      editor.addEventListener('input',()=>autoHeight(editor));
+
+      /* Un appui sur le nom, une fois la campagne ouverte, amène directement à l'éditeur complet. */
+      name.onclick=e=>{
+        if(!item.classList.contains('open'))return;
+        e.stopPropagation();
+        editor.value=campaign.name||'';
+        autoHeight(editor);
+        editor.focus({preventScroll:true});
+        editor.setSelectionRange(editor.value.length,editor.value.length);
+        editor.scrollIntoView({behavior:'smooth',block:'center'});
+      };
 
       const saveButton=item.querySelector('.sv');
-      if(saveButton){
+      if(saveButton&&!saveButton.dataset.nameSaveReady){
+        saveButton.dataset.nameSaveReady='1';
         saveButton.addEventListener('click',event=>{
-          const input=item.querySelector('.campaign-name-edit');
           const current=C.find(c=>String(c.id)===String(item.dataset.id));
-          if(!input||!current)return;
-          const newName=input.value.trim();
-          if(!newName){
+          if(!current)return;
+          const value=editor.value.trim();
+          if(!value){
             event.preventDefault();
             event.stopImmediatePropagation();
             alert('Le nom de la campagne ne peut pas être vide.');
             return;
           }
-          current.name=newName;
+          current.name=value;
           if(LP&&String(LP.id)===String(current.id)){
-            LP.name=newName;
+            LP.name=value;
             localStorage.setItem(LPK,JSON.stringify(LP));
           }
         },true);
@@ -139,5 +197,10 @@
     enhanceKept();
   };
 
-  if(document.getElementById('k')?.classList.contains('on'))kept();
+  requestAnimationFrame(()=>{
+    if(document.getElementById('k')?.classList.contains('on'))kept();
+    fitAdaptiveCard();
+  });
+
+  window.addEventListener('resize',fitAdaptiveCard);
 })();
