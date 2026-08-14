@@ -252,30 +252,56 @@
     document.documentElement.style.setProperty('--l4d2-nav-height',height+'px');
   }
 
+  /* Ne ré-étend plus la photo avant de la réduire : c'était la cause du petit
+     aller-retour visuel de la fiche à chaque nouveau tirage. */
   function settleDrawCard(){
     setRealNavHeight();
     const card=document.querySelector('#res .result-card.has-last-played');
     const image=card&&card.querySelector(':scope>img,:scope>.photo-fallback');
     if(!card||!image)return;
 
-    /* Annule les anciennes hauteurs forcées : le flex calcule d'abord l'espace réellement disponible. */
-    image.style.removeProperty('height');
     image.style.setProperty('min-height','0px','important');
-    image.style.setProperty('flex','1 1 0px','important');
-
     requestAnimationFrame(()=>{
       const overflow=card.scrollHeight-card.clientHeight;
       if(overflow<=1)return;
       const current=image.getBoundingClientRect().height;
       const target=Math.max(0,current-overflow-2);
+      if(target>=current-.5)return;
       image.style.setProperty('flex','0 0 '+target+'px','important');
       image.style.setProperty('height',target+'px','important');
     });
   }
 
+  let settleRaf=0,settleTimer=0;
   function scheduleSettle(){
-    requestAnimationFrame(()=>requestAnimationFrame(settleDrawCard));
-    setTimeout(settleDrawCard,120);
+    if(settleRaf)cancelAnimationFrame(settleRaf);
+    if(settleTimer)clearTimeout(settleTimer);
+    settleRaf=requestAnimationFrame(()=>{
+      settleRaf=requestAnimationFrame(()=>{
+        settleRaf=0;
+        settleDrawCard();
+      });
+    });
+    settleTimer=setTimeout(()=>{
+      settleTimer=0;
+      settleDrawCard();
+    },140);
+  }
+
+  /* Un nouveau tirage remplace directement la fiche existante, sans passer
+     par un état vide intermédiaire. */
+  const go=document.getElementById('go');
+  if(go){
+    go.onclick=()=>{
+      const p=pool();
+      if(!p.length){
+        const res=document.getElementById('res');
+        res.classList.remove('home-res');
+        res.innerHTML='<div class=err>Aucune campagne avec ces filtres.</div>';
+        return;
+      }
+      draw(p[Math.floor(Math.random()*p.length)]);
+    };
   }
 
   const res=document.getElementById('res');
