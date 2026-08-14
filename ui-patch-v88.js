@@ -1,7 +1,7 @@
 (()=>{
   const HEADER_OFFSET_KEY='l4d2_header_status_offset_v1';
   const STEAM_SIZE=44;
-  const LAST_TILE_HEIGHT=50;
+  const LAST_TILE_HEIGHT=46;
 
   function fitCampaignTitle(card){
     const title=card&&card.querySelector('.rname');
@@ -22,6 +22,20 @@
         title.style.setProperty('font-size',size+'px','important');
         guard++;
       }
+    });
+  }
+
+  function lowerLastTile(card){
+    const tile=card&&card.querySelector('.last-played-inline');
+    if(!card||!tile)return;
+
+    tile.style.setProperty('transform','none','important');
+    requestAnimationFrame(()=>{
+      const cardRect=card.getBoundingClientRect();
+      const tileRect=tile.getBoundingClientRect();
+      const remainingGap=Math.max(0,cardRect.bottom-tileRect.bottom);
+      const shift=remainingGap*.10;
+      tile.style.setProperty('transform',`translateY(${Math.round(shift*10)/10}px)`,'important');
     });
   }
 
@@ -74,6 +88,7 @@
           d.style.setProperty('line-height','1.12','important');
           guard++;
         }
+        lowerLastTile(card);
       });
     });
   };
@@ -92,7 +107,7 @@
       margin-bottom:4.5px!important;
     }
 
-    /* Hauteur minimale esthétique : le bouton Steam de 44 px garde 3 px d'air en haut et en bas. */
+    /* Encore plus compacte : 1 px d'air autour du bouton Steam de 44 px. */
     .result-card.has-last-played .last-played-inline{
       margin:0!important;
       flex:0 0 ${LAST_TILE_HEIGHT}px!important;
@@ -102,9 +117,10 @@
       height:${LAST_TILE_HEIGHT}px!important;
       min-height:${LAST_TILE_HEIGHT}px!important;
       max-height:${LAST_TILE_HEIGHT}px!important;
-      padding:3px 58px 3px 9px!important;
+      padding:1px 58px 1px 9px!important;
       box-sizing:border-box!important;
       overflow:visible!important;
+      will-change:transform;
     }
     .result-card.has-last-played .last-played-copy{
       align-self:center!important;
@@ -252,5 +268,7 @@
   window.addEventListener('resize',()=>{
     applyHeaderOffset();
     fitDescription();
+    const card=document.querySelector('#res .result-card');
+    if(card)lowerLastTile(card);
   });
 })();
