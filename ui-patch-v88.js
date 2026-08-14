@@ -39,6 +39,10 @@
 
     fitCampaignTitle(card);
 
+    /* Repartir du padding normal avant de mesurer le nombre de lignes. */
+    d.style.removeProperty('padding-top');
+    d.style.removeProperty('padding-bottom');
+
     /* Même taille que le nom de la dernière campagne sur une ligne. */
     const reference=card.querySelector('.last-played-copy span');
     const baseSize=reference?(parseFloat(getComputedStyle(reference).fontSize)||11.5):11.5;
@@ -59,14 +63,20 @@
         d.style.setProperty('font-size',Math.max(7,baseSize-.75)+'px','important');
         d.style.setProperty('line-height','1.18','important');
         d.style.fontWeight='800';
+        d.style.setProperty('padding-top','12px','important');
+        d.style.setProperty('padding-bottom','12px','important');
       }else if(lines===3){
         d.style.setProperty('font-size',Math.max(7,baseSize-1.5)+'px','important');
         d.style.setProperty('line-height','1.17','important');
         d.style.fontWeight='780';
+        d.style.setProperty('padding-top','12.5px','important');
+        d.style.setProperty('padding-bottom','12.5px','important');
       }else if(lines>=4){
         d.style.setProperty('font-size',Math.max(7,baseSize-2.25)+'px','important');
         d.style.setProperty('line-height','1.15','important');
         d.style.fontWeight='750';
+        d.style.setProperty('padding-top','13px','important');
+        d.style.setProperty('padding-bottom','13px','important');
       }
 
       /* La photo ne bouge jamais : si le bas risque d'être rogné, seul le descriptif rétrécit. */
