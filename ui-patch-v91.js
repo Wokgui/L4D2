@@ -1,74 +1,85 @@
 (()=>{
   const style=document.createElement('style');
   style.textContent=`
-    /* Plus d'air sous la dernière campagne : la grande fiche descend davantage. */
-    .result-card.has-last-played .result-content{
-      padding-bottom:30px!important;
+    /* Utilise la hauteur réelle de la barre du bas au lieu d'une valeur fixe. */
+    .app{
+      padding-bottom:var(--l4d2-nav-height,43px)!important;
     }
-    @media(max-height:720px){
-      .result-card.has-last-played .result-content{
-        padding-bottom:22px!important;
-      }
+    .draw.page.on{
+      height:calc(100dvh - var(--l4d2-nav-height,43px))!important;
+      max-height:calc(100dvh - var(--l4d2-nav-height,43px))!important;
     }
 
-    /* Champ de renommage dans Gardées. */
-    #k .campaign-name-edit{
-      width:100%;
-      border:1px solid var(--l);
-      border-radius:9px;
-      background:#fff;
-      padding:8px;
-      font:inherit;
-      font-weight:800;
+    /* La fiche doit toujours tenir entièrement au-dessus de la navigation. */
+    .draw .res:not(.home-res){
+      min-height:0!important;
+      padding-bottom:8px!important;
+      overflow:hidden!important;
+    }
+    .draw .res:not(.home-res) .result-card.has-last-played{
+      height:100%!important;
+      min-height:0!important;
+      max-height:100%!important;
+      overflow:hidden!important;
+      box-sizing:border-box!important;
+    }
+
+    /* La photo absorbe toute réduction nécessaire. Le contenu du bas n'est plus sacrifié. */
+    .draw .result-card.has-last-played>img,
+    .draw .result-card.has-last-played>.photo-fallback{
+      flex:1 1 0!important;
+      min-height:0!important;
+      height:auto!important;
+      max-height:220px!important;
+      object-fit:cover!important;
+    }
+    .result-card.has-last-played .result-content{
+      flex:0 0 auto!important;
+      min-height:0!important;
+      padding-bottom:8px!important;
     }
   `;
   document.head.appendChild(style);
 
-  const previousKept=kept;
+  function setRealNavHeight(){
+    const nav=document.querySelector('.nav');
+    const height=nav?Math.ceil(nav.getBoundingClientRect().height):43;
+    document.documentElement.style.setProperty('--l4d2-nav-height',height+'px');
+  }
 
-  function addNameEditors(){
-    const root=document.getElementById('kl');
-    if(!root)return;
+  function settleDrawCard(){
+    setRealNavHeight();
+    const card=document.querySelector('#res .result-card.has-last-played');
+    const image=card&&card.querySelector(':scope>img,:scope>.photo-fallback');
+    if(!card||!image)return;
 
-    root.querySelectorAll('.item').forEach(item=>{
-      const det=item.querySelector('.det');
-      if(!det||det.querySelector('.campaign-name-edit'))return;
+    /* Annule les anciennes hauteurs forcées : le flex calcule d'abord l'espace réellement disponible. */
+    image.style.removeProperty('height');
+    image.style.setProperty('min-height','0px','important');
+    image.style.setProperty('flex','1 1 0px','important');
 
-      const campaign=C.find(c=>String(c.id)===String(item.dataset.id));
-      if(!campaign)return;
-
-      const grid=det.querySelector('.grid');
-      if(!grid)return;
-
-      grid.insertAdjacentHTML('afterend',`<div class="dlab campaign-name-label">Nom de la campagne</div><input class="campaign-name-edit" value="${E(campaign.name||'')}">`);
-
-      const saveButton=item.querySelector('.sv');
-      if(saveButton){
-        saveButton.addEventListener('click',event=>{
-          const input=item.querySelector('.campaign-name-edit');
-          const current=C.find(c=>String(c.id)===String(item.dataset.id));
-          if(!input||!current)return;
-          const newName=input.value.trim();
-          if(!newName){
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            alert('Le nom de la campagne ne peut pas être vide.');
-            return;
-          }
-          current.name=newName;
-          if(LP&&String(LP.id)===String(current.id)){
-            LP.name=newName;
-            localStorage.setItem(LPK,JSON.stringify(LP));
-          }
-        },true);
-      }
+    requestAnimationFrame(()=>{
+      const overflow=card.scrollHeight-card.clientHeight;
+      if(overflow<=1)return;
+      const current=image.getBoundingClientRect().height;
+      const target=Math.max(0,current-overflow-2);
+      image.style.setProperty('flex','0 0 '+target+'px','important');
+      image.style.setProperty('height',target+'px','important');
     });
   }
 
-  kept=function(){
-    previousKept();
-    addNameEditors();
-  };
+  function scheduleSettle(){
+    requestAnimationFrame(()=>requestAnimationFrame(settleDrawCard));
+    setTimeout(settleDrawCard,120);
+  }
 
-  if(document.getElementById('k')?.classList.contains('on'))kept();
+  const res=document.getElementById('res');
+  if(res)new MutationObserver(scheduleSettle).observe(res,{childList:true,subtree:true});
+
+  window.addEventListener('resize',scheduleSettle,{passive:true});
+  if(window.visualViewport)window.visualViewport.addEventListener('resize',scheduleSettle,{passive:true});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(scheduleSettle).catch(()=>{});
+
+  setRealNavHeight();
+  scheduleSettle();
 })();
