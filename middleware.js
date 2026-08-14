@@ -2,7 +2,7 @@ export default async function middleware(request){
   const url=new URL('/index.html',request.url);
   const response=await fetch(url,{headers:request.headers});
   let html=await response.text();
-  html=html.replace('</body>','<script src="/ui-patch-v89.js?v=20260814-89"></script><script src="/ui-patch-v90.js?v=20260814-92"></script></body>');
+  html=html.replace('</body>','<script src="/ui-patch-v89.js?v=20260814-89"></script><script src="/ui-patch-v90.js?v=20260814-93"></script></body>');
   const headers=new Headers(response.headers);
   headers.set('content-type','text/html; charset=utf-8');
   headers.set('cache-control','no-cache');
