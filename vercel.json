@@ -17,6 +17,10 @@
       "headers": [{"key": "Cache-Control", "value": "public, max-age=0, must-revalidate"}]
     },
     {
+      "source": "/ui-patch-(.*).js",
+      "headers": [{"key": "Cache-Control", "value": "public, max-age=0, must-revalidate"}]
+    },
+    {
       "source": "/api/campaigns",
       "headers": [{"key": "Cache-Control", "value": "no-store, max-age=0"}]
     },
