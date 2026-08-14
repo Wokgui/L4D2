@@ -179,13 +179,13 @@
         height:34px!important;
       }
       .draw .steam-chat-top img{
-        width:30px!important;
-        height:30px!important;
-        min-width:30px!important;
+        width:32px!important;
+        height:32px!important;
+        min-width:32px!important;
       }
       .draw .steam-chat-top .steam-chat-bubble{
-        width:14px!important;
-        height:14px!important;
+        width:16px!important;
+        height:16px!important;
         padding:.8px!important;
         right:-2px!important;
         bottom:-2px!important;
