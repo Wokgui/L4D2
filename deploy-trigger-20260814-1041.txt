@@ -2,3 +2,4 @@ Déclenchement manuel du déploiement Vercel pour les correctifs UI du 14/08/202
 Relance production après fusion du correctif.
 Nouvelle tentative manuelle à 11:26.
 Déploiement bordure adaptative et renommage direct à 11:31.
+Nouvelle tentative manuelle à 11:44.
