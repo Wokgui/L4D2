@@ -27,6 +27,13 @@
     .result-card.has-last-played .campaign-description{margin:0!important}
     .result-card.has-last-played .last-played-inline{margin:0!important}
 
+    /* Bloc d'état en haut à droite : centré verticalement sur l'icône de gauche. */
+    .draw .title .header-status{
+      top:50%!important;
+      transform:translateY(-50%)!important;
+      justify-content:center!important;
+    }
+
     /* Le bloc tiré commence exactement au même niveau que la photo d'accueil. */
     .draw .res:not(.home-res){padding-top:4px!important}
     .draw .res:not(.home-res) .result-card{transform:none!important;margin-top:0!important}
