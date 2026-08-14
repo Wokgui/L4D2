@@ -3,12 +3,13 @@
     const d=document.querySelector('#res .campaign-description');
     if(!d)return;
 
-    const reference=document.querySelector('#res .last-played-copy b');
-    const baseSize=reference?(parseFloat(getComputedStyle(reference).fontSize)||8.5):8.5;
+    /* Même taille que le nom de la dernière campagne (ex. « Lost ») sur une ligne. */
+    const reference=document.querySelector('#res .last-played-copy span');
+    const baseSize=reference?(parseFloat(getComputedStyle(reference).fontSize)||11.5):11.5;
 
     d.style.fontFamily='inherit';
-    d.style.fontSize=baseSize+'px';
-    d.style.lineHeight='1.15';
+    d.style.setProperty('font-size',baseSize+'px','important');
+    d.style.setProperty('line-height','1.15','important');
     d.style.fontWeight='900';
 
     requestAnimationFrame(()=>{
@@ -19,16 +20,16 @@
       const lines=Math.max(1,Math.ceil((contentHeight-.5)/lh));
 
       if(lines===2){
-        d.style.fontSize=Math.max(6,baseSize-.5)+'px';
-        d.style.lineHeight='1.2';
-        d.style.fontWeight='750';
+        d.style.setProperty('font-size',Math.max(7,baseSize-.75)+'px','important');
+        d.style.setProperty('line-height','1.18','important');
+        d.style.fontWeight='800';
       }else if(lines===3){
-        d.style.fontSize=Math.max(6,baseSize-1)+'px';
-        d.style.lineHeight='1.2';
-        d.style.fontWeight='750';
+        d.style.setProperty('font-size',Math.max(7,baseSize-1.5)+'px','important');
+        d.style.setProperty('line-height','1.17','important');
+        d.style.fontWeight='780';
       }else if(lines>=4){
-        d.style.fontSize=Math.max(6,baseSize-2)+'px';
-        d.style.lineHeight='1.18';
+        d.style.setProperty('font-size',Math.max(7,baseSize-2.25)+'px','important');
+        d.style.setProperty('line-height','1.15','important');
         d.style.fontWeight='750';
       }
     });
@@ -65,20 +66,27 @@
     const status=title&&title.querySelector('.header-status');
     if(!title||!icon||!status)return;
 
-    status.style.transform='none';
-    status.style.top='0px';
+    status.style.setProperty('transform','none','important');
+    status.style.setProperty('top','0px','important');
 
     requestAnimationFrame(()=>{
       const tr=title.getBoundingClientRect();
       const ir=icon.getBoundingClientRect();
       const sr=status.getBoundingClientRect();
-      const top=(ir.top-tr.top)+(ir.height-sr.height)/2;
-      status.style.top=Math.round(top*10)/10+'px';
+      /* +6 px : centrage optique constaté sur l'écran mobile, le bloc paraissait trop haut. */
+      const top=(ir.top-tr.top)+(ir.height-sr.height)/2+6;
+      status.style.setProperty('top',(Math.round(top*10)/10)+'px','important');
     });
   }
 
-  requestAnimationFrame(()=>requestAnimationFrame(alignHeaderStatus));
-  window.addEventListener('resize',alignHeaderStatus);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    alignHeaderStatus();
+    fitDescription();
+  }));
+  window.addEventListener('resize',()=>{
+    alignHeaderStatus();
+    fitDescription();
+  });
 
   if('ResizeObserver' in window){
     const title=document.querySelector('.draw .title');
