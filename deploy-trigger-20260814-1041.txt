@@ -1,2 +1,3 @@
 Déclenchement manuel du déploiement Vercel pour les correctifs UI du 14/08/2026 à 10:41.
 Relance production après fusion du correctif.
+Nouvelle tentative manuelle à 11:26.
