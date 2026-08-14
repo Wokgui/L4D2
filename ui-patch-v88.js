@@ -1,6 +1,7 @@
 (()=>{
   const HEADER_OFFSET_KEY='l4d2_header_status_offset_v1';
   const STEAM_SIZE=44;
+  const LAST_TILE_HEIGHT=62;
 
   fitDescription=function(){
     const card=document.querySelector('#res .result-card');
@@ -67,15 +68,22 @@
       margin-bottom:14px!important;
     }
 
-    /* La tuile du bas garde sa hauteur compacte d'avant. Le grand Steam est sorti du flux pour ne pas l'agrandir. */
+    /* Tuile dernière campagne plus grande et de hauteur strictement constante, quel que soit le nombre de lignes du descriptif. */
     .result-card.has-last-played .last-played-inline{
       margin:0!important;
-      flex:0 0 auto!important;
+      flex:0 0 ${LAST_TILE_HEIGHT}px!important;
       position:relative!important;
       grid-template-columns:minmax(0,1fr)!important;
-      padding:6px 58px 6px 7px!important;
-      min-height:0!important;
+      align-items:center!important;
+      height:${LAST_TILE_HEIGHT}px!important;
+      min-height:${LAST_TILE_HEIGHT}px!important;
+      max-height:${LAST_TILE_HEIGHT}px!important;
+      padding:8px 58px 8px 9px!important;
+      box-sizing:border-box!important;
       overflow:visible!important;
+    }
+    .result-card.has-last-played .last-played-copy{
+      align-self:center!important;
     }
 
     /* Le titre + le gros bouton Steam occupent une ligne de 44 px, avec exactement le même espace au-dessus et au-dessous. */
@@ -152,7 +160,6 @@
       .result-card.has-last-played .result-content{padding-top:8px!important}
       .result-card.has-last-played .rhead{margin-bottom:8px!important}
       .result-card.has-last-played .campaign-description{margin-top:9px!important;margin-bottom:9px!important}
-      .result-card.has-last-played .last-played-inline{padding-top:5px!important;padding-bottom:5px!important}
       .draw .res:not(.home-res){padding-top:2px!important}
     }
   `;
