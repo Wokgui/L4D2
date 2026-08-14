@@ -60,7 +60,12 @@
       padding-top:10.8px!important;
     }
     .result-card.has-last-played .meta{margin:0!important}
-    .result-card.has-last-played .campaign-description{margin-top:14px!important;margin-bottom:0!important}
+
+    /* La tuile descriptive est centrée entre les 3 tuiles et la dernière campagne : même espace au-dessus et au-dessous. */
+    .result-card.has-last-played .campaign-description{
+      margin-top:14px!important;
+      margin-bottom:14px!important;
+    }
 
     /* La tuile du bas garde sa hauteur compacte d'avant. Le grand Steam est sorti du flux pour ne pas l'agrandir. */
     .result-card.has-last-played .last-played-inline{
@@ -146,7 +151,7 @@
     @media(max-height:720px){
       .result-card.has-last-played .result-content{padding-top:8px!important}
       .result-card.has-last-played .rhead{margin-bottom:8px!important}
-      .result-card.has-last-played .campaign-description{margin-top:9px!important}
+      .result-card.has-last-played .campaign-description{margin-top:9px!important;margin-bottom:9px!important}
       .result-card.has-last-played .last-played-inline{padding-top:5px!important;padding-bottom:5px!important}
       .draw .res:not(.home-res){padding-top:2px!important}
     }
