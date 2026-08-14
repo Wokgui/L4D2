@@ -120,6 +120,7 @@
       color:var(--g)!important;
       text-decoration:none!important;
       box-shadow:0 3px 10px rgba(37,38,31,.08)!important;
+      overflow:visible!important;
     }
     .draw .steam-chat-top img{
       display:block!important;
@@ -175,13 +176,15 @@
         flex-basis:37px!important;
       }
       .draw .steam-chat-top{
-        width:46px!important;
-        height:46px!important;
+        width:34px!important;
+        height:34px!important;
+        overflow:visible!important;
       }
       .draw .steam-chat-top img{
-        width:32px!important;
-        height:32px!important;
-        min-width:32px!important;
+        width:40px!important;
+        height:40px!important;
+        min-width:40px!important;
+        max-width:40px!important;
       }
       .draw .steam-chat-top .steam-chat-bubble{
         width:16px!important;
