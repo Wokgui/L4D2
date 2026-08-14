@@ -3,10 +3,34 @@
   const STEAM_SIZE=44;
   const LAST_TILE_HEIGHT=62;
 
+  function fitCampaignTitle(card){
+    const title=card&&card.querySelector('.rname');
+    if(!title)return;
+
+    /* Toujours afficher le titre complet sur une ligne : on réduit seulement sa police si nécessaire. */
+    title.style.removeProperty('font-size');
+    title.style.setProperty('white-space','nowrap','important');
+    title.style.setProperty('overflow','visible','important');
+    title.style.setProperty('text-overflow','clip','important');
+    title.style.setProperty('max-width','100%','important');
+
+    requestAnimationFrame(()=>{
+      let size=parseFloat(getComputedStyle(title).fontSize)||27;
+      let guard=0;
+      while(title.scrollWidth>title.clientWidth+1&&size>12&&guard<40){
+        size=Math.max(12,size-.5);
+        title.style.setProperty('font-size',size+'px','important');
+        guard++;
+      }
+    });
+  }
+
   fitDescription=function(){
     const card=document.querySelector('#res .result-card');
     const d=card&&card.querySelector('.campaign-description');
     if(!card||!d)return;
+
+    fitCampaignTitle(card);
 
     /* Même taille que le nom de la dernière campagne sur une ligne. */
     const reference=card.querySelector('.last-played-copy span');
@@ -62,13 +86,13 @@
     }
     .result-card.has-last-played .meta{margin:0!important}
 
-    /* La tuile descriptive est centrée entre les 3 tuiles et la dernière campagne : même espace au-dessus et au-dessous. */
+    /* Environ 2/3 d'espace en moins autour du descriptif. */
     .result-card.has-last-played .campaign-description{
-      margin-top:14px!important;
-      margin-bottom:14px!important;
+      margin-top:4.5px!important;
+      margin-bottom:4.5px!important;
     }
 
-    /* Tuile dernière campagne plus grande et de hauteur strictement constante, quel que soit le nombre de lignes du descriptif. */
+    /* Tuile dernière campagne plus grande et de hauteur strictement constante. */
     .result-card.has-last-played .last-played-inline{
       margin:0!important;
       flex:0 0 ${LAST_TILE_HEIGHT}px!important;
@@ -82,11 +106,9 @@
       box-sizing:border-box!important;
       overflow:visible!important;
     }
-    .result-card.has-last-played .last-played-copy{
-      align-self:center!important;
-    }
+    .result-card.has-last-played .last-played-copy{align-self:center!important}
 
-    /* Le titre + le gros bouton Steam occupent une ligne de 44 px, avec exactement le même espace au-dessus et au-dessous. */
+    /* Le titre reste centré avec le gros bouton Steam. */
     .result-card.has-last-played .rhead{
       min-height:${STEAM_SIZE}px!important;
       height:${STEAM_SIZE}px!important;
@@ -102,6 +124,8 @@
       justify-content:center!important;
       min-height:${STEAM_SIZE}px!important;
       line-height:1.05!important;
+      min-width:0!important;
+      width:100%!important;
     }
 
     /* Deux gros boutons Steam strictement identiques. */
@@ -140,7 +164,6 @@
       border-radius:50%!important;
     }
 
-    /* Le bloc en haut à droite peut être glissé verticalement au doigt. */
     .draw .header-status{
       touch-action:none;
       user-select:none;
@@ -148,7 +171,6 @@
       cursor:ns-resize;
     }
 
-    /* Le bloc tiré commence exactement au même niveau que la photo d'accueil. */
     .draw .res:not(.home-res){padding-top:4px!important}
     .draw .res:not(.home-res) .result-card{transform:none!important;margin-top:0!important}
 
@@ -159,7 +181,7 @@
     @media(max-height:720px){
       .result-card.has-last-played .result-content{padding-top:8px!important}
       .result-card.has-last-played .rhead{margin-bottom:8px!important}
-      .result-card.has-last-played .campaign-description{margin-top:9px!important;margin-bottom:9px!important}
+      .result-card.has-last-played .campaign-description{margin-top:3px!important;margin-bottom:3px!important}
       .draw .res:not(.home-res){padding-top:2px!important}
     }
   `;
@@ -211,7 +233,6 @@
     status.addEventListener('pointerup',stop);
     status.addEventListener('pointercancel',stop);
 
-    /* Double appui sur les textes = retour à la position centrale par défaut. */
     status.addEventListener('dblclick',e=>{
       if(e.target.closest('button,a'))return;
       localStorage.removeItem(HEADER_OFFSET_KEY);
