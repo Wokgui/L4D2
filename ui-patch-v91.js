@@ -99,7 +99,7 @@
       flex-basis:42px!important;
     }
 
-    /* Raccourci Chat Steam intégré, exactement centré dans l'en-tête. */
+    /* Raccourci Chat Steam : icône compacte exactement centrée dans l'en-tête. */
     .draw .title{
       position:relative!important;
     }
@@ -109,33 +109,45 @@
       top:50%!important;
       transform:translate(-50%,-50%)!important;
       z-index:6!important;
-      height:30px!important;
-      padding:0 10px!important;
-      display:inline-flex!important;
-      align-items:center!important;
-      justify-content:center!important;
-      gap:6px!important;
+      width:34px!important;
+      height:34px!important;
+      padding:0!important;
+      display:grid!important;
+      place-items:center!important;
       border:1px solid var(--l)!important;
-      border-radius:999px!important;
+      border-radius:50%!important;
       background:var(--p)!important;
-      color:var(--i)!important;
+      color:var(--g)!important;
       text-decoration:none!important;
       box-shadow:0 3px 10px rgba(37,38,31,.08)!important;
-      font-size:11px!important;
-      line-height:1!important;
-      font-weight:900!important;
-      white-space:nowrap!important;
     }
     .draw .steam-chat-top img{
       display:block!important;
-      width:18px!important;
-      height:18px!important;
-      min-width:18px!important;
+      width:22px!important;
+      height:22px!important;
+      min-width:22px!important;
       object-fit:contain!important;
       border-radius:50%!important;
     }
+    .draw .steam-chat-top .steam-chat-bubble{
+      position:absolute!important;
+      right:-3px!important;
+      bottom:-2px!important;
+      width:15px!important;
+      height:15px!important;
+      padding:2.5px!important;
+      border-radius:50%!important;
+      background:var(--g)!important;
+      color:#fff!important;
+      border:2px solid var(--p)!important;
+      overflow:visible!important;
+      box-sizing:content-box!important;
+    }
+    .draw .steam-chat-top .steam-chat-bubble path{
+      fill:currentColor!important;
+    }
     .draw .steam-chat-top:active{
-      transform:translate(-50%,-50%) scale(.96)!important;
+      transform:translate(-50%,-50%) scale(.94)!important;
     }
 
     @media(max-width:420px){
@@ -163,15 +175,17 @@
         flex-basis:37px!important;
       }
       .draw .steam-chat-top{
-        height:28px!important;
-        padding:0 8px!important;
-        gap:5px!important;
-        font-size:10px!important;
+        width:32px!important;
+        height:32px!important;
       }
       .draw .steam-chat-top img{
-        width:16px!important;
-        height:16px!important;
-        min-width:16px!important;
+        width:20px!important;
+        height:20px!important;
+        min-width:20px!important;
+      }
+      .draw .steam-chat-top .steam-chat-bubble{
+        width:14px!important;
+        height:14px!important;
       }
     }
 
@@ -214,7 +228,7 @@
     link.rel='noopener';
     link.setAttribute('aria-label','Ouvrir le Chat Steam');
     link.title='Chat Steam';
-    link.innerHTML='<img src="/steam-icon.png" alt=""><span>Chat Steam</span>';
+    link.innerHTML='<img src="/steam-icon.png" alt=""><svg class="steam-chat-bubble" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4V4zm3 4v2h10V8H7zm0 4v2h7v-2H7z"/></svg>';
     title.appendChild(link);
   }
 
