@@ -38,6 +38,81 @@
       min-height:0!important;
       padding-bottom:8px!important;
     }
+
+    /* Accueil : utiliser le vide sous les quatre accès Steam. */
+    .draw .res.home-res .steam-access{
+      flex:1 1 auto!important;
+      min-height:0!important;
+      display:flex!important;
+      flex-direction:column!important;
+      justify-content:center!important;
+      padding:10px 0 14px!important;
+    }
+    .draw .res.home-res .steam-access-title{
+      margin-bottom:12px!important;
+    }
+    .draw .res.home-res .welcome-actions{
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      gap:12px 10px!important;
+      width:100%!important;
+      margin:0!important;
+    }
+    .draw .res.home-res .welcome-actions a{
+      min-height:104px!important;
+      padding:12px 8px 10px!important;
+      gap:8px!important;
+      font-size:13px!important;
+    }
+    .draw .res.home-res .welcome-steam-icon{
+      width:42px!important;
+      height:42px!important;
+      flex-basis:42px!important;
+    }
+
+    @media(max-width:420px){
+      .draw .res.home-res .steam-access{
+        padding:8px 0 12px!important;
+      }
+      .draw .res.home-res .steam-access-title{
+        margin-bottom:9px!important;
+      }
+      .draw .res.home-res .welcome-actions{
+        gap:9px 8px!important;
+      }
+      .draw .res.home-res .welcome-actions a{
+        min-height:90px!important;
+        padding:9px 6px 8px!important;
+        font-size:11.5px!important;
+      }
+      .draw .res.home-res .welcome-steam-icon{
+        width:37px!important;
+        height:37px!important;
+        flex-basis:37px!important;
+      }
+    }
+
+    @media(max-height:720px){
+      .draw .res.home-res .steam-access{
+        padding:5px 0 7px!important;
+      }
+      .draw .res.home-res .steam-access-title{
+        margin-bottom:6px!important;
+      }
+      .draw .res.home-res .welcome-actions{
+        gap:6px 7px!important;
+      }
+      .draw .res.home-res .welcome-actions a{
+        min-height:67px!important;
+        padding:5px 5px!important;
+        gap:4px!important;
+        font-size:10.5px!important;
+      }
+      .draw .res.home-res .welcome-steam-icon{
+        width:29px!important;
+        height:29px!important;
+        flex-basis:29px!important;
+      }
+    }
   `;
   document.head.appendChild(style);
 
