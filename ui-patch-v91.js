@@ -99,6 +99,45 @@
       flex-basis:42px!important;
     }
 
+    /* Raccourci Chat Steam intégré, exactement centré dans l'en-tête. */
+    .draw .title{
+      position:relative!important;
+    }
+    .draw .steam-chat-top{
+      position:absolute!important;
+      left:50%!important;
+      top:50%!important;
+      transform:translate(-50%,-50%)!important;
+      z-index:6!important;
+      height:30px!important;
+      padding:0 10px!important;
+      display:inline-flex!important;
+      align-items:center!important;
+      justify-content:center!important;
+      gap:6px!important;
+      border:1px solid var(--l)!important;
+      border-radius:999px!important;
+      background:var(--p)!important;
+      color:var(--i)!important;
+      text-decoration:none!important;
+      box-shadow:0 3px 10px rgba(37,38,31,.08)!important;
+      font-size:11px!important;
+      line-height:1!important;
+      font-weight:900!important;
+      white-space:nowrap!important;
+    }
+    .draw .steam-chat-top img{
+      display:block!important;
+      width:18px!important;
+      height:18px!important;
+      min-width:18px!important;
+      object-fit:contain!important;
+      border-radius:50%!important;
+    }
+    .draw .steam-chat-top:active{
+      transform:translate(-50%,-50%) scale(.96)!important;
+    }
+
     @media(max-width:420px){
       .draw .res.home-res{
         padding-top:9px!important;
@@ -122,6 +161,17 @@
         width:37px!important;
         height:37px!important;
         flex-basis:37px!important;
+      }
+      .draw .steam-chat-top{
+        height:28px!important;
+        padding:0 8px!important;
+        gap:5px!important;
+        font-size:10px!important;
+      }
+      .draw .steam-chat-top img{
+        width:16px!important;
+        height:16px!important;
+        min-width:16px!important;
       }
     }
 
@@ -153,6 +203,20 @@
     }
   `;
   document.head.appendChild(style);
+
+  function installSteamChatShortcut(){
+    const title=document.querySelector('.draw .title');
+    if(!title||title.querySelector('.steam-chat-top'))return;
+    const link=document.createElement('a');
+    link.className='steam-chat-top';
+    link.href='https://steamcommunity.com/chat/';
+    link.target='_blank';
+    link.rel='noopener';
+    link.setAttribute('aria-label','Ouvrir le Chat Steam');
+    link.title='Chat Steam';
+    link.innerHTML='<img src="/steam-icon.png" alt=""><span>Chat Steam</span>';
+    title.appendChild(link);
+  }
 
   function setRealNavHeight(){
     const nav=document.querySelector('.nav');
@@ -193,6 +257,7 @@
   if(window.visualViewport)window.visualViewport.addEventListener('resize',scheduleSettle,{passive:true});
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(scheduleSettle).catch(()=>{});
 
+  installSteamChatShortcut();
   setRealNavHeight();
   scheduleSettle();
 })();
