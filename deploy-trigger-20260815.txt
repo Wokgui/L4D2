@@ -1,1 +1,1 @@
-Retry production deployment for final equal-spacing and anti-oscillation fixes.
+Retry production deployment for final equal-spacing and anti-oscillation fixes — second attempt.
