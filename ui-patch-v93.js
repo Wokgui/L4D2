@@ -131,3 +131,15 @@
     };
   }
 })();
+
+/* Le bouton Tirage de la barre du bas sert aussi de bouton Accueil :
+   il recharge l'écran initial avec les quatre raccourcis Steam. */
+(()=>{
+  const tirage=document.querySelector('.nav button[data-p="d"]');
+  if(!tirage)return;
+  tirage.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    window.location.reload();
+  },true);
+})();
