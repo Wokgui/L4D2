@@ -35,5 +35,36 @@
   `;
   document.head.appendChild(s);
 
+  /* Plus aucun recalcul différé du texte. */
   window.fitDescription=function(){};
+
+  /* Évite le dernier "pompage" visible : la fiche actuelle reste en place
+     jusqu'à ce que la photo de la prochaine campagne soit déjà décodée. */
+  const go=document.getElementById('go');
+  if(go){
+    go.onclick=async()=>{
+      const p=typeof pool==='function'?pool():[];
+      const res=document.getElementById('res');
+      if(!p.length){
+        if(res){
+          res.classList.remove('home-res');
+          res.innerHTML='<div class=err>Aucune campagne avec ces filtres.</div>';
+        }
+        return;
+      }
+
+      const c=p[Math.floor(Math.random()*p.length)];
+      if(c&&c.photo){
+        const preload=new Image();
+        preload.src=c.photo;
+        try{
+          if(typeof preload.decode==='function') await preload.decode();
+          else await new Promise(resolve=>{preload.onload=preload.onerror=resolve});
+        }catch(_){/* En cas d'échec, on affiche quand même la campagne. */}
+      }
+
+      if(typeof setLastPlayed==='function') setLastPlayed(c);
+      else if(typeof draw==='function') draw(c);
+    };
+  }
 })();
