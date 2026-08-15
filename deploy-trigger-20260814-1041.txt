@@ -1,8 +1,0 @@
-Déclenchement manuel du déploiement Vercel pour les correctifs UI du 14/08/2026 à 10:41.
-Relance production après fusion du correctif.
-Nouvelle tentative manuelle à 11:26.
-Déploiement bordure adaptative et renommage direct à 11:31.
-Nouvelle tentative manuelle à 11:44.
-Déploiement du correctif adaptatif du bas de la fiche à 12:41.
-Fusion dédiée pour forcer la production Vercel à 12:43.
-Nouvelle tentative manuelle à 15:10 pour le centrage et les espacements.
