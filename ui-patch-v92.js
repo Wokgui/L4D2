@@ -43,4 +43,14 @@
     }
   `;
   document.head.appendChild(style);
+
+  function patchPartners(){
+    const a=document.querySelector('.welcome-actions .partners');
+    if(!a)return;
+    a.href='https://steamcommunity.com/my/friends/coplay';
+    a.setAttribute('aria-label','Joueurs récemment rencontrés sur Steam');
+    a.title='Joueurs récemment rencontrés';
+  }
+  patchPartners();
+  requestAnimationFrame(patchPartners);
 })();
