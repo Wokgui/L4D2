@@ -1,1 +1,1 @@
-Retry production deployment for fixed-description-height anti-oscillation fix — new attempt.
+Retry production deployment for fixed-description-height anti-oscillation fix — another attempt.
