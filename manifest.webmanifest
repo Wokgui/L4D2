@@ -2,12 +2,23 @@
   "id": "/",
   "name": "Catalogue campagnes L4D2",
   "short_name": "L4D2",
-  "start_url": "/?v=20260815-95",
+  "start_url": "/?v=20260815-96",
   "scope": "/",
   "display": "standalone",
   "background_color": "#F6EFE2",
   "theme_color": "#F6EFE2",
   "icons": [
-    {"src":"/l4d2-maskable-512-v53.png?v=95","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {
+      "src": "/l4d2-splash-512-v96.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/l4d2-splash-512-v96.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }
