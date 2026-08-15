@@ -1,1 +1,1 @@
-Force production deployment after disabling all post-draw text and layout recalculations.
+Retry production deployment for final equal-spacing and anti-oscillation fixes.
