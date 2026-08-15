@@ -7,28 +7,43 @@
     html body .draw .res:not(.home-res) .result-card.has-last-played .result-content{padding-bottom:9px!important}
     html body .draw .res:not(.home-res) .result-card.has-last-played .last-played-inline{margin-bottom:0!important}
 
-    /* Géométrie strictement identique d'une campagne à l'autre. Le descriptif
-       ne change plus jamais la hauteur de la photo ni la position des blocs bas. */
+    /* Le descriptif a désormais la même hauteur visuelle que la tuile du dessous.
+       Comme la photo est le seul élément flexible de la fiche, tout l'espace libéré
+       lui revient automatiquement, sans toucher au centrage du titre ni des logos. */
     html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description,
     html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-1,
     html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-2,
     html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-3,
     html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-4{
       box-sizing:border-box!important;
-      height:58px!important;
-      min-height:58px!important;
-      max-height:58px!important;
+      height:43px!important;
+      min-height:43px!important;
+      max-height:43px!important;
       margin-top:4.5px!important;
-      padding:5px 10px!important;
+      padding:4px 10px!important;
       display:flex!important;
       align-items:center!important;
       justify-content:center!important;
       overflow:hidden!important;
       font-size:11.5px!important;
-      line-height:1.16!important;
+      line-height:1.12!important;
     }
     html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description + .last-played-inline{
       margin-top:4.5px!important;
+    }
+
+    /* Sur la largeur d'un téléphone, la tuile du dessous mesure environ 41 px. */
+    @media(max-width:420px){
+      html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description,
+      html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-1,
+      html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-2,
+      html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-3,
+      html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-4{
+        height:41px!important;
+        min-height:41px!important;
+        max-height:41px!important;
+        padding:3px 8px!important;
+      }
     }
 
     /* Aucun élément de la fiche ne s'anime. */
@@ -48,12 +63,13 @@
       html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-2,
       html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-3,
       html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description.desc-lines-4{
-        height:52px!important;
-        min-height:52px!important;
-        max-height:52px!important;
+        height:35px!important;
+        min-height:35px!important;
+        max-height:35px!important;
         margin-top:3px!important;
-        padding:4px 8px!important;
-        font-size:11px!important;
+        padding:2px 8px!important;
+        font-size:10.5px!important;
+        line-height:1.08!important;
       }
       html body .draw .res:not(.home-res) .result-card.has-last-played .campaign-description + .last-played-inline{margin-top:3px!important}
     }
