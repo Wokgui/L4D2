@@ -1,14 +1,15 @@
 (()=>{
   const s=document.createElement('style');
   s.textContent=`
+    /* Deux respirations identiques : sous la dernière campagne et avant le menu bas. */
     html body .draw.page.on{
       padding-bottom:0!important;
     }
     html body .draw .res:not(.home-res){
-      padding-bottom:4.5px!important;
+      padding-bottom:9px!important;
     }
     html body .draw .res:not(.home-res) .result-card.has-last-played .result-content{
-      padding-bottom:4.5px!important;
+      padding-bottom:9px!important;
     }
     html body .draw .res:not(.home-res) .result-card.has-last-played .last-played-inline{
       margin-bottom:0!important;
@@ -25,18 +26,14 @@
 
     @media(max-height:720px){
       html body .draw .res:not(.home-res){
-        padding-bottom:3px!important;
+        padding-bottom:6px!important;
       }
       html body .draw .res:not(.home-res) .result-card.has-last-played .result-content{
-        padding-bottom:3px!important;
+        padding-bottom:6px!important;
       }
     }
   `;
   document.head.appendChild(s);
 
-  /* app.js et l'ancien patch v88 recalculaient encore les tailles de texte
-     sur plusieurs requestAnimationFrame après chaque tirage. Ce recalcul
-     tardif était la dernière source du mouvement visible. La géométrie est
-     désormais entièrement gérée par le CSS fixe. */
   window.fitDescription=function(){};
 })();
