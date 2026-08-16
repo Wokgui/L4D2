@@ -9,13 +9,13 @@
   "theme_color": "#F6EFE2",
   "icons": [
     {
-      "src": "/l4d2-splash-512-v96.png?v=97",
+      "src": "/l4d2-splash-512-v96.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/l4d2-maskable-512-v53.png?v=97",
+      "src": "/l4d2-splash-512-v96.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
