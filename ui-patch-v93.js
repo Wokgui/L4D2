@@ -131,3 +131,11 @@
     };
   }
 })();
+
+(()=>{
+  if(document.querySelector('script[data-secure-github-save]'))return;
+  const script=document.createElement('script');
+  script.src='/secure-github-save.js?v=1';
+  script.dataset.secureGithubSave='1';
+  document.head.appendChild(script);
+})();
