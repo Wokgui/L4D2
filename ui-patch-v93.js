@@ -139,3 +139,20 @@
   script.dataset.secureGithubSave='1';
   document.head.appendChild(script);
 })();
+
+(()=>{
+  const tools=document.querySelector('.cloud-backup-tools');
+  const input=document.getElementById('imp');
+  if(!tools||!input||tools.querySelector('.cloud-backup-import'))return;
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='cloud-backup-import secondary';
+  button.textContent='Importer';
+  button.addEventListener('click',()=>input.click());
+  const exportButton=tools.querySelector('.cloud-backup-export');
+  if(exportButton) exportButton.insertAdjacentElement('afterend',button);
+  else {
+    const before=tools.querySelector('.cloud-backup-download');
+    tools.insertBefore(button,before||tools.firstChild);
+  }
+})();
