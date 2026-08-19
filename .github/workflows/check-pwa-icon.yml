@@ -1,0 +1,60 @@
+name: Vérifier l’icône PWA L4D2
+
+on:
+  push:
+    paths:
+      - manifest.webmanifest
+      - l4d2-final-192-v52.png
+      - l4d2-maskable-512-v53.png
+      - .github/workflows/check-pwa-icon.yml
+  pull_request:
+    paths:
+      - manifest.webmanifest
+      - l4d2-final-192-v52.png
+      - l4d2-maskable-512-v53.png
+      - .github/workflows/check-pwa-icon.yml
+
+jobs:
+  check-icon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier les fichiers et le manifeste
+        shell: bash
+        run: |
+          test -f l4d2-final-192-v52.png
+          test -f l4d2-maskable-512-v53.png
+          python - <<'PY'
+          import json
+
+          with open('manifest.webmanifest', encoding='utf-8') as f:
+              manifest = json.load(f)
+
+          expected = [
+              {
+                  'src': '/l4d2-final-192-v52.png?v=20260819-icon-lock-1',
+                  'sizes': '192x192',
+                  'type': 'image/png',
+                  'purpose': 'any',
+              },
+              {
+                  'src': '/l4d2-maskable-512-v53.png?v=20260819-icon-lock-1',
+                  'sizes': '512x512',
+                  'type': 'image/png',
+                  'purpose': 'any',
+              },
+              {
+                  'src': '/l4d2-maskable-512-v53.png?v=20260819-icon-lock-1',
+                  'sizes': '512x512',
+                  'type': 'image/png',
+                  'purpose': 'maskable',
+              },
+          ]
+
+          actual = manifest.get('icons')
+          if actual != expected:
+              raise SystemExit(
+                  "L’icône PWA L4D2 est verrouillée. Ne pas supprimer ou remplacer "
+                  "l’entrée 512x512 maskable sans validation explicite."
+              )
+          PY
