@@ -8,7 +8,8 @@
   "background_color": "#FFFFFF",
   "theme_color": "#F6EFE2",
   "icons": [
-    {"src":"/l4d2-final-192-v52.png?v=20260816-1","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"/l4d2-final-192-v52.png?v=20260816-1","sizes":"512x512","type":"image/png","purpose":"any"}
+    {"src":"/l4d2-final-192-v52.png?v=20260819-icon-lock-1","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/l4d2-maskable-512-v53.png?v=20260819-icon-lock-1","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"/l4d2-maskable-512-v53.png?v=20260819-icon-lock-1","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }
