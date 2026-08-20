@@ -42,11 +42,11 @@
   function patchSubscriptions(){
     const a=document.querySelector('.welcome-actions .favorites,.welcome-actions .subscriptions');
     if(!a)return;
+    if(a.classList.contains('subscriptions')&&a.querySelector(':scope>span:last-child')?.textContent==='Abonnements')return;
     a.className='subscriptions';
     a.href='https://steamcommunity.com/my/myworkshopfiles/?appid=550&browsefilter=mysubscriptions';
     a.setAttribute('aria-label','Mes abonnements Workshop Steam');
     a.innerHTML='<span class="welcome-steam-icon shortcut-custom"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#0a3c68"/><path d="M17 19h30M17 31h22M17 43h15" fill="none" stroke="#75d7ef" stroke-width="5" stroke-linecap="round"/><path d="M38 42l5 5 9-12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Abonnements</span>';
   }
   patchSubscriptions();
-  requestAnimationFrame(patchSubscriptions);
 })();
