@@ -47,10 +47,21 @@
     .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon,
     .draw .res.home-res .welcome-actions .favorites .welcome-steam-icon,
     .draw .res.home-res .welcome-actions .news .welcome-steam-icon{overflow:visible!important;contain:layout!important}
-    .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after{content:"+"!important;display:grid!important;background:#2f796d!important;color:#fff!important}
+    .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon img{
+      position:absolute!important;left:50%!important;top:50%!important;width:178%!important;height:178%!important;max-width:none!important;max-height:none!important;transform:translate(-50%,-50%)!important;object-fit:contain!important;border-radius:50%!important
+    }
+    .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after{content:"+"!important;display:grid!important;background:#2f796d!important;color:#fff!important;right:-8px!important;bottom:-6px!important}
     .draw .res.home-res .welcome-actions .favorites .welcome-steam-icon:after{content:"★"!important;display:grid!important;background:#2f796d!important;color:#fff!important}
     .draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{content:"✦"!important;display:grid!important;background:#d8841f!important;color:#fff!important}
-    @media(max-height:720px){.description-edit-text{min-height:190px;max-height:50dvh}}
+    @media(max-width:420px){
+      .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon img{width:178%!important;height:178%!important}
+      .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after{right:-7px!important;bottom:-5px!important}
+    }
+    @media(max-height:720px){
+      .description-edit-text{min-height:190px;max-height:50dvh}
+      .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon img{width:178%!important;height:178%!important}
+      .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after{right:-6px!important;bottom:-4px!important}
+    }
   `;
   document.head.appendChild(style);
 
