@@ -147,7 +147,7 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
 .home-res .welcome-actions a:nth-child(3){box-shadow:0 7px 17px #715f4019,inset 0 3px 0 #2f796d!important}
 .home-res .welcome-actions a:nth-child(4){box-shadow:0 7px 17px #715f4019,inset 0 3px 0 #d8841f!important}
 .home-res .welcome-steam-icon{width:40px;height:40px;flex:0 0 40px;margin:0}
-.home-res .welcome-steam-icon img,.home-res .shortcut-custom svg{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
+.home-res .welcome-steam-icon img,.home-res .shortcut-custom svg{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}.home-res .welcome-steam-icon{contain:layout paint;background:#08294d}
 .home-res .shortcut-custom:after{display:none}
 .home-res .welcome-actions .favorites .welcome-steam-icon:after,.home-res .welcome-actions .news .welcome-steam-icon:after{width:15px;height:15px;font-size:9px}
 
