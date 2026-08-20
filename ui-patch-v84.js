@@ -36,17 +36,25 @@
   editResult=function(c,field){if(field==='description')return editDescriptionFull(c);return editResultBase(c,field)};
 
   const style=document.createElement('style');
-  style.textContent='.description-edit-modal{position:fixed;inset:0;z-index:1000;background:#25261f88;display:flex;align-items:center;justify-content:center;padding:18px}.description-edit-panel{width:min(100%,620px);max-height:86dvh;background:var(--p);border:1px solid var(--l);border-radius:18px;padding:14px;box-shadow:0 20px 60px #0004;display:flex;flex-direction:column;gap:12px}.description-edit-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.description-edit-head strong{font-size:18px}.description-edit-close{border:0;background:var(--p2);width:36px;height:36px;border-radius:10px;font-size:24px;line-height:1}.description-edit-text{width:100%;min-height:260px;max-height:58dvh;resize:vertical;border:1px solid var(--l);border-radius:12px;background:#fff;padding:12px;font:16px/1.4 system-ui;color:var(--i);overflow:auto}.description-edit-actions{display:flex;gap:8px;justify-content:flex-end}.description-edit-actions button{border:1px solid var(--l);border-radius:10px;padding:10px 14px;font-weight:800}.description-edit-cancel{background:var(--p2)}.description-edit-save{background:var(--g);color:#fff;border-color:var(--g)!important}@media(max-height:720px){.description-edit-text{min-height:190px;max-height:50dvh}}';
+  style.textContent='.description-edit-modal{position:fixed;inset:0;z-index:1000;background:#25261f88;display:flex;align-items:center;justify-content:center;padding:18px}.description-edit-panel{width:min(100%,620px);max-height:86dvh;background:var(--p);border:1px solid var(--l);border-radius:18px;padding:14px;box-shadow:0 20px 60px #0004;display:flex;flex-direction:column;gap:12px}.description-edit-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.description-edit-head strong{font-size:18px}.description-edit-close{border:0;background:var(--p2);width:36px;height:36px;border-radius:10px;font-size:24px;line-height:1}.description-edit-text{width:100%;min-height:260px;max-height:58dvh;resize:vertical;border:1px solid var(--l);border-radius:12px;background:#fff;padding:12px;font:16px/1.4 system-ui;color:var(--i);overflow:auto}.description-edit-actions{display:flex;gap:8px;justify-content:flex-end}.description-edit-actions button{border:1px solid var(--l);border-radius:10px;padding:10px 14px;font-weight:800}.description-edit-cancel{background:var(--p2)}.description-edit-save{background:var(--g);color:#fff;border-color:var(--g)!important}@media(max-height:720px){.description-edit-text{min-height:190px;max-height:50dvh}}.draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{content:"+"!important;display:grid!important}';
   document.head.appendChild(style);
 
   function patchSubscriptions(){
-    const a=document.querySelector('.welcome-actions .favorites,.welcome-actions .subscriptions');
+    const actions=document.querySelector('.welcome-actions');
+    if(!actions)return;
+    const a=actions.querySelector('.subscriptions')||actions.querySelector('.favorites');
     if(!a)return;
     a.className='subscriptions';
     a.href='https://steamcommunity.com/my/myworkshopfiles/?appid=550&browsefilter=mysubscriptions';
     a.setAttribute('aria-label','Mes abonnements Workshop Steam');
     a.innerHTML='<span class="welcome-steam-icon shortcut-custom"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#0a3c68"/><path d="M17 19h30M17 31h22M17 43h15" fill="none" stroke="#75d7ef" stroke-width="5" stroke-linecap="round"/><path d="M38 42l5 5 9-12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Abonnements</span>';
   }
+
   patchSubscriptions();
   requestAnimationFrame(patchSubscriptions);
+  const res=document.getElementById('res');
+  if(res){
+    const observer=new MutationObserver(()=>patchSubscriptions());
+    observer.observe(res,{childList:true,subtree:true});
+  }
 })();
