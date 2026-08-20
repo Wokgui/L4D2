@@ -1,5 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": {
+      "catalogue-backups": false
+    }
+  },
   "cleanUrls": true,
   "rewrites": [
     {"source": "/api/campaigns", "destination": "/campaigns-api.json"},
@@ -9,6 +14,10 @@
   "headers": [
     {
       "source": "/(index.html|app.js|bootstrap-data.js|polish.css|sw.js|manifest.webmanifest|cloud-backup.js|vendor/supabase/supabase.js)",
+      "headers": [{"key": "Cache-Control", "value": "public, max-age=0, must-revalidate"}]
+    },
+    {
+      "source": "/ui-patch-(.*).js",
       "headers": [{"key": "Cache-Control", "value": "public, max-age=0, must-revalidate"}]
     },
     {
