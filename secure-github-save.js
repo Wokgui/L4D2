@@ -12,7 +12,7 @@
   githubSave=async function(showAlert=false){
     if(syncing)return;
     syncing=true;
-    setSyncLabel('Sauvegarde externe en cours…');
+    syncLabel('Sauvegarde externe en cours…');
     try{
       const {data}=await authClient.auth.getSession();
       const token=data?.session?.access_token;
@@ -24,10 +24,10 @@
       });
       const result=await response.json().catch(()=>({}));
       if(!response.ok||!result.ok)throw new Error(result.error||'Échec sauvegarde');
-      setSyncLabel('Sauvegarde externe '+new Date(result.savedAt).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}));
+      syncLabel('Sauvegarde externe '+new Date(result.savedAt).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}));
       if(showAlert)alert('Sauvegarde externe enregistrée');
     }catch(error){
-      setSyncLabel('Sauvegarde externe indisponible',true);
+      syncLabel('Sauvegarde externe indisponible');
       if(showAlert)alert(error.message||'Sauvegarde externe indisponible');
     }finally{
       syncing=false;

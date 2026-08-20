@@ -133,6 +133,19 @@
 })();
 
 (()=>{
+  const result=document.getElementById('res');
+  const drawTab=document.querySelector('.nav button[data-p="d"]');
+  if(!result||!drawTab||!result.classList.contains('home-res'))return;
+  const homeMarkup=result.innerHTML;
+  const showHome=()=>{
+    result.classList.add('home-res');
+    result.innerHTML=homeMarkup;
+  };
+  drawTab.addEventListener('click',showHome);
+  window.showL4D2Home=showHome;
+})();
+
+(()=>{
   if(document.querySelector('script[data-secure-github-save]'))return;
   const script=document.createElement('script');
   script.src='/secure-github-save.js?v=1';
