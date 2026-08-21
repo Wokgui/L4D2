@@ -1,33 +1,37 @@
 (()=>{
   const s=document.createElement('style');
   s.textContent=`
-    /* The Steam PNG has a large transparent margin. Enlarge the rendered box so the
-       visible Steam mark matches the apparent size of the icons in Campagnes gardées. */
-    html body .draw .res:not(.home-res) .result-card.has-last-played .rhead{
-      min-height:60px!important;
-      height:60px!important;
-      padding-left:64px!important;
-      padding-right:64px!important;
+    /* Exactement la même taille que les icônes Steam de Campagnes gardées.
+       Ne dépend pas de has-last-played : toute fiche issue d'un tirage est couverte. */
+    html body .draw .res:not(.home-res) .result-card .rhead{
+      padding-left:44px!important;
+      padding-right:44px!important;
     }
-    html body .draw .res:not(.home-res) .result-card.has-last-played .rhead .wk{
-      width:60px!important;
-      height:60px!important;
-      min-width:60px!important;
-      min-height:60px!important;
-      flex:0 0 60px!important;
-      right:0!important;
+    html body .draw .res:not(.home-res) .result-card .rhead .wk{
+      width:40px!important;
+      height:40px!important;
+      min-width:40px!important;
+      min-height:40px!important;
+      max-width:40px!important;
+      max-height:40px!important;
+      flex:0 0 40px!important;
+      right:4px!important;
       top:50%!important;
       transform:translateY(-50%)!important;
+      padding:0!important;
+      border-radius:50%!important;
       overflow:visible!important;
+      background:transparent!important;
+      box-shadow:none!important;
     }
-    html body .draw .res:not(.home-res) .result-card.has-last-played .rhead .wk img{
+    html body .draw .res:not(.home-res) .result-card .rhead .wk img{
       display:block!important;
-      width:60px!important;
-      height:60px!important;
-      min-width:60px!important;
-      max-width:60px!important;
-      min-height:60px!important;
-      max-height:60px!important;
+      width:40px!important;
+      height:40px!important;
+      min-width:40px!important;
+      min-height:40px!important;
+      max-width:40px!important;
+      max-height:40px!important;
       object-fit:contain!important;
       border-radius:50%!important;
     }
