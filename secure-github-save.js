@@ -34,3 +34,11 @@
     }
   };
 })();
+
+(()=>{
+  if(document.querySelector('script[data-ui-patch-v94]'))return;
+  const script=document.createElement('script');
+  script.src='/ui-patch-v94.js?v=20260821-1';
+  script.dataset.uiPatchV94='1';
+  document.head.appendChild(script);
+})();
