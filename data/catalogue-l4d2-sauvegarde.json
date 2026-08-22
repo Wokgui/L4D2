@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-08-21T17:03:28.235Z",
+  "savedAt": "2026-08-22T16:59:44.160Z",
   "campaigns": [
     {
       "id": "s0",
@@ -2223,6 +2223,17 @@
       "difficulty": "moyen",
       "excelRemark": "",
       "workshopUrl": ""
+    },
+    {
+      "name": "Dead industry",
+      "maps": 5,
+      "difficulty": "moyen",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3315820473",
+      "notes": "",
+      "excelRemark": "",
+      "photo": "",
+      "id": "x1787417974637",
+      "category": "Oui"
     }
   ],
   "otherCampaigns": [
