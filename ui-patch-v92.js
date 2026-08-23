@@ -154,25 +154,25 @@
     }
     .draw .steam-chat-top .steam-chat-badge{
       position:absolute!important;
-      right:-2px!important;
-      bottom:-2px!important;
-      width:16px!important;
-      height:16px!important;
-      padding:1.5px!important;
+      right:-1px!important;
+      bottom:-1px!important;
+      width:13px!important;
+      height:13px!important;
+      padding:1px!important;
       display:grid!important;
       place-items:center!important;
       border-radius:50%!important;
       background:var(--g)!important;
       color:#fff!important;
-      border:1.5px solid var(--p)!important;
+      border:1.25px solid var(--p)!important;
       box-shadow:none!important;
       box-sizing:border-box!important;
       overflow:hidden!important;
       pointer-events:none!important;
     }
     .draw .steam-chat-top .steam-chat-badge svg{
-      width:11px!important;
-      height:11px!important;
+      width:9px!important;
+      height:9px!important;
       display:block!important;
       fill:currentColor!important;
       stroke:none!important;
@@ -197,8 +197,8 @@
       html body .draw .res:not(.home-res) .draw-previous-icon{left:34px!important}
       html body .draw .res:not(.home-res) .draw-kept-edit svg,
       html body .draw .res:not(.home-res) .draw-previous-icon svg{width:15px!important;height:15px!important}
-      .draw .steam-chat-top .steam-chat-badge{width:15px!important;height:15px!important;right:-1px!important;bottom:-1px!important}
-      .draw .steam-chat-top .steam-chat-badge svg{width:10px!important;height:10px!important}
+      .draw .steam-chat-top .steam-chat-badge{width:12px!important;height:12px!important;right:-1px!important;bottom:-1px!important;padding:.75px!important}
+      .draw .steam-chat-top .steam-chat-badge svg{width:8px!important;height:8px!important}
     }
   `;
   document.head.appendChild(style);
