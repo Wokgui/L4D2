@@ -17,7 +17,12 @@
     /* Cache immédiatement Supprimer tant qu'il n'a pas été déplacé dans la zone dépliée. */
     #o .item > .acts .do{display:none!important}
 
-    /* Supprimer n'existe visuellement que dans la partie dépliée. */
+    /* Enregistrer et Supprimer sont centrés dans la partie dépliée. */
+    #o .item .det .so{
+      display:block!important;
+      width:max-content!important;
+      margin:7px auto 0!important;
+    }
     #o .item .det .other-delete-row{
       display:flex!important;
       justify-content:center!important;
@@ -46,6 +51,13 @@
     if(edit){
       edit.style.setProperty('margin-left','auto','important');
       edit.style.setProperty('margin-right','auto','important');
+    }
+
+    const save=det.querySelector('.so');
+    if(save){
+      save.style.setProperty('display','block','important');
+      save.style.setProperty('width','max-content','important');
+      save.style.setProperty('margin','7px auto 0','important');
     }
 
     const del=item.querySelector('.do');
