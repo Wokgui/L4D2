@@ -191,3 +191,104 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
   .home-res .welcome-actions a{min-height:65px;padding-top:5px;padding-bottom:5px;gap:3px}
   .home-res .welcome-steam-icon{width:29px;height:29px;flex-basis:29px}
 }
+
+/* Icône Chat Steam : une seule géométrie dès son premier rendu.
+   Les anciens patches peuvent encore remplacer son balisage, mais plus sa position. */
+html body .app .draw .title .steam-chat-top{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:var(--steam-chat-v96-size,var(--steam-chat-size,44px))!important;
+  height:var(--steam-chat-v96-size,var(--steam-chat-size,44px))!important;
+  min-width:var(--steam-chat-v96-size,var(--steam-chat-size,44px))!important;
+  min-height:var(--steam-chat-v96-size,var(--steam-chat-size,44px))!important;
+  max-width:var(--steam-chat-v96-size,var(--steam-chat-size,44px))!important;
+  max-height:var(--steam-chat-v96-size,var(--steam-chat-size,44px))!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  transition:none!important;
+  animation:none!important;
+}
+html body .app .draw .title .steam-chat-top:hover,
+html body .app .draw .title .steam-chat-top:focus,
+html body .app .draw .title .steam-chat-top:active{
+  transform:translate(-50%,-50%)!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+html body .app .draw .title .steam-chat-top .steam-chat-glyph{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:visible!important;
+}
+html body .app .draw .title .steam-chat-top>img,
+html body .app .draw .title .steam-chat-top .steam-chat-glyph>img{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+  object-fit:contain!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  transition:none!important;
+  animation:none!important;
+}
+html body .app .draw .title .steam-chat-top .steam-chat-bubble,
+html body .app .draw .title .steam-chat-top .steam-chat-badge,
+html body .app .draw .title .steam-chat-top .steam-chat-corner-badge{
+  position:absolute!important;
+  right:4px!important;
+  bottom:4px!important;
+  z-index:3!important;
+  width:16px!important;
+  height:16px!important;
+  box-sizing:border-box!important;
+  padding:0!important;
+  display:block!important;
+  border:1.5px solid var(--b)!important;
+  border-radius:50%!important;
+  background:var(--g)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+  transition:none!important;
+  animation:none!important;
+}
+html body .app .draw .title .steam-chat-top .steam-chat-badge svg,
+html body .app .draw .title .steam-chat-top .steam-chat-corner-badge svg{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:11px!important;
+  height:11px!important;
+  display:block!important;
+  transform:translate(-50%,calc(-50% + .32px))!important;
+}
+@media(max-width:420px){
+  /* lvh reste constant quand les barres système changent la hauteur visible.
+     Le point d'ancrage ne traverse donc plus brutalement le seuil de 720 px. */
+  html body .app .draw .title .steam-chat-top{
+    position:fixed!important;
+    top:clamp(29.5px,calc(900lvh - 6450.5px),38.5px)!important;
+  }
+}
