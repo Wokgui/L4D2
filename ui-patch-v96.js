@@ -206,3 +206,59 @@
   }
   window.addEventListener('resize',syncSteamSize,{passive:true});
 })();
+
+/* Ouvrir directement, dans le même rendu, la campagne gardée correspondant au tirage. */
+(()=>{
+  'use strict';
+  document.addEventListener('click',e=>{
+    const trigger=e.target.closest&&e.target.closest('.draw-kept-edit');
+    if(!trigger)return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    const drawnName=(document.querySelector('#res .result-card .rname')?.textContent||'').trim();
+    let campaign=null;
+    if(Array.isArray(C)){
+      campaign=C.find(c=>String(c.name||'').trim()===drawnName)||null;
+      if(!campaign&&LP)campaign=C.find(c=>String(c.id)===String(LP.id))||null;
+    }
+    if(!campaign)return;
+
+    /* Changement d'onglet sans click intermédiaire : aucun état "haut de liste" n'est peint. */
+    document.querySelectorAll('.page').forEach(page=>page.classList.toggle('on',page.id==='k'));
+    document.querySelectorAll('.nav button[data-p]').forEach(button=>button.classList.toggle('on',button.dataset.p==='k'));
+
+    if(typeof kept==='function')kept();
+
+    const items=[...document.querySelectorAll('#kl .item')];
+    const item=items.find(node=>String(node.dataset.id)===String(campaign.id))
+      ||items.find(node=>(node.querySelector('.name')?.textContent||'').trim()===drawnName);
+    if(!item)return;
+
+    items.forEach(node=>{if(node!==item)node.classList.remove('open')});
+    if(!item.classList.contains('open')){
+      const edit=item.querySelector('.edit');
+      if(edit&&typeof edit.click==='function')edit.click();
+      else item.classList.add('open');
+    }
+    if(!item.classList.contains('open'))item.classList.add('open');
+
+    /* Force la mise en page et place immédiatement la fiche en haut de l'écran. */
+    void item.offsetHeight;
+    const scroller=document.scrollingElement||document.documentElement;
+    const oldRoot=document.documentElement.style.scrollBehavior;
+    const oldBody=document.body.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior='auto';
+    document.body.style.scrollBehavior='auto';
+    const top=Math.max(0,scroller.scrollTop+item.getBoundingClientRect().top-8);
+    scroller.scrollTop=top;
+    window.scrollTo(0,top);
+    document.documentElement.style.scrollBehavior=oldRoot;
+    document.body.style.scrollBehavior=oldBody;
+
+    const editor=item.querySelector('.campaign-name-edit,.nt,.ca,.ma,.di,.wu');
+    if(editor)editor.setAttribute('data-opened-from-draw','1');
+  },true);
+})();
