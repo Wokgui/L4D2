@@ -185,7 +185,8 @@
     ['/ui-patch-v89.js','20260814-89'],
     ['/ui-patch-v90.js','20260814-95'],
     ['/ui-patch-v91.js','20260814-96'],
-    ['/ui-patch-v92.js','20260815-94']
+    ['/ui-patch-v92.js','20260815-94'],
+    ['/ui-patch-v96.js','20260823-1']
   ];
   let chain=Promise.resolve();
   scripts.forEach(([src,v])=>{
