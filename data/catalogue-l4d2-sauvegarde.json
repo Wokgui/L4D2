@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-08-23T12:11:42.991Z",
+  "savedAt": "2026-08-23T15:17:14.635Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5823,6 +5823,15 @@
       "remark": "Bien",
       "category": "Pourquoi pas",
       "excelRow": 1787487073657
+    },
+    {
+      "name": "Gridland",
+      "remark": "Pas d'intérêt",
+      "category": "Non",
+      "excelRow": 1787487699731,
+      "workshopUrl": "",
+      "maps": 4,
+      "difficulty": "moyen"
     }
   ],
   "lastDrawn": null
