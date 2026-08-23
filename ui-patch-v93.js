@@ -169,3 +169,115 @@
     tools.insertBefore(button,before||tools.firstChild);
   }
 })();
+
+(()=>{
+  'use strict';
+
+  const style=document.createElement('style');
+  style.textContent=`
+    html body .draw .res:not(.home-res) .result-card .rhead{position:relative!important;padding-left:52px!important;padding-right:52px!important}
+    html body .draw .res:not(.home-res) .draw-kept-edit{
+      position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;
+      width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;
+      padding:0!important;border:0!important;border-radius:50%!important;background:var(--p2)!important;color:var(--g)!important;
+      display:grid!important;place-items:center!important;box-shadow:inset 0 0 0 1px var(--l)!important;z-index:3!important;
+    }
+    html body .draw .res:not(.home-res) .draw-kept-edit svg{width:22px!important;height:22px!important;display:block!important;fill:none!important;stroke:currentColor!important;stroke-width:2.2!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+    html body .draw .res:not(.home-res) .previous-draw-slot{
+      margin:4.5px 0 0!important;padding:0!important;height:43px!important;min-height:43px!important;max-height:43px!important;
+      display:block!important;position:relative!important;overflow:hidden!important;background:transparent!important;border:0!important;
+    }
+    html body .draw .res:not(.home-res) .previous-draw-button{
+      width:100%!important;height:100%!important;border:1px solid var(--l)!important;border-radius:11px!important;background:var(--p2)!important;color:var(--i)!important;
+      display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:0 12px!important;font-weight:900!important;font-size:11.5px!important;
+    }
+    html body .draw .res:not(.home-res) .previous-draw-button svg{width:18px!important;height:18px!important;display:block!important;fill:none!important;stroke:var(--g)!important;stroke-width:2.4!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+    @media(max-width:420px){
+      html body .draw .res:not(.home-res) .previous-draw-slot{height:41px!important;min-height:41px!important;max-height:41px!important}
+      html body .draw .res:not(.home-res) .previous-draw-button{font-size:11px!important}
+    }
+    @media(max-height:720px){
+      html body .draw .res:not(.home-res) .previous-draw-slot{height:35px!important;min-height:35px!important;max-height:35px!important;margin-top:3px!important}
+      html body .draw .res:not(.home-res) .previous-draw-button{font-size:10.5px!important}
+    }
+  `;
+  document.head.appendChild(style);
+
+  const originalDraw=typeof draw==='function'?draw:null;
+  if(!originalDraw)return;
+
+  function findCampaign(id){
+    return Array.isArray(C)?C.find(c=>String(c.id)===String(id)):null;
+  }
+
+  function openKeptEditor(c){
+    const tab=document.querySelector('.nav button[data-p="k"]');
+    if(tab)tab.click();
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      if(typeof kept==='function')kept();
+      const item=[...document.querySelectorAll('#kl .item')].find(node=>String(node.dataset.id)===String(c.id));
+      if(!item)return;
+      item.classList.add('open');
+      item.scrollIntoView({behavior:'smooth',block:'center'});
+      const editor=item.querySelector('.campaign-name-edit,.nt,.ca,.ma,.di,.wu');
+      if(editor)editor.setAttribute('data-opened-from-draw','1');
+    }));
+  }
+
+  function addEditShortcut(card,c){
+    const rhead=card.querySelector('.rhead');
+    if(!rhead)return;
+    rhead.querySelector('.draw-kept-edit')?.remove();
+    const keptCampaign=findCampaign(c&&c.id);
+    if(!keptCampaign)return;
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='draw-kept-edit';
+    button.setAttribute('aria-label','Ouvrir cette campagne dans les campagnes gardées et modifier');
+    button.title='Modifier dans les campagnes gardées';
+    button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/></svg>';
+    button.onclick=e=>{e.preventDefault();e.stopPropagation();openKeptEditor(keptCampaign)};
+    rhead.prepend(button);
+  }
+
+  function addPreviousButton(card,c){
+    const isCurrent=LP&&c&&String(LP.id)===String(c.id);
+    const previous=isCurrent&&LP.previous?findCampaign(LP.previous.id):null;
+    let slot=card.querySelector('.last-played-inline')||card.querySelector('.last-drawn-label');
+    if(!previous){
+      if(slot)slot.remove();
+      return;
+    }
+    if(!slot){
+      slot=document.createElement('div');
+      slot.className='last-drawn-label';
+      const content=card.querySelector('.result-content');
+      const rhead=content&&content.querySelector('.rhead');
+      if(content)content.insertBefore(slot,rhead||content.firstChild);
+    }
+    slot.classList.add('previous-draw-slot');
+    slot.innerHTML='';
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='previous-draw-button';
+    button.setAttribute('aria-label','Afficher la campagne tirée au sort précédemment : '+(previous.name||'campagne précédente'));
+    button.title=previous.name||'Campagne précédente';
+    button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5"/><path d="M5 12h8a6 6 0 1 1 0 12" transform="translate(0 -6)"/></svg><span>Campagne précédente</span>';
+    button.onclick=e=>{e.preventDefault();e.stopPropagation();draw(previous)};
+    slot.appendChild(button);
+  }
+
+  function enhanceDraw(c){
+    const card=document.querySelector('#res .result-card');
+    if(!card||!c)return;
+    addEditShortcut(card,c);
+    addPreviousButton(card,c);
+    if(typeof fitDescription==='function')fitDescription();
+  }
+
+  draw=function(c,remember=false){
+    const result=originalDraw(c,remember);
+    enhanceDraw(c);
+    return result;
+  };
+})();
