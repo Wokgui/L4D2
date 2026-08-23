@@ -74,15 +74,15 @@
       background:transparent!important;box-shadow:none!important;transition:none!important;animation:none!important;
     }
     html body .draw .title .steam-chat-top .steam-chat-corner-badge{
-      position:absolute!important;right:3.2px!important;bottom:3.2px!important;z-index:3!important;
-      width:17.6px!important;height:17.6px!important;box-sizing:border-box!important;padding:0!important;
+      position:absolute!important;right:2.32px!important;bottom:2.32px!important;z-index:3!important;
+      width:19.36px!important;height:19.36px!important;box-sizing:border-box!important;padding:0!important;
       display:block!important;border-radius:50%!important;
       background:var(--g)!important;border:1.5px solid var(--b)!important;box-shadow:none!important;pointer-events:none!important;
     }
     html body .draw .title .steam-chat-top .steam-chat-corner-badge svg{
       position:absolute!important;left:50%!important;top:50%!important;
-      transform:translate(-50%,calc(-50% + .35px))!important;
-      display:block!important;width:12.1px!important;height:12.1px!important;overflow:visible!important;
+      transform:translate(-50%,calc(-50% + .39px))!important;
+      display:block!important;width:13.31px!important;height:13.31px!important;overflow:visible!important;
     }
     html body .draw .title .steam-chat-top:hover,
     html body .draw .title .steam-chat-top:focus,
