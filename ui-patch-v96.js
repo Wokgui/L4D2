@@ -75,11 +75,15 @@
     }
     html body .draw .title .steam-chat-top .steam-chat-corner-badge{
       position:absolute!important;right:4px!important;bottom:4px!important;z-index:3!important;
-      width:16px!important;height:16px!important;box-sizing:border-box!important;padding:2px!important;
-      display:grid!important;place-items:center!important;border-radius:50%!important;
+      width:16px!important;height:16px!important;box-sizing:border-box!important;padding:0!important;
+      display:block!important;border-radius:50%!important;
       background:var(--g)!important;border:1.5px solid var(--b)!important;box-shadow:none!important;pointer-events:none!important;
     }
-    html body .draw .title .steam-chat-top .steam-chat-corner-badge svg{display:block!important;width:12px!important;height:12px!important;overflow:visible!important}
+    html body .draw .title .steam-chat-top .steam-chat-corner-badge svg{
+      position:absolute!important;left:50%!important;top:50%!important;
+      transform:translate(-50%,-50%)!important;
+      display:block!important;width:11px!important;height:11px!important;overflow:visible!important;
+    }
     html body .draw .title .steam-chat-top:hover,
     html body .draw .title .steam-chat-top:focus,
     html body .draw .title .steam-chat-top:active{
@@ -183,7 +187,7 @@
     link.rel='noopener';
     link.title='Chat Steam';
     link.setAttribute('aria-label','Ouvrir le Chat Steam');
-    link.innerHTML='<span class="steam-chat-glyph"><img src="/steam-icon.png" alt=""><span class="steam-chat-corner-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#fff" d="M4 4h16v12H9l-5 4V4z"/><path d="M8 8h8M8 11h8M8 14h5" fill="none" stroke="#2f796d" stroke-width="1.8" stroke-linecap="round"/></svg></span></span>';
+    link.innerHTML='<span class="steam-chat-glyph"><img src="/steam-icon.png" alt=""><span class="steam-chat-corner-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#fff" d="M5.5 5.5h13v9h-7l-3.5 3v-3H5.5z"/><path d="M9 8.6h6M9 11.3h6M9 14h4" fill="none" stroke="#2f796d" stroke-width="1.8" stroke-linecap="round"/></svg></span></span>';
     syncSteamSize();
   }
 
