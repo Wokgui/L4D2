@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-08-23T11:33:25.395Z",
+  "savedAt": "2026-08-23T12:00:34.126Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5819,6 +5819,15 @@
       "remark": "Difficile : épais brouillard",
       "category": "Pourquoi pas",
       "excelRow": 1786724095159
+    },
+    {
+      "name": "Witch hunter",
+      "remark": "",
+      "category": "Non",
+      "excelRow": 1787486419387,
+      "workshopUrl": "",
+      "maps": 4,
+      "difficulty": "moyen"
     }
   ],
   "lastDrawn": null
