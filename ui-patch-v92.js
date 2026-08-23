@@ -105,7 +105,7 @@
     /* L'ancienne grande tuile "Campagne précédente" disparaît. */
     html body .draw .res:not(.home-res) .previous-draw-slot{display:none!important}
 
-    /* Raccourci Chat Steam au centre de l'en-tête, comme avant. */
+    /* Chat Steam : uniquement le logo, sans bulle, fond, liseré ni transition. */
     .draw .title{position:relative!important}
     .draw .steam-chat-top{
       position:absolute!important;
@@ -113,45 +113,57 @@
       top:50%!important;
       transform:translate(-50%,-50%)!important;
       z-index:8!important;
-      width:36px!important;
-      height:36px!important;
+      width:var(--steam-chat-size,40px)!important;
+      height:var(--steam-chat-size,40px)!important;
+      min-width:var(--steam-chat-size,40px)!important;
+      min-height:var(--steam-chat-size,40px)!important;
+      max-width:var(--steam-chat-size,40px)!important;
+      max-height:var(--steam-chat-size,40px)!important;
       padding:0!important;
-      display:grid!important;
-      place-items:center!important;
-      border:1px solid var(--l)!important;
-      border-radius:50%!important;
-      background:var(--p)!important;
-      color:var(--g)!important;
+      display:block!important;
+      border:0!important;
+      border-radius:0!important;
+      background:transparent!important;
+      color:inherit!important;
       text-decoration:none!important;
-      box-shadow:0 3px 10px rgba(37,38,31,.08)!important;
+      box-shadow:none!important;
       overflow:visible!important;
+      transition:none!important;
+      animation:none!important;
+      -webkit-tap-highlight-color:transparent!important;
     }
     .draw .steam-chat-top>img{
       position:absolute!important;
       left:50%!important;
       top:50%!important;
       transform:translate(-50%,-50%)!important;
-      width:32px!important;
-      height:32px!important;
-      min-width:32px!important;
-      max-width:32px!important;
+      display:block!important;
+      width:var(--steam-chat-size,40px)!important;
+      height:var(--steam-chat-size,40px)!important;
+      min-width:var(--steam-chat-size,40px)!important;
+      min-height:var(--steam-chat-size,40px)!important;
+      max-width:var(--steam-chat-size,40px)!important;
+      max-height:var(--steam-chat-size,40px)!important;
       object-fit:contain!important;
+      border:0!important;
       border-radius:50%!important;
+      background:transparent!important;
+      box-shadow:none!important;
+      transition:none!important;
+      animation:none!important;
     }
-    .draw .steam-chat-top .steam-chat-bubble{
-      position:absolute!important;
-      right:-1px!important;
-      bottom:-1px!important;
-      width:15px!important;
-      height:15px!important;
-      padding:1px!important;
-      border-radius:50%!important;
-      background:var(--g)!important;
-      color:#fff!important;
-      border:1.5px solid var(--p)!important;
-      box-sizing:border-box!important;
+    .draw .steam-chat-top .steam-chat-bubble{display:none!important}
+    .draw .steam-chat-top:hover,
+    .draw .steam-chat-top:focus,
+    .draw .steam-chat-top:active{
+      transform:translate(-50%,-50%)!important;
+      border:0!important;
+      background:transparent!important;
+      box-shadow:none!important;
+      color:inherit!important;
+      outline:0!important;
+      transition:none!important;
     }
-    .draw .steam-chat-top .steam-chat-bubble path{fill:currentColor!important}
 
     @media(max-height:720px){
       html body .draw .res:not(.home-res) .result-card .rhead{padding-left:62px!important;padding-right:62px!important}
@@ -165,18 +177,38 @@
   `;
   document.head.appendChild(style);
 
+  function syncSteamChatSize(){
+    const title=document.querySelector('.draw .title');
+    if(!title)return;
+    const campaignSteam=document.querySelector('#res .result-card .rhead .wk img')||document.querySelector('#res .result-card .rhead .wk');
+    if(!campaignSteam)return;
+    const rect=campaignSteam.getBoundingClientRect();
+    const size=Math.max(1,Math.round(Math.min(rect.width||0,rect.height||rect.width||0)));
+    if(size)title.style.setProperty('--steam-chat-size',size+'px');
+  }
+
   function ensureSteamChat(){
     const title=document.querySelector('.draw .title');
-    if(!title||title.querySelector('.steam-chat-top'))return;
-    const link=document.createElement('a');
-    link.className='steam-chat-top';
+    if(!title)return;
+    let link=title.querySelector('.steam-chat-top');
+    if(!link){
+      link=document.createElement('a');
+      link.className='steam-chat-top';
+      title.appendChild(link);
+    }
     link.href='https://steamcommunity.com/chat/';
     link.target='_blank';
     link.rel='noopener';
     link.setAttribute('aria-label','Ouvrir le Chat Steam');
     link.title='Chat Steam';
-    link.innerHTML='<img src="/steam-icon.png" alt=""><svg class="steam-chat-bubble" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4V4zm3 4v2h10V8H7zm0 4v2h7v-2H7z"/></svg>';
-    title.appendChild(link);
+    let img=link.querySelector(':scope>img');
+    if(!img){
+      img=document.createElement('img');
+      img.src='/steam-icon.png';
+      img.alt='';
+    }
+    link.replaceChildren(img);
+    syncSteamChatSize();
   }
 
   function compactPreviousButton(){
@@ -199,6 +231,7 @@
   function apply(){
     ensureSteamChat();
     compactPreviousButton();
+    syncSteamChatSize();
   }
 
   apply();
@@ -217,4 +250,5 @@
     });
     observer.observe(root,{childList:true,subtree:true});
   }
+  window.addEventListener('resize',syncSteamChatSize,{passive:true});
 })();
