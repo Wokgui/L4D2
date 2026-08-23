@@ -226,8 +226,9 @@
     }
     if(!campaign)return;
 
-    /* Changement d'onglet sans click intermédiaire : aucun état "haut de liste" n'est peint. */
-    document.querySelectorAll('.page').forEach(page=>page.classList.toggle('on',page.id==='k'));
+    /* Changement d'onglet, préparation, ouverture et positionnement dans le même rendu. */
+    const page=document.getElementById('k');
+    document.querySelectorAll('.page').forEach(node=>node.classList.toggle('on',node===page));
     document.querySelectorAll('.nav button[data-p]').forEach(button=>button.classList.toggle('on',button.dataset.p==='k'));
 
     if(typeof kept==='function')kept();
@@ -235,7 +236,7 @@
     const items=[...document.querySelectorAll('#kl .item')];
     const item=items.find(node=>String(node.dataset.id)===String(campaign.id))
       ||items.find(node=>(node.querySelector('.name')?.textContent||'').trim()===drawnName);
-    if(!item)return;
+    if(!item||!page)return;
 
     items.forEach(node=>{if(node!==item)node.classList.remove('open')});
     if(!item.classList.contains('open')){
@@ -245,18 +246,14 @@
     }
     if(!item.classList.contains('open'))item.classList.add('open');
 
-    /* Force la mise en page et place immédiatement la fiche en haut de l'écran. */
+    /* #k est le vrai conteneur défilable : on le positionne directement sur la fiche. */
     void item.offsetHeight;
-    const scroller=document.scrollingElement||document.documentElement;
-    const oldRoot=document.documentElement.style.scrollBehavior;
-    const oldBody=document.body.style.scrollBehavior;
-    document.documentElement.style.scrollBehavior='auto';
-    document.body.style.scrollBehavior='auto';
-    const top=Math.max(0,scroller.scrollTop+item.getBoundingClientRect().top-8);
-    scroller.scrollTop=top;
-    window.scrollTo(0,top);
-    document.documentElement.style.scrollBehavior=oldRoot;
-    document.body.style.scrollBehavior=oldBody;
+    const oldBehavior=page.style.scrollBehavior;
+    page.style.scrollBehavior='auto';
+    const pageRect=page.getBoundingClientRect();
+    const itemRect=item.getBoundingClientRect();
+    page.scrollTop=Math.max(0,page.scrollTop+(itemRect.top-pageRect.top)-8);
+    page.style.scrollBehavior=oldBehavior;
 
     const editor=item.querySelector('.campaign-name-edit,.nt,.ca,.ma,.di,.wu');
     if(editor)editor.setAttribute('data-opened-from-draw','1');
