@@ -3,7 +3,6 @@
 
   const style=document.createElement('style');
   style.textContent=`
-    /* Ajout de campagne : formulaire compact avec listes déroulantes. */
     html body .campaign-add-modal{
       position:fixed!important;inset:0!important;z-index:10000!important;
       display:grid!important;place-items:center!important;
@@ -17,9 +16,19 @@
       background:var(--p)!important;color:var(--i)!important;
       box-shadow:0 18px 48px rgba(37,38,31,.18)!important;
     }
-    html body .campaign-add-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:14px!important}
-    html body .campaign-add-head strong{font-size:20px!important;line-height:1.1!important}
-    html body .campaign-add-close{width:34px!important;height:34px!important;padding:0!important;border:0!important;border-radius:50%!important;background:var(--p2)!important;color:var(--i)!important;font-size:23px!important;line-height:1!important}
+    html body .campaign-add-head{
+      position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;
+      min-height:36px!important;margin-bottom:14px!important;
+    }
+    html body .campaign-add-head strong{
+      display:block!important;width:100%!important;padding:0 42px!important;text-align:center!important;
+      font-size:20px!important;line-height:1.1!important;
+    }
+    html body .campaign-add-close{
+      position:absolute!important;right:0!important;top:50%!important;transform:translateY(-50%)!important;
+      width:34px!important;height:34px!important;padding:0!important;border:0!important;border-radius:50%!important;
+      background:var(--p2)!important;color:var(--i)!important;font-size:23px!important;line-height:1!important;
+    }
     html body .campaign-add-form{display:grid!important;gap:11px!important}
     html body .campaign-add-form label{display:grid!important;gap:5px!important;font-size:11px!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.04em!important;color:var(--m)!important}
     html body .campaign-add-form input,
@@ -28,8 +37,7 @@
       width:100%!important;min-height:43px!important;box-sizing:border-box!important;
       border:1px solid var(--l)!important;border-radius:11px!important;
       background:#fff!important;color:var(--i)!important;padding:10px 11px!important;
-      font:inherit!important;text-transform:none!important;letter-spacing:normal!important;font-weight:700!important;
-      outline:none!important;
+      font:inherit!important;text-transform:none!important;letter-spacing:normal!important;font-weight:700!important;outline:none!important;
     }
     html body .campaign-add-form textarea{min-height:82px!important;resize:vertical!important}
     html body .campaign-add-form input:focus,
@@ -46,7 +54,7 @@
       html body .campaign-add-grid{grid-template-columns:1fr!important;gap:10px!important}
     }
 
-    /* Icône Chat Steam : composition verrouillée logo + badge chevauchant le coin. */
+    /* Logo Steam + badge vert réellement superposé au coin inférieur droit. */
     html body .draw .title .steam-chat-top{
       position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;
       width:var(--steam-chat-v96-size,44px)!important;height:var(--steam-chat-v96-size,44px)!important;
@@ -66,7 +74,7 @@
       background:transparent!important;box-shadow:none!important;transition:none!important;animation:none!important;
     }
     html body .draw .title .steam-chat-top .steam-chat-corner-badge{
-      position:absolute!important;right:-5px!important;bottom:-5px!important;z-index:3!important;
+      position:absolute!important;right:4px!important;bottom:4px!important;z-index:3!important;
       width:16px!important;height:16px!important;box-sizing:border-box!important;padding:2px!important;
       display:grid!important;place-items:center!important;border-radius:50%!important;
       background:var(--g)!important;border:1.5px solid var(--b)!important;box-shadow:none!important;pointer-events:none!important;
@@ -82,8 +90,8 @@
 
   function mapOptions(){
     const values=[];
-    if(Array.isArray(C)) C.forEach(c=>{const n=parseInt(c.maps,10);if(Number.isFinite(n)&&n>0)values.push(n)});
-    if(Array.isArray(A)) A.forEach(c=>{const n=parseInt(c.maps,10);if(Number.isFinite(n)&&n>0)values.push(n)});
+    if(Array.isArray(C))C.forEach(c=>{const n=parseInt(c.maps,10);if(Number.isFinite(n)&&n>0)values.push(n)});
+    if(Array.isArray(A))A.forEach(c=>{const n=parseInt(c.maps,10);if(Number.isFinite(n)&&n>0)values.push(n)});
     const max=Math.max(10,...values);
     let html='<option value="">Non renseigné</option>';
     for(let n=1;n<=max;n++)html+=`<option value="${n}">${n} carte${n>1?'s':''}</option>`;
@@ -110,13 +118,15 @@
     </div>`;
     document.body.appendChild(modal);
 
-    const close=()=>modal.remove();
+    const close=()=>{
+      document.removeEventListener('keydown',esc);
+      modal.remove();
+    };
+    const esc=e=>{if(e.key==='Escape')close()};
     modal.querySelector('.campaign-add-close').onclick=close;
     modal.querySelector('.campaign-add-cancel').onclick=close;
     modal.onclick=e=>{if(e.target===modal)close()};
-    const esc=e=>{if(e.key==='Escape'){document.removeEventListener('keydown',esc);close()}};
     document.addEventListener('keydown',esc);
-    modal.addEventListener('remove',()=>document.removeEventListener('keydown',esc));
 
     const form=modal.querySelector('.campaign-add-form');
     form.onsubmit=e=>{
@@ -143,8 +153,7 @@
 
   function installAddForm(){
     const add=document.getElementById('add');
-    if(!add)return;
-    add.onclick=openAddCampaign;
+    if(add)add.onclick=openAddCampaign;
   }
 
   function syncSteamSize(){
