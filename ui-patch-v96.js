@@ -81,7 +81,7 @@
     }
     html body .draw .title .steam-chat-top .steam-chat-corner-badge svg{
       position:absolute!important;left:50%!important;top:50%!important;
-      transform:translate(-50%,-50%)!important;
+      transform:translate(-50%,calc(-50% + .32px))!important;
       display:block!important;width:11px!important;height:11px!important;overflow:visible!important;
     }
     html body .draw .title .steam-chat-top:hover,
