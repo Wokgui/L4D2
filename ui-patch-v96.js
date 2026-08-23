@@ -74,15 +74,15 @@
       background:transparent!important;box-shadow:none!important;transition:none!important;animation:none!important;
     }
     html body .draw .title .steam-chat-top .steam-chat-corner-badge{
-      position:absolute!important;right:2.32px!important;bottom:2.32px!important;z-index:3!important;
-      width:19.36px!important;height:19.36px!important;box-sizing:border-box!important;padding:0!important;
+      position:absolute!important;right:4px!important;bottom:4px!important;z-index:3!important;
+      width:16px!important;height:16px!important;box-sizing:border-box!important;padding:0!important;
       display:block!important;border-radius:50%!important;
       background:var(--g)!important;border:1.5px solid var(--b)!important;box-shadow:none!important;pointer-events:none!important;
     }
     html body .draw .title .steam-chat-top .steam-chat-corner-badge svg{
       position:absolute!important;left:50%!important;top:50%!important;
-      transform:translate(-50%,calc(-50% + .39px))!important;
-      display:block!important;width:13.31px!important;height:13.31px!important;overflow:visible!important;
+      transform:translate(-50%,calc(-50% + .32px))!important;
+      display:block!important;width:11px!important;height:11px!important;overflow:visible!important;
     }
     html body .draw .title .steam-chat-top:hover,
     html body .draw .title .steam-chat-top:focus,
