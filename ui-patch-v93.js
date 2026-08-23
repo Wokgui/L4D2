@@ -224,7 +224,19 @@
       const item=[...document.querySelectorAll('#kl .item')].find(node=>String(node.dataset.id)===String(c.id));
       if(!item)return;
       item.classList.add('open');
-      item.scrollIntoView({behavior:'smooth',block:'center'});
+
+      /* Arrivée immédiate sur la campagne ouverte : aucune animation de défilement. */
+      const root=document.documentElement;
+      const body=document.body;
+      const oldRootBehavior=root.style.scrollBehavior;
+      const oldBodyBehavior=body.style.scrollBehavior;
+      root.style.scrollBehavior='auto';
+      body.style.scrollBehavior='auto';
+      const top=Math.max(0,window.scrollY+item.getBoundingClientRect().top-10);
+      window.scrollTo(0,top);
+      root.style.scrollBehavior=oldRootBehavior;
+      body.style.scrollBehavior=oldBodyBehavior;
+
       const editor=item.querySelector('.campaign-name-edit,.nt,.ca,.ma,.di,.wu');
       if(editor)editor.setAttribute('data-opened-from-draw','1');
     }));
