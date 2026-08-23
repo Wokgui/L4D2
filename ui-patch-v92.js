@@ -105,7 +105,7 @@
     /* L'ancienne grande tuile "Campagne précédente" disparaît. */
     html body .draw .res:not(.home-res) .previous-draw-slot{display:none!important}
 
-    /* Chat Steam : uniquement le logo, sans bulle, fond, liseré ni transition. */
+    /* Chat Steam : logo seul, avec le petit badge vert de conversation. */
     .draw .title{position:relative!important}
     .draw .steam-chat-top{
       position:absolute!important;
@@ -152,7 +152,31 @@
       transition:none!important;
       animation:none!important;
     }
-    .draw .steam-chat-top .steam-chat-bubble{display:none!important}
+    .draw .steam-chat-top .steam-chat-badge{
+      position:absolute!important;
+      right:-2px!important;
+      bottom:-2px!important;
+      width:16px!important;
+      height:16px!important;
+      padding:1.5px!important;
+      display:grid!important;
+      place-items:center!important;
+      border-radius:50%!important;
+      background:var(--g)!important;
+      color:#fff!important;
+      border:1.5px solid var(--p)!important;
+      box-shadow:none!important;
+      box-sizing:border-box!important;
+      overflow:hidden!important;
+      pointer-events:none!important;
+    }
+    .draw .steam-chat-top .steam-chat-badge svg{
+      width:11px!important;
+      height:11px!important;
+      display:block!important;
+      fill:currentColor!important;
+      stroke:none!important;
+    }
     .draw .steam-chat-top:hover,
     .draw .steam-chat-top:focus,
     .draw .steam-chat-top:active{
@@ -173,6 +197,8 @@
       html body .draw .res:not(.home-res) .draw-previous-icon{left:34px!important}
       html body .draw .res:not(.home-res) .draw-kept-edit svg,
       html body .draw .res:not(.home-res) .draw-previous-icon svg{width:15px!important;height:15px!important}
+      .draw .steam-chat-top .steam-chat-badge{width:15px!important;height:15px!important;right:-1px!important;bottom:-1px!important}
+      .draw .steam-chat-top .steam-chat-badge svg{width:10px!important;height:10px!important}
     }
   `;
   document.head.appendChild(style);
@@ -201,13 +227,23 @@
     link.rel='noopener';
     link.setAttribute('aria-label','Ouvrir le Chat Steam');
     link.title='Chat Steam';
+
     let img=link.querySelector(':scope>img');
     if(!img){
       img=document.createElement('img');
       img.src='/steam-icon.png';
       img.alt='';
     }
-    link.replaceChildren(img);
+
+    let badge=link.querySelector('.steam-chat-badge');
+    if(!badge){
+      badge=document.createElement('span');
+      badge.className='steam-chat-badge';
+      badge.setAttribute('aria-hidden','true');
+      badge.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4V4zm3 4v2h10V8H7zm0 4v2h7v-2H7z"/></svg>';
+    }
+
+    link.replaceChildren(img,badge);
     syncSteamChatSize();
   }
 
