@@ -175,14 +175,20 @@
 
   const style=document.createElement('style');
   style.textContent=`
-    html body .draw .res:not(.home-res) .result-card .rhead{position:relative!important;padding-left:52px!important;padding-right:52px!important}
+    html body .draw .res:not(.home-res) .result-card .rhead{
+      position:relative!important;
+      padding-left:calc(var(--draw-side-icon-size,27px) + 8px)!important;
+      padding-right:calc(var(--draw-side-icon-size,27px) + 8px)!important;
+    }
     html body .draw .res:not(.home-res) .draw-kept-edit{
       position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;
-      width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;
+      width:var(--draw-side-icon-size,27px)!important;height:var(--draw-side-icon-size,27px)!important;
+      min-width:var(--draw-side-icon-size,27px)!important;min-height:var(--draw-side-icon-size,27px)!important;
+      max-width:var(--draw-side-icon-size,27px)!important;max-height:var(--draw-side-icon-size,27px)!important;
       padding:0!important;border:0!important;border-radius:50%!important;background:var(--p2)!important;color:var(--g)!important;
       display:grid!important;place-items:center!important;box-shadow:inset 0 0 0 1px var(--l)!important;z-index:3!important;
     }
-    html body .draw .res:not(.home-res) .draw-kept-edit svg{width:22px!important;height:22px!important;display:block!important;fill:none!important;stroke:currentColor!important;stroke-width:2.2!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+    html body .draw .res:not(.home-res) .draw-kept-edit svg{width:54%!important;height:54%!important;display:block!important;fill:none!important;stroke:currentColor!important;stroke-width:2.2!important;stroke-linecap:round!important;stroke-linejoin:round!important}
     html body .draw .res:not(.home-res) .previous-draw-slot{
       margin:4.5px 0 0!important;padding:0!important;height:43px!important;min-height:43px!important;max-height:43px!important;
       display:block!important;position:relative!important;overflow:hidden!important;background:transparent!important;border:0!important;
@@ -230,6 +236,9 @@
     rhead.querySelector('.draw-kept-edit')?.remove();
     const keptCampaign=findCampaign(c&&c.id);
     if(!keptCampaign)return;
+    const steam=rhead.querySelector('.wk');
+    const size=steam?Math.max(1,Math.round(steam.getBoundingClientRect().width)):27;
+    rhead.style.setProperty('--draw-side-icon-size',size+'px');
     const button=document.createElement('button');
     button.type='button';
     button.className='draw-kept-edit';
