@@ -229,22 +229,25 @@
     link.setAttribute('aria-label','Ouvrir le Chat Steam');
     link.title='Chat Steam';
 
-    let img=link.querySelector(':scope>img');
-    if(!img){
-      img=document.createElement('img');
-      img.src='/steam-icon.png';
-      img.alt='';
-    }
+    /* Le balisage final est déjà présent dans index.html : ne pas le remplacer
+       après le premier affichage, ce qui ferait repeindre et redimensionner l'icône. */
+    if(!link.querySelector('.steam-chat-glyph')){
+      let img=link.querySelector(':scope>img');
+      if(!img){
+        img=document.createElement('img');
+        img.src='/steam-icon.png';
+        img.alt='';
+      }
 
-    let badge=link.querySelector('.steam-chat-badge');
-    if(!badge){
-      badge=document.createElement('span');
-      badge.className='steam-chat-badge';
-      badge.setAttribute('aria-hidden','true');
-      badge.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4V4zm3 4v2h10V8H7zm0 4v2h7v-2H7z"/></svg>';
+      let badge=link.querySelector('.steam-chat-badge');
+      if(!badge){
+        badge=document.createElement('span');
+        badge.className='steam-chat-badge';
+        badge.setAttribute('aria-hidden','true');
+        badge.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4V4zm3 4v2h10V8H7zm0 4v2h7v-2H7z"/></svg>';
+      }
+      link.replaceChildren(img,badge);
     }
-
-    link.replaceChildren(img,badge);
     syncSteamChatSize();
   }
 

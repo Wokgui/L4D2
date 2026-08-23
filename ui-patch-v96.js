@@ -187,7 +187,9 @@
     link.rel='noopener';
     link.title='Chat Steam';
     link.setAttribute('aria-label','Ouvrir le Chat Steam');
-    link.innerHTML='<span class="steam-chat-glyph"><img src="/steam-icon.png" alt=""><span class="steam-chat-corner-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#fff" d="M5.5 5.5h13v9h-7l-3.5 3v-3H5.5z"/><path d="M9 8.6h6M9 11.3h6M9 14h4" fill="none" stroke="#2f796d" stroke-width="1.8" stroke-linecap="round"/></svg></span></span>';
+    if(!link.querySelector('.steam-chat-glyph')){
+      link.innerHTML='<span class="steam-chat-glyph"><img src="/steam-icon.png" width="44" height="44" alt=""><span class="steam-chat-corner-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#fff" d="M5.5 5.5h13v9h-7l-3.5 3v-3H5.5z"/><path d="M9 8.6h6M9 11.3h6M9 14h4" fill="none" stroke="#2f796d" stroke-width="1.8" stroke-linecap="round"/></svg></span></span>';
+    }
     syncSteamSize();
   }
 

@@ -285,10 +285,169 @@ html body .app .draw .title .steam-chat-top .steam-chat-corner-badge svg{
   transform:translate(-50%,calc(-50% + .32px))!important;
 }
 @media(max-width:420px){
-  /* lvh reste constant quand les barres système changent la hauteur visible.
+  /* svh reste constant quand les barres système changent la hauteur visible.
      Le point d'ancrage ne traverse donc plus brutalement le seuil de 720 px. */
   html body .app .draw .title .steam-chat-top{
     position:fixed!important;
-    top:clamp(29.5px,calc(900lvh - 6450.5px),38.5px)!important;
+    top:clamp(29.5px,calc(15svh - 75.5px),38.5px)!important;
   }
+}
+
+/* État initial v99 : mêmes dimensions que l'état final, avant les patches JS.
+   Le chargement ne peut donc plus compacter le sélecteur ni agrandir l'accueil. */
+html body .app .draw .selector-card{
+  margin:3px 0 6px!important;
+  padding:8px 11px 10px!important;
+}
+html body .app .draw .selector-card .selector-title{margin:0 0 6px!important}
+html body .app .draw .selector-card .filter-row{margin:2px 0!important}
+html body .app .draw .selector-card .drawbtn{
+  margin:6px auto 1px!important;
+  min-height:42px!important;
+  padding:8px 18px!important;
+}
+html body .app .draw .res.home-res{
+  padding-top:11px!important;
+  gap:16.5px!important;
+}
+html body .app .draw .res.home-res .welcome{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  contain:layout paint!important;
+}
+html body .app .draw .res.home-res .steam-access{
+  flex:0 0 auto!important;
+  min-height:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  padding:0 0 11px!important;
+}
+html body .app .draw .res.home-res .steam-access-title{margin-bottom:16.5px!important}
+html body .app .draw .res.home-res .welcome-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px 10px!important;
+  width:100%!important;
+  margin:0!important;
+}
+html body .app .draw .res.home-res .welcome-actions a{
+  min-height:104px!important;
+  padding:12px 8px 10px!important;
+  gap:8px!important;
+  font-size:13px!important;
+}
+html body .app .draw .res.home-res .welcome-steam-icon{
+  width:42px!important;
+  height:42px!important;
+  flex-basis:42px!important;
+}
+html body .app .draw .title .steam-chat-top{
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  max-width:44px!important;
+  max-height:44px!important;
+  contain:layout paint!important;
+}
+
+@media(max-width:420px){
+  html body .app>.draw.page.on{
+    height:calc(100svh - var(--l4d2-nav-height,58px))!important;
+    max-height:calc(100svh - var(--l4d2-nav-height,58px))!important;
+  }
+  html body .app .draw .res.home-res{padding-top:9px!important;gap:13.5px!important}
+  html body .app .draw .res.home-res .steam-access{padding:0 0 9px!important}
+  html body .app .draw .res.home-res .steam-access-title{margin-bottom:13.5px!important}
+  html body .app .draw .res.home-res .welcome-actions{gap:9px 8px!important}
+  html body .app .draw .res.home-res .welcome-actions a{
+    min-height:90px!important;
+    padding:9px 6px 8px!important;
+    font-size:11.5px!important;
+  }
+  html body .app .draw .res.home-res .welcome-steam-icon{
+    width:37px!important;
+    height:37px!important;
+    flex-basis:37px!important;
+  }
+}
+
+@media(max-height:720px){
+  html body .app .draw .selector-card{padding:6px 9px 7px!important;margin:2px 0 4px!important}
+  html body .app .draw .selector-card .selector-title{margin-bottom:4px!important}
+  html body .app .draw .selector-card .filter-row{margin:1px 0!important}
+  html body .app .draw .selector-card .drawbtn{
+    margin-top:4px!important;
+    min-height:36px!important;
+    padding:6px 15px!important;
+  }
+  html body .app .draw .res.home-res{padding-top:7px!important;gap:9.5px!important}
+  html body .app .draw .res.home-res .steam-access{padding:0 0 7px!important}
+  html body .app .draw .res.home-res .steam-access-title{margin-bottom:9.5px!important}
+  html body .app .draw .res.home-res .welcome-actions{gap:6px 7px!important}
+  html body .app .draw .res.home-res .welcome-actions a{
+    min-height:67px!important;
+    padding:5px!important;
+    gap:4px!important;
+    font-size:10.5px!important;
+  }
+  html body .app .draw .res.home-res .welcome-steam-icon{
+    width:29px!important;
+    height:29px!important;
+    flex-basis:29px!important;
+  }
+}
+
+/* Sur mobile, la hauteur choisie avant le premier rendu reste verrouillée tant
+   que l'orientation ne change pas. Les barres du navigateur ne relancent plus
+   le breakpoint compact et ne peuvent plus déplacer ou redimensionner l'accueil. */
+@media(max-width:420px){
+  html[data-l4d2-height="compact"] body .app>.draw.page.on,
+  html[data-l4d2-height="regular"] body .app>.draw.page.on{
+    height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
+    max-height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
+  }
+
+  html[data-l4d2-height="compact"] body .app>.draw.page.on{padding-top:8px!important}
+  html[data-l4d2-height="compact"] body .app .draw .title{flex-basis:43px!important;height:43px!important;margin-bottom:5px!important}
+  html[data-l4d2-height="compact"] body .app .draw .title-profile{width:39px!important;height:39px!important;flex-basis:39px!important}
+  html[data-l4d2-height="compact"] body .app .title-brand{height:39px!important;font-size:27px!important}
+  html[data-l4d2-height="compact"] body .app .draw .selector-card{padding:6px 9px 7px!important;margin:2px 0 4px!important}
+  html[data-l4d2-height="compact"] body .app .draw .selector-card .selector-title{font-size:20px!important;margin:0 0 4px!important}
+  html[data-l4d2-height="compact"] body .app .draw .selector-card .filter-row{min-height:32px!important;padding:3px 0!important;margin:1px 0!important}
+  html[data-l4d2-height="compact"] body .app .draw .selector-card .chip{padding-top:5px!important;padding-bottom:5px!important}
+  html[data-l4d2-height="compact"] body .app .draw .selector-card .drawbtn{margin:4px auto 1px!important;min-height:36px!important;padding:6px 15px!important}
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res{padding-top:7px!important;gap:9.5px!important}
+  html[data-l4d2-height="compact"] body .app .draw .home-res .welcome{min-height:125px!important}
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res .steam-access{padding-bottom:7px!important}
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res .steam-access-title{font-size:16px!important;margin-bottom:9.5px!important}
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res .welcome-actions{gap:6px 7px!important}
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res .welcome-actions a{min-height:67px!important;padding:5px!important;gap:4px!important;font-size:10.5px!important}
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res .welcome-steam-icon{width:29px!important;height:29px!important;flex-basis:29px!important}
+  html[data-l4d2-height="compact"] body .app .draw .title .steam-chat-top{top:29.5px!important}
+  html[data-l4d2-height="compact"] body .nav{min-height:56px!important}
+  html[data-l4d2-height="compact"] body .nav button{min-height:48px!important;font-size:12px!important}
+  html[data-l4d2-height="compact"] body .nav i{font-size:17px!important}
+
+  html[data-l4d2-height="regular"] body .app>.draw.page.on{padding-top:14px!important}
+  html[data-l4d2-height="regular"] body .app .draw .title{flex-basis:49px!important;height:49px!important;margin-bottom:7px!important}
+  html[data-l4d2-height="regular"] body .app .draw .title-profile{width:43px!important;height:43px!important;flex-basis:43px!important}
+  html[data-l4d2-height="regular"] body .app .title-brand{height:43px!important;font-size:29px!important}
+  html[data-l4d2-height="regular"] body .app .draw .selector-card{padding:8px 11px 10px!important;margin:3px 0 6px!important}
+  html[data-l4d2-height="regular"] body .app .draw .selector-card .selector-title{font-size:22px!important;margin:0 0 6px!important}
+  html[data-l4d2-height="regular"] body .app .draw .selector-card .filter-row{min-height:37px!important;padding:5px 0!important;margin:2px 0!important}
+  html[data-l4d2-height="regular"] body .app .draw .selector-card .chip{padding:7px 2px!important;font-size:11.5px!important}
+  html[data-l4d2-height="regular"] body .app .draw .selector-card .drawbtn{margin:6px auto 1px!important;min-height:42px!important;padding:8px 18px!important}
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res{padding-top:9px!important;gap:13.5px!important}
+  html[data-l4d2-height="regular"] body .app .draw .home-res .welcome{min-height:145px!important}
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res .steam-access{padding-bottom:9px!important}
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res .steam-access-title{font-size:17px!important;margin-bottom:13.5px!important}
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res .welcome-actions{gap:9px 8px!important}
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res .welcome-actions a{min-height:90px!important;padding:9px 6px 8px!important;gap:8px!important;font-size:11.5px!important}
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res .welcome-steam-icon{width:37px!important;height:37px!important;flex-basis:37px!important}
+  html[data-l4d2-height="regular"] body .app .draw .title .steam-chat-top{top:38.5px!important}
+  html[data-l4d2-height="regular"] body .nav{min-height:58px!important}
+  html[data-l4d2-height="regular"] body .nav button{min-height:50px!important;font-size:13px!important}
+  html[data-l4d2-height="regular"] body .nav i{font-size:19px!important}
 }
