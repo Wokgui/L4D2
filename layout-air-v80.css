@@ -205,46 +205,46 @@
 }
 @media(max-height:720px){.last-drawn-label{margin-bottom:3px;font-size:8px}}
 
-/* v106 — tuile « Choisir une campagne » : +50 % de hauteur, avec les éléments aérés proportionnellement. */
+/* v107 — tuile « Choisir une campagne » : +20 % de hauteur, avec les éléments aérés proportionnellement. */
 @media(max-width:420px){
   html[data-l4d2-height="regular"] body .app .draw .selector-card{
-    height:267px!important;
-    min-height:267px!important;
-    padding:12px 11px 15px!important;
+    height:214px!important;
+    min-height:214px!important;
+    padding:10px 11px 12px!important;
     margin:3px 0 6px!important;
     display:flex!important;
     flex-direction:column!important;
     justify-content:space-between!important;
   }
-  html[data-l4d2-height="regular"] body .app .draw .selector-card .selector-title{margin:0 0 9px!important}
+  html[data-l4d2-height="regular"] body .app .draw .selector-card .selector-title{margin:0 0 7px!important}
   html[data-l4d2-height="regular"] body .app .draw .selector-card .filter-row{
-    min-height:45px!important;
-    padding:7px 0!important;
-    margin:3px 0!important;
+    min-height:41px!important;
+    padding:6px 0!important;
+    margin:2px 0!important;
   }
   html[data-l4d2-height="regular"] body .app .draw .selector-card .drawbtn{
-    margin:9px auto 2px!important;
+    margin:7px auto 2px!important;
     min-height:42px!important;
     padding:8px 18px!important;
   }
 
   html[data-l4d2-height="compact"] body .app .draw .selector-card{
-    height:218px!important;
-    min-height:218px!important;
-    padding:9px 9px 11px!important;
+    height:174px!important;
+    min-height:174px!important;
+    padding:7px 9px 9px!important;
     margin:2px 0 4px!important;
     display:flex!important;
     flex-direction:column!important;
     justify-content:space-between!important;
   }
-  html[data-l4d2-height="compact"] body .app .draw .selector-card .selector-title{margin:0 0 6px!important}
+  html[data-l4d2-height="compact"] body .app .draw .selector-card .selector-title{margin:0 0 5px!important}
   html[data-l4d2-height="compact"] body .app .draw .selector-card .filter-row{
-    min-height:39px!important;
-    padding:5px 0!important;
-    margin:2px 0!important;
+    min-height:35px!important;
+    padding:4px 0!important;
+    margin:1px 0!important;
   }
   html[data-l4d2-height="compact"] body .app .draw .selector-card .drawbtn{
-    margin:6px auto 2px!important;
+    margin:5px auto 2px!important;
     min-height:36px!important;
     padding:6px 15px!important;
   }
