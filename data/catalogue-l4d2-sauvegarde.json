@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-08-24T08:45:16.775Z",
+  "savedAt": "2026-08-24T14:51:27.372Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5830,6 +5830,15 @@
       "category": "Non",
       "excelRow": 1787487699731,
       "workshopUrl": "",
+      "maps": 4,
+      "difficulty": "moyen"
+    },
+    {
+      "name": "Zombie drones",
+      "remark": "De très bonnes idées mais manque de polish.",
+      "category": "Pourquoi pas",
+      "excelRow": 1787583073799,
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3615508722",
       "maps": 4,
       "difficulty": "moyen"
     }
