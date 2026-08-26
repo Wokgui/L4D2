@@ -261,3 +261,12 @@
   }
   html body .app .draw .res:not(.home-res) .result-content{flex:0 0 auto!important}
 }
+
+/* v109 — Android/PWA : la hauteur de l'accueil suit le viewport réel après le lancement.
+   Évite qu'une hauteur mesurée trop tôt laisse une zone vide et coupe les tuiles du bas. */
+@media(max-width:420px){
+  html[data-l4d2-height] body .app>.draw.page.on{
+    height:calc(100dvh - var(--l4d2-nav-height) - env(safe-area-inset-bottom))!important;
+    max-height:calc(100dvh - var(--l4d2-nav-height) - env(safe-area-inset-bottom))!important;
+  }
+}
