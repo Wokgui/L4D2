@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-08-26T09:22:58.911Z",
+  "savedAt": "2026-08-26T09:31:11.700Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5863,6 +5863,15 @@
       "workshopUrl": "",
       "maps": 1,
       "difficulty": "facile"
+    },
+    {
+      "name": "Perfect hideout",
+      "remark": "Déjà vu mieux",
+      "category": "Bof",
+      "excelRow": 1787736667673,
+      "workshopUrl": "",
+      "maps": 4,
+      "difficulty": "moyen"
     }
   ],
   "lastDrawn": null
