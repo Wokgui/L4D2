@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-08-26T09:02:45.954Z",
+  "savedAt": "2026-08-26T09:21:40.287Z",
   "campaigns": [
     {
       "id": "s0",
@@ -2225,6 +2225,17 @@
       "id": "x1787417974637",
       "category": "Oui",
       "customPhoto": true
+    },
+    {
+      "name": "Forward velocity",
+      "maps": 1,
+      "difficulty": "difficile",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3790157590",
+      "notes": "Communs illimités mettre munitions infinies !",
+      "excelRemark": "Communs illimités mettre munitions infinies !",
+      "photo": "",
+      "id": "x1787736096070",
+      "category": "Oui"
     }
   ],
   "otherCampaigns": [
