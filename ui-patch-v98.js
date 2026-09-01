@@ -3,17 +3,26 @@
 
   const style=document.createElement('style');
   style.textContent=`
-    /* Le titre réserve naturellement une ou deux lignes et pousse la suite vers le bas. */
+    /* Le titre réserve une ou deux lignes dans la zone réellement libre entre les boutons. */
     html body .app .draw .res:not(.home-res) .result-card .rhead{
+      --draw-title-inset:70px;
+      position:relative!important;
+      box-sizing:border-box!important;
       height:auto!important;
       min-height:54px!important;
       max-height:none!important;
       padding-top:6px!important;
       padding-bottom:6px!important;
+      padding-left:var(--draw-title-inset)!important;
+      padding-right:var(--draw-title-inset)!important;
       align-items:center!important;
     }
     html body .app .draw .res:not(.home-res) .result-card .rname{
       display:block!important;
+      flex:1 1 0!important;
+      width:auto!important;
+      min-width:0!important;
+      max-width:100%!important;
       min-height:0!important;
       max-height:2.1em!important;
       overflow:hidden!important;
@@ -37,8 +46,41 @@
   `;
   document.head.appendChild(style);
 
+  function reserveActionSpace(title){
+    const head=title&&title.closest('.rhead');
+    if(!head)return;
+
+    const headRect=head.getBoundingClientRect();
+    let leftUsed=0;
+    let rightUsed=0;
+
+    head.querySelectorAll('.draw-kept-edit,.draw-previous-icon').forEach(control=>{
+      const rect=control.getBoundingClientRect();
+      if(rect.width>0)leftUsed=Math.max(leftUsed,rect.right-headRect.left);
+    });
+
+    const workshop=head.querySelector('.wk');
+    if(workshop){
+      const rect=workshop.getBoundingClientRect();
+      if(rect.width>0)rightUsed=Math.max(rightUsed,headRect.right-rect.left);
+    }
+
+    /* On réserve la même marge des deux côtés : le titre reste centré et ne passe jamais sous une icône. */
+    const inset=Math.max(50,Math.ceil(Math.max(leftUsed,rightUsed)+6));
+    head.style.setProperty('--draw-title-inset',inset+'px');
+  }
+
   function fitTitle(title){
     if(!title)return;
+
+    reserveActionSpace(title);
+    title.style.setProperty('flex','1 1 0','important');
+    title.style.setProperty('width','auto','important');
+    title.style.setProperty('min-width','0','important');
+    title.style.setProperty('max-width','100%','important');
+    title.style.setProperty('white-space','normal','important');
+    title.style.setProperty('overflow','hidden','important');
+
     const width=Math.max(40,title.clientWidth);
     let size=Math.min(27,Math.max(19,window.innerWidth*0.053));
     const clone=document.createElement('div');
@@ -57,14 +99,17 @@
       overflowWrap:'anywhere',
       fontFamily:getComputedStyle(title).fontFamily,
       fontWeight:'900',
-      lineHeight:'1.05'
+      lineHeight:'1.05',
+      textAlign:'center'
     });
+    clone.style.textWrap='balance';
     document.body.appendChild(clone);
+
     let guard=0;
-    while(guard<32){
+    while(guard<40){
       clone.style.fontSize=size+'px';
       const lineHeight=size*1.05;
-      if(clone.scrollHeight<=lineHeight*2+1||size<=14)break;
+      if(clone.scrollHeight<=lineHeight*2+1||size<=13.5)break;
       size-=0.5;
       guard++;
     }
