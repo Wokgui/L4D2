@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-08T19:09:23.702Z",
+  "savedAt": "2026-09-08T21:13:41.462Z",
   "campaigns": [
     {
       "id": "s0",
@@ -2217,6 +2217,17 @@
       "id": "x1787736096070",
       "category": "Oui",
       "customPhoto": true
+    },
+    {
+      "name": "Defense line",
+      "maps": 3,
+      "difficulty": "difficile",
+      "workshopUrl": "",
+      "notes": "Bien mais chacune des 3 cartes et longue et difficile.",
+      "excelRemark": "Bien mais chacune des 3 cartes et longue et difficile.",
+      "photo": "",
+      "id": "x1788902017440",
+      "category": "Oui"
     }
   ],
   "otherCampaigns": [
