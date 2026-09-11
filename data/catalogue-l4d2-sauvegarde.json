@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-11T15:58:01.522Z",
+  "savedAt": "2026-09-11T19:04:04.009Z",
   "campaigns": [
     {
       "id": "s0",
@@ -3590,7 +3590,7 @@
     },
     {
       "name": "Impjaw",
-      "remark": "Trop trop marais",
+      "remark": "Trop trop marais et comme swamp fever",
       "category": "Bof",
       "excelRow": 453
     },
@@ -5878,6 +5878,15 @@
       "excelRow": 1788894559774,
       "workshopUrl": "",
       "maps": 5,
+      "difficulty": "facile"
+    },
+    {
+      "name": "Henan Erqi",
+      "remark": "Sans intérêt",
+      "category": "Non",
+      "excelRow": 1789152706870,
+      "workshopUrl": "",
+      "maps": 1,
       "difficulty": "facile"
     }
   ],
