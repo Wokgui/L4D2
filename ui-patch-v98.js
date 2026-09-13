@@ -46,22 +46,27 @@
       z-index:3!important;
     }
 
-    /* Chat Steam : plus petit et plus discret que les raccourcis de la grille. */
+    /* Chat Steam v125 : plus petit, avec la bulle verte posée au coin inférieur droit. */
     html body .app .draw .title .steam-chat-top{
-      width:30px!important;
-      height:30px!important;
-      min-width:30px!important;
-      min-height:30px!important;
-      max-width:30px!important;
-      max-height:30px!important;
+      width:26px!important;
+      height:26px!important;
+      min-width:26px!important;
+      min-height:26px!important;
+      max-width:26px!important;
+      max-height:26px!important;
       overflow:visible!important;
     }
     html body .app .draw .title .steam-chat-top .steam-chat-glyph{
       position:relative!important;
       display:grid!important;
       place-items:center!important;
-      width:100%!important;
-      height:100%!important;
+      width:22px!important;
+      height:22px!important;
+      min-width:22px!important;
+      min-height:22px!important;
+      max-width:22px!important;
+      max-height:22px!important;
+      margin:auto!important;
       box-sizing:border-box!important;
       padding:0!important;
       background:none!important;
@@ -77,12 +82,12 @@
       inset:auto!important;
       display:block!important;
       visibility:visible!important;
-      width:84%!important;
-      height:84%!important;
+      width:100%!important;
+      height:100%!important;
       min-width:0!important;
       min-height:0!important;
-      max-width:84%!important;
-      max-height:84%!important;
+      max-width:100%!important;
+      max-height:100%!important;
       margin:auto!important;
       padding:0!important;
       transform:none!important;
@@ -94,18 +99,26 @@
       z-index:1!important;
     }
     html body .app .draw .title .steam-chat-top .steam-chat-badge{
-      width:9px!important;
-      height:9px!important;
-      right:0!important;
-      bottom:0!important;
-      padding:.45px!important;
+      width:8px!important;
+      height:8px!important;
+      min-width:8px!important;
+      min-height:8px!important;
+      max-width:8px!important;
+      max-height:8px!important;
+      right:-1px!important;
+      bottom:-1px!important;
+      padding:.35px!important;
+      background:var(--g)!important;
+      border:1px solid var(--p)!important;
+      border-radius:50%!important;
+      z-index:3!important;
     }
     html body .app .draw .title .steam-chat-top .steam-chat-badge svg{
-      width:6px!important;
-      height:6px!important;
+      width:5px!important;
+      height:5px!important;
     }
 
-    /* Gardées : garder la zone tactile, mais réduire nettement le pictogramme. */
+    /* Gardées v125 : légèrement plus grand, sans changer la zone tactile. */
     html body #k .wk{
       position:relative!important;
       display:grid!important;
@@ -122,12 +135,12 @@
       position:static!important;
       display:block!important;
       visibility:visible!important;
-      width:54%!important;
-      height:54%!important;
+      width:64%!important;
+      height:64%!important;
       min-width:0!important;
       min-height:0!important;
-      max-width:54%!important;
-      max-height:54%!important;
+      max-width:64%!important;
+      max-height:64%!important;
       margin:auto!important;
       padding:0!important;
       transform:none!important;
