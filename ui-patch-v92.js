@@ -231,7 +231,7 @@
 
     /* Le balisage final est déjà présent dans index.html : ne pas le remplacer
        après le premier affichage, ce qui ferait repeindre et redimensionner l'icône. */
-    if(!link.querySelector('.steam-chat-glyph')){
+    if(!link.querySelector('.steam-chat-glyph,.steam-chat-option-c')){
       let img=link.querySelector(':scope>img');
       if(!img){
         img=document.createElement('img');

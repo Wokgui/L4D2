@@ -46,7 +46,7 @@
       z-index:3!important;
     }
 
-    /* Chat Steam v125 : plus petit, avec la bulle verte posée au coin inférieur droit. */
+    /* Chat v126, option C : un seul disque vert avec une bulle blanche. */
     html body .app .draw .title .steam-chat-top{
       width:26px!important;
       height:26px!important;
@@ -56,66 +56,26 @@
       max-height:26px!important;
       overflow:visible!important;
     }
-    html body .app .draw .title .steam-chat-top .steam-chat-glyph{
-      position:relative!important;
-      display:grid!important;
-      place-items:center!important;
+    html body .app .draw .title .steam-chat-top .steam-chat-option-c{
+      position:absolute!important;
+      inset:2px!important;
+      display:block!important;
       width:22px!important;
       height:22px!important;
       min-width:22px!important;
       min-height:22px!important;
       max-width:22px!important;
       max-height:22px!important;
-      margin:auto!important;
       box-sizing:border-box!important;
       padding:0!important;
-      background:none!important;
       border-radius:50%!important;
-      overflow:visible!important;
-      contain:none!important;
-      clip-path:none!important;
+      overflow:hidden!important;
+      filter:drop-shadow(0 2px 3px rgba(37,38,31,.16))!important;
     }
-    html body .app .draw .title .steam-chat-top .steam-chat-glyph>img{
-      position:static!important;
-      left:auto!important;
-      top:auto!important;
-      inset:auto!important;
+    html body .app .draw .title .steam-chat-top .steam-chat-option-c>svg{
       display:block!important;
-      visibility:visible!important;
       width:100%!important;
       height:100%!important;
-      min-width:0!important;
-      min-height:0!important;
-      max-width:100%!important;
-      max-height:100%!important;
-      margin:auto!important;
-      padding:0!important;
-      transform:none!important;
-      object-fit:contain!important;
-      object-position:center!important;
-      border:0!important;
-      border-radius:50%!important;
-      background:transparent!important;
-      z-index:1!important;
-    }
-    html body .app .draw .title .steam-chat-top .steam-chat-badge{
-      width:8px!important;
-      height:8px!important;
-      min-width:8px!important;
-      min-height:8px!important;
-      max-width:8px!important;
-      max-height:8px!important;
-      right:-1px!important;
-      bottom:-1px!important;
-      padding:.35px!important;
-      background:var(--g)!important;
-      border:1px solid var(--p)!important;
-      border-radius:50%!important;
-      z-index:3!important;
-    }
-    html body .app .draw .title .steam-chat-top .steam-chat-badge svg{
-      width:5px!important;
-      height:5px!important;
     }
 
     /* Gardées v125 : légèrement plus grand, sans changer la zone tactile. */
@@ -193,6 +153,12 @@
     }
   `;
   document.head.appendChild(style);
+
+  function upgradeChatIcon(){
+    const link=document.querySelector('.steam-chat-top');
+    if(!link||link.querySelector('.steam-chat-option-c'))return;
+    link.innerHTML='<span class="steam-chat-option-c" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#2f796d"></circle><path fill="#fff" d="M9.5 8.5h13A2.5 2.5 0 0125 11v7a2.5 2.5 0 01-2.5 2.5h-6.7L11 24.2v-3.7H9.5A2.5 2.5 0 017 18v-7a2.5 2.5 0 012.5-2.5z"></path></svg></span>';
+  }
 
   function upgradeSteamImages(root=document){
     root.querySelectorAll?.('img[src="/steam-icon.png"],img[src="/steam-icon-fast.svg"],img[src="/steam-icon-user.png"]').forEach(img=>{
@@ -301,6 +267,7 @@
 
   /* Tout est mesuré dans le même rendu que l'insertion : aucun état intermédiaire visible. */
   window.fitDescription=fitDrawText;
+  upgradeChatIcon();
   upgradeSteamImages();
   fitDrawText();
 
