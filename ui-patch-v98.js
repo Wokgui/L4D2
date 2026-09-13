@@ -3,6 +3,94 @@
 
   const style=document.createElement('style');
   style.textContent=`
+    /* Steam v118 : une seule couche d'image au premier plan. Les anciens fonds
+       et agrandissements ne peuvent plus masquer une partie du logo. */
+    html body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon,
+    html body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon{
+      background:none!important;
+      overflow:visible!important;
+    }
+    html body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon>img,
+    html body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon>img{
+      position:absolute!important;
+      left:50%!important;
+      top:50%!important;
+      display:block!important;
+      visibility:visible!important;
+      width:100%!important;
+      height:100%!important;
+      min-width:100%!important;
+      min-height:100%!important;
+      max-width:100%!important;
+      max-height:100%!important;
+      margin:0!important;
+      padding:0!important;
+      transform:translate(-50%,-50%)!important;
+      object-fit:contain!important;
+      object-position:center!important;
+      border:0!important;
+      border-radius:50%!important;
+      background:transparent!important;
+      z-index:1!important;
+    }
+    html body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after,
+    html body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{
+      z-index:3!important;
+    }
+    html body .app .draw .title .steam-chat-top .steam-chat-glyph{
+      background:none!important;
+      display:grid!important;
+      place-items:center!important;
+    }
+    html body .app .draw .title .steam-chat-top .steam-chat-glyph>img{
+      position:absolute!important;
+      left:50%!important;
+      top:50%!important;
+      inset:auto!important;
+      display:block!important;
+      visibility:visible!important;
+      width:78%!important;
+      height:78%!important;
+      min-width:0!important;
+      min-height:0!important;
+      max-width:78%!important;
+      max-height:78%!important;
+      margin:0!important;
+      padding:0!important;
+      transform:translate(-50%,-50%)!important;
+      object-fit:contain!important;
+      object-position:center!important;
+      border:0!important;
+      border-radius:50%!important;
+      background:transparent!important;
+      z-index:1!important;
+    }
+    html body #k .wk{
+      background:none!important;
+      display:grid!important;
+      place-items:center!important;
+      overflow:visible!important;
+    }
+    html body #k .wk>img{
+      position:static!important;
+      display:block!important;
+      visibility:visible!important;
+      width:78%!important;
+      height:78%!important;
+      min-width:0!important;
+      min-height:0!important;
+      max-width:78%!important;
+      max-height:78%!important;
+      margin:0!important;
+      padding:0!important;
+      transform:none!important;
+      object-fit:contain!important;
+      object-position:center!important;
+      border:0!important;
+      border-radius:50%!important;
+      background:transparent!important;
+    }
+
     /* Le titre réserve une ou deux lignes dans la zone réellement libre entre les boutons. */
     html body .app .draw .res:not(.home-res) .result-card .rhead{
       --draw-title-inset:70px;
@@ -45,6 +133,12 @@
     }
   `;
   document.head.appendChild(style);
+
+  function upgradeSteamImages(root=document){
+    root.querySelectorAll?.('img[src="/steam-icon.png"],img[src="/steam-icon-fast.svg"]').forEach(img=>{
+      if(img.getAttribute('src')!=='/steam-icon-user.png')img.setAttribute('src','/steam-icon-user.png');
+    });
+  }
 
   function reserveActionSpace(title){
     const head=title&&title.closest('.rhead');
@@ -138,6 +232,7 @@
   }
 
   function fitDrawText(){
+    upgradeSteamImages();
     const card=document.querySelector('#res .result-card');
     if(!card)return;
     fitTitle(card.querySelector('.rname'));
@@ -146,6 +241,7 @@
 
   /* Tout est mesuré dans le même rendu que l'insertion : aucun état intermédiaire visible. */
   window.fitDescription=fitDrawText;
+  upgradeSteamImages();
   fitDrawText();
 
   const result=document.getElementById('res');
@@ -158,9 +254,16 @@
       queued=true;
       queueMicrotask(()=>{
         queued=false;
+        upgradeSteamImages(result);
         fitDrawText();
       });
     }).observe(result,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['style']});
   }
+
+  const kept=document.getElementById('k');
+  if(kept){
+    new MutationObserver(()=>upgradeSteamImages(kept)).observe(kept,{childList:true,subtree:true});
+  }
+
   window.addEventListener('resize',fitDrawText,{passive:true});
 })();
