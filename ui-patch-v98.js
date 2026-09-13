@@ -3,29 +3,39 @@
 
   const style=document.createElement('style');
   style.textContent=`
-    /* Steam v118 : une seule couche d'image au premier plan. Les anciens fonds
-       et agrandissements ne peuvent plus masquer une partie du logo. */
+    /* Steam v123 : le cercle reste entièrement lisible sur fond clair.
+       Le conteneur garde exactement son gabarit historique ; un fond bleu plein
+       et un léger retrait empêchent le bras blanc du logo de se confondre avec la tuile. */
     html body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon,
     html body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon{
-      background:none!important;
+      position:relative!important;
+      display:grid!important;
+      place-items:center!important;
+      box-sizing:border-box!important;
+      padding:2px!important;
+      background:#071b4d!important;
+      border-radius:50%!important;
       overflow:visible!important;
+      contain:none!important;
+      clip-path:none!important;
     }
     html body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon>img,
     html body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon>img{
-      position:absolute!important;
-      left:50%!important;
-      top:50%!important;
+      position:static!important;
+      left:auto!important;
+      top:auto!important;
+      inset:auto!important;
       display:block!important;
       visibility:visible!important;
       width:100%!important;
       height:100%!important;
-      min-width:100%!important;
-      min-height:100%!important;
+      min-width:0!important;
+      min-height:0!important;
       max-width:100%!important;
       max-height:100%!important;
       margin:0!important;
       padding:0!important;
-      transform:translate(-50%,-50%)!important;
+      transform:none!important;
       object-fit:contain!important;
       object-position:center!important;
       border:0!important;
@@ -38,16 +48,18 @@
       z-index:3!important;
     }
 
-    /* Chat Steam v122 : l'image reste dans son propre conteneur. L'ancien
-       positionnement absolu la positionnait par rapport au titre et la coupait. */
+    /* Chat Steam : même logo complet, volontairement plus discret. */
     html body .app .draw .title .steam-chat-top{
       overflow:visible!important;
     }
     html body .app .draw .title .steam-chat-top .steam-chat-glyph{
       position:relative!important;
-      background:none!important;
       display:grid!important;
       place-items:center!important;
+      box-sizing:border-box!important;
+      padding:1px!important;
+      background:#071b4d!important;
+      border-radius:50%!important;
       overflow:visible!important;
       contain:none!important;
       clip-path:none!important;
@@ -75,11 +87,19 @@
       background:transparent!important;
       z-index:1!important;
     }
+
+    /* Gardées : même traitement que le chat, sans agrandir la zone tactile. */
     html body #k .wk{
-      background:none!important;
+      position:relative!important;
       display:grid!important;
       place-items:center!important;
+      box-sizing:border-box!important;
+      padding:1px!important;
+      background:#071b4d!important;
+      border-radius:50%!important;
       overflow:visible!important;
+      contain:none!important;
+      clip-path:none!important;
     }
     html body #k .wk>img{
       position:static!important;
@@ -91,7 +111,7 @@
       min-height:0!important;
       max-width:78%!important;
       max-height:78%!important;
-      margin:0!important;
+      margin:auto!important;
       padding:0!important;
       transform:none!important;
       object-fit:contain!important;
