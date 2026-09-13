@@ -1,31 +1,6 @@
 (()=>{
   'use strict';
 
-  /* v113 — l'icône Steam est préparée sans toucher à la géométrie de la page.
-     Toute la hauteur de l'accueil est désormais fixée dans le CSS initial. */
-  const primeSteamIcon=new Image(40,40);
-  primeSteamIcon.decoding='sync';
-  primeSteamIcon.fetchPriority='high';
-  primeSteamIcon.src='/steam-icon.png';
-  if(typeof primeSteamIcon.decode==='function')primeSteamIcon.decode().catch(()=>{});
-  document.querySelectorAll('img[src="/steam-icon.png"]').forEach(img=>{
-    img.decoding='sync';
-    img.fetchPriority='high';
-  });
-
-  if(typeof w==='function'){
-    w=function(u,id){
-      const icon='<img src="/steam-icon.png" alt="Steam" width="40" height="40" decoding="sync" fetchpriority="high">';
-      return u
-        ?`<a class=wk target=_blank rel=noopener href="${E(u)}" aria-label="Ouvrir sur le Workshop Steam">${icon}</a>`
-        :`<button type=button class="wk empty-workshop" data-wid="${E(id)}" aria-label="Ajouter le lien Workshop Steam">${icon}</button>`;
-    };
-  }
-})();
-
-(()=>{
-  'use strict';
-
   const style=document.createElement('style');
   style.textContent=`
     /* Autres campagnes : le bouton Modifier reste seul et centré quand la fiche est fermée. */
