@@ -1,5 +1,5 @@
-const CACHE="catalogue-l4d2-20260913-115";
-const SHELL=["/","/app.js?v=20260813-82","/polish.css?v=20260823-99","/layout-air-v80.css?v=20260825-108","/bootstrap-data.js?v=20260810-3","/ui-patch-v84.js?v=20260820-92","/ui-patch-v88.js?v=20260814-97","/ui-patch-v92.js?v=20260823-99","/ui-patch-v93.js?v=20260815-5","/ui-patch-v96.js?v=20260823-99","/ui-patch-v97.js?v=20260823-1","/ui-patch-v98.js?v=20260823-1","/campaign-icon.jpg","/welcome-cover.png","/l4d2-final-192-v52.png","/l4d2-splash-safe-512-v101.png?v=20260823-101","/l4d2-maskable-512-v53.png?v=20260823-105","/steam-icon.png","/steam-icon-fast.svg","/manifest.webmanifest?v=20260823-105","/cloud-backup.js?v=3","/secure-github-save.js?v=1","/vendor/supabase/supabase.js?v=1"];
+const CACHE="catalogue-l4d2-20260913-116";
+const SHELL=["/","/app.js?v=20260813-82","/polish.css?v=20260823-99","/layout-air-v80.css?v=20260825-108","/bootstrap-data.js?v=20260810-3","/ui-patch-v84.js?v=20260820-92","/ui-patch-v88.js?v=20260814-97","/ui-patch-v92.js?v=20260823-99","/ui-patch-v93.js?v=20260815-5","/ui-patch-v96.js?v=20260823-99","/ui-patch-v97.js?v=20260823-1","/ui-patch-v98.js?v=20260823-1","/campaign-icon.jpg","/welcome-cover.png","/l4d2-final-192-v52.png","/l4d2-splash-safe-512-v101.png?v=20260823-101","/l4d2-maskable-512-v53.png?v=20260823-105","/steam-icon-fast.svg","/manifest.webmanifest?v=20260823-105","/cloud-backup.js?v=3","/secure-github-save.js?v=1","/vendor/supabase/supabase.js?v=1"];
 const STATIC_DESTINATIONS=new Set(["style","script","image","font","manifest"]);
 const sameOrigin=request=>new URL(request.url).origin===self.location.origin;
 const cacheResponse=(request,response)=>{if(response&&response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(request,copy));}return response;};
@@ -9,6 +9,13 @@ self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=
 self.addEventListener("fetch",event=>{
   const request=event.request;
   if(request.method!=="GET")return;
+
+  if(sameOrigin(request)&&new URL(request.url).pathname==="/steam-icon.png"){
+    event.respondWith(
+      caches.match("/steam-icon-fast.svg").then(hit=>hit||fetch("/steam-icon-fast.svg",{cache:"no-store"}).then(response=>cacheResponse(new Request("/steam-icon-fast.svg"),response)))
+    );
+    return;
+  }
 
   if(sameOrigin(request)&&STATIC_DESTINATIONS.has(request.destination)){
     event.respondWith(
