@@ -285,7 +285,7 @@
   background-image:url('/steam-icon-fast.svg')!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
-  background-size:178% 178%!important;
+  background-size:100% 100%!important;
 }
 .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon img,
 .draw .res.home-res .welcome-actions .news .welcome-steam-icon img{
