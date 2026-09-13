@@ -1,6 +1,77 @@
 (()=>{
   'use strict';
 
+  /* v111 — aucun changement de géométrie après le premier rendu.
+     v91 recalcule encore la hauteur de navigation et layout-air v109 réactive 100dvh.
+     On verrouille ici les valeurs déterminées avant le premier rendu, puis on les
+     réapplique dans le même événement si Chrome modifie son viewport visuel. */
+  const root=document.documentElement;
+  const lockViewportGeometry=()=>{
+    const compact=root.dataset.l4d2Height==='compact';
+    root.style.setProperty('--l4d2-nav-height',compact?'56px':'58px');
+  };
+  lockViewportGeometry();
+
+  const stableStyle=document.createElement('style');
+  stableStyle.textContent=`
+    @media(max-width:420px){
+      html[data-l4d2-height] body .app>.draw.page.on{
+        height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
+        max-height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
+      }
+    }
+    #k .wk{
+      width:40px!important;
+      height:40px!important;
+      min-width:40px!important;
+      min-height:40px!important;
+      max-width:40px!important;
+      max-height:40px!important;
+      contain:layout paint!important;
+    }
+    #k .wk img{
+      display:block!important;
+      width:40px!important;
+      height:40px!important;
+      min-width:40px!important;
+      min-height:40px!important;
+      max-width:40px!important;
+      max-height:40px!important;
+      object-fit:contain!important;
+    }
+  `;
+  document.head.appendChild(stableStyle);
+
+  /* Le PNG Steam est déjà préchargé dans index.html. decode() le prépare aussi
+     pour la première ouverture de « Gardées » afin d'éviter une frame vide. */
+  const primeSteamIcon=new Image(40,40);
+  primeSteamIcon.decoding='sync';
+  primeSteamIcon.fetchPriority='high';
+  primeSteamIcon.src='/steam-icon.png';
+  if(typeof primeSteamIcon.decode==='function')primeSteamIcon.decode().catch(()=>{});
+  document.querySelectorAll('img[src="/steam-icon.png"]').forEach(img=>{
+    img.decoding='sync';
+    img.fetchPriority='high';
+  });
+
+  /* Les icônes créées par kept() ont dès leur insertion leurs dimensions finales
+     et demandent un décodage synchrone du fichier déjà en cache. */
+  if(typeof w==='function'){
+    w=function(u,id){
+      const icon='<img src="/steam-icon.png" alt="Steam" width="40" height="40" decoding="sync" fetchpriority="high">';
+      return u
+        ?`<a class=wk target=_blank rel=noopener href="${E(u)}" aria-label="Ouvrir sur le Workshop Steam">${icon}</a>`
+        :`<button type=button class="wk empty-workshop" data-wid="${E(id)}" aria-label="Ajouter le lien Workshop Steam">${icon}</button>`;
+    };
+  }
+
+  window.addEventListener('resize',lockViewportGeometry,{passive:true});
+  if(window.visualViewport)window.visualViewport.addEventListener('resize',lockViewportGeometry,{passive:true});
+})();
+
+(()=>{
+  'use strict';
+
   const style=document.createElement('style');
   style.textContent=`
     /* Autres campagnes : le bouton Modifier reste seul et centré quand la fiche est fermée. */
