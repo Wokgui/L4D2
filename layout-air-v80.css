@@ -271,9 +271,9 @@
   }
 }
 
-/* v111 — stabilité du premier rendu.
-   La géométrie finale des raccourcis Steam était encore injectée après affichage
-   par ui-patch-v84/v92. On l'applique maintenant dès le chargement du CSS. */
+/* v111/v114 — géométrie et pictogrammes définitifs dès le premier rendu.
+   Les raccourcis Steam n'utilisent plus le PNG 3840×2160 pour leur premier paint :
+   un petit SVG dédié est peint en fond immédiatement, sans décodage raster tardif. */
 .draw .res.home-res .welcome-actions{
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
 }
@@ -282,19 +282,14 @@
   position:relative!important;
   overflow:visible!important;
   contain:layout!important;
+  background-image:url('/steam-icon-fast.svg')!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:178% 178%!important;
 }
 .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon img,
 .draw .res.home-res .welcome-actions .news .welcome-steam-icon img{
-  position:absolute!important;
-  left:50%!important;
-  top:50%!important;
-  width:178%!important;
-  height:178%!important;
-  max-width:none!important;
-  max-height:none!important;
-  transform:translate(-50%,-50%)!important;
-  object-fit:contain!important;
-  border-radius:50%!important;
+  display:none!important;
 }
 .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after{
   content:"+"!important;
@@ -312,22 +307,26 @@
   right:-8px!important;
   bottom:-6px!important;
 }
+.draw .steam-chat-top .steam-chat-glyph{
+  background-image:url('/steam-icon-fast.svg')!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:contain!important;
+}
+.draw .steam-chat-top .steam-chat-glyph>img{
+  visibility:hidden!important;
+}
 
-/* Gardées : le même logo Steam est également peint en fond de la case.
-   Il est donc visible dans le premier rendu de la liste, sans attendre le paint
-   du <img> créé dynamiquement par kept(). L'image enfant reste en place et se
-   superpose ensuite à l'identique, sans changement visuel. */
+/* Gardées : le pictogramme léger est peint par le CSS lui-même. Le PNG enfant
+   reste dans le balisage historique mais n'est plus rendu, donc aucun repaint tardif. */
 #k .wk{
-  background-image:url('/steam-icon.png')!important;
+  background-image:url('/steam-icon-fast.svg')!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
   background-size:contain!important;
 }
 #k .wk img{
-  display:block!important;
-  width:100%!important;
-  height:100%!important;
-  object-fit:contain!important;
+  display:none!important;
 }
 
 @media(max-width:420px){
