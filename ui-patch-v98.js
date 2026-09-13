@@ -37,15 +37,25 @@
     html body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{
       z-index:3!important;
     }
+
+    /* Chat Steam v122 : l'image reste dans son propre conteneur. L'ancien
+       positionnement absolu la positionnait par rapport au titre et la coupait. */
+    html body .app .draw .title .steam-chat-top{
+      overflow:visible!important;
+    }
     html body .app .draw .title .steam-chat-top .steam-chat-glyph{
+      position:relative!important;
       background:none!important;
       display:grid!important;
       place-items:center!important;
+      overflow:visible!important;
+      contain:none!important;
+      clip-path:none!important;
     }
     html body .app .draw .title .steam-chat-top .steam-chat-glyph>img{
-      position:absolute!important;
-      left:50%!important;
-      top:50%!important;
+      position:static!important;
+      left:auto!important;
+      top:auto!important;
       inset:auto!important;
       display:block!important;
       visibility:visible!important;
@@ -55,9 +65,9 @@
       min-height:0!important;
       max-width:78%!important;
       max-height:78%!important;
-      margin:0!important;
+      margin:auto!important;
       padding:0!important;
-      transform:translate(-50%,-50%)!important;
+      transform:none!important;
       object-fit:contain!important;
       object-position:center!important;
       border:0!important;
