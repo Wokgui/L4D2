@@ -46,76 +46,71 @@
       z-index:3!important;
     }
 
-    /* Chat Steam v125 : plus petit, avec la bulle verte posée au coin inférieur droit. */
+    /* Chat v126 : option C, uniquement une bulle de discussion verte. */
     html body .app .draw .title .steam-chat-top{
+      position:absolute!important;
+      left:50%!important;
+      top:50%!important;
+      transform:translate(-50%,-50%)!important;
       width:26px!important;
       height:26px!important;
       min-width:26px!important;
       min-height:26px!important;
       max-width:26px!important;
       max-height:26px!important;
-      overflow:visible!important;
-    }
-    html body .app .draw .title .steam-chat-top .steam-chat-glyph{
-      position:relative!important;
+      padding:0!important;
       display:grid!important;
       place-items:center!important;
-      width:22px!important;
-      height:22px!important;
-      min-width:22px!important;
-      min-height:22px!important;
-      max-width:22px!important;
-      max-height:22px!important;
-      margin:auto!important;
-      box-sizing:border-box!important;
-      padding:0!important;
-      background:none!important;
-      border-radius:50%!important;
-      overflow:visible!important;
-      contain:none!important;
-      clip-path:none!important;
-    }
-    html body .app .draw .title .steam-chat-top .steam-chat-glyph>img{
-      position:static!important;
-      left:auto!important;
-      top:auto!important;
-      inset:auto!important;
-      display:block!important;
-      visibility:visible!important;
-      width:100%!important;
-      height:100%!important;
-      min-width:0!important;
-      min-height:0!important;
-      max-width:100%!important;
-      max-height:100%!important;
-      margin:auto!important;
-      padding:0!important;
-      transform:none!important;
-      object-fit:contain!important;
-      object-position:center!important;
       border:0!important;
       border-radius:50%!important;
-      background:transparent!important;
+      background:var(--g)!important;
+      color:var(--g)!important;
+      text-decoration:none!important;
+      box-shadow:none!important;
+      overflow:hidden!important;
+      transition:none!important;
+      animation:none!important;
+      -webkit-tap-highlight-color:transparent!important;
+    }
+    html body .app .draw .title .steam-chat-top>img,
+    html body .app .draw .title .steam-chat-top .steam-chat-glyph,
+    html body .app .draw .title .steam-chat-top .steam-chat-badge{
+      display:none!important;
+    }
+    html body .app .draw .title .steam-chat-top:before{
+      content:""!important;
+      position:absolute!important;
+      left:50%!important;
+      top:50%!important;
+      width:15px!important;
+      height:11px!important;
+      transform:translate(-50%,-52%)!important;
+      background:#fff!important;
+      border-radius:6px!important;
+      clip-path:polygon(0 0,100% 0,100% 76%,58% 76%,39% 100%,40% 76%,0 76%)!important;
       z-index:1!important;
     }
-    html body .app .draw .title .steam-chat-top .steam-chat-badge{
-      width:8px!important;
-      height:8px!important;
-      min-width:8px!important;
-      min-height:8px!important;
-      max-width:8px!important;
-      max-height:8px!important;
-      right:-1px!important;
-      bottom:-1px!important;
-      padding:.35px!important;
-      background:var(--g)!important;
-      border:1px solid var(--p)!important;
-      border-radius:50%!important;
-      z-index:3!important;
+    html body .app .draw .title .steam-chat-top:after{
+      content:"•••"!important;
+      position:absolute!important;
+      left:0!important;
+      right:0!important;
+      top:8px!important;
+      z-index:2!important;
+      color:var(--g)!important;
+      font-size:5.5px!important;
+      font-weight:900!important;
+      line-height:1!important;
+      letter-spacing:.2px!important;
+      text-align:center!important;
     }
-    html body .app .draw .title .steam-chat-top .steam-chat-badge svg{
-      width:5px!important;
-      height:5px!important;
+    html body .app .draw .title .steam-chat-top:hover,
+    html body .app .draw .title .steam-chat-top:focus,
+    html body .app .draw .title .steam-chat-top:active{
+      transform:translate(-50%,-50%)!important;
+      background:var(--g)!important;
+      color:var(--g)!important;
+      outline:0!important;
     }
 
     /* Gardées v125 : légèrement plus grand, sans changer la zone tactile. */
