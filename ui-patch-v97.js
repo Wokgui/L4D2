@@ -1,49 +1,8 @@
 (()=>{
   'use strict';
 
-  /* v112 — verrouille la géométrie choisie avant le premier rendu.
-     v91 mesure encore la barre après chargement et v109 utilise 100dvh ;
-     cette règle finale garde la hauteur de démarrage stable pendant les
-     variations de barres Chrome sans changer de mode compact/régulier. */
-  const root=document.documentElement;
-  const lockViewportGeometry=()=>{
-    const compact=root.dataset.l4d2Height==='compact';
-    root.style.setProperty('--l4d2-nav-height',compact?'56px':'58px');
-  };
-  lockViewportGeometry();
-
-  const stableStyle=document.createElement('style');
-  stableStyle.textContent=`
-    @media(max-width:420px){
-      html[data-l4d2-height] body .app>.draw.page.on{
-        height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
-        max-height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
-      }
-    }
-    #k .wk{
-      width:40px!important;
-      height:40px!important;
-      min-width:40px!important;
-      min-height:40px!important;
-      max-width:40px!important;
-      max-height:40px!important;
-      contain:layout paint!important;
-    }
-    #k .wk img{
-      display:block!important;
-      width:40px!important;
-      height:40px!important;
-      min-width:40px!important;
-      min-height:40px!important;
-      max-width:40px!important;
-      max-height:40px!important;
-      object-fit:contain!important;
-    }
-  `;
-  document.head.appendChild(stableStyle);
-
-  /* Le logo est préchargé dans index.html ; on force aussi son décodage avant
-     la première construction de la liste Gardées. */
+  /* v113 — l'icône Steam est préparée sans toucher à la géométrie de la page.
+     Toute la hauteur de l'accueil est désormais fixée dans le CSS initial. */
   const primeSteamIcon=new Image(40,40);
   primeSteamIcon.decoding='sync';
   primeSteamIcon.fetchPriority='high';
@@ -62,9 +21,6 @@
         :`<button type=button class="wk empty-workshop" data-wid="${E(id)}" aria-label="Ajouter le lien Workshop Steam">${icon}</button>`;
     };
   }
-
-  window.addEventListener('resize',lockViewportGeometry,{passive:true});
-  if(window.visualViewport)window.visualViewport.addEventListener('resize',lockViewportGeometry,{passive:true});
 })();
 
 (()=>{
