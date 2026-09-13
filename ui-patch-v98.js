@@ -3,17 +3,15 @@
 
   const style=document.createElement('style');
   style.textContent=`
-    /* Steam v123 : le cercle reste entièrement lisible sur fond clair.
-       Le conteneur garde exactement son gabarit historique ; un fond bleu plein
-       et un léger retrait empêchent le bras blanc du logo de se confondre avec la tuile. */
+    /* Steam v124 : logo retracé depuis l'image fournie, sans fond ni anneau ajouté. */
     html body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon,
     html body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon{
       position:relative!important;
       display:grid!important;
       place-items:center!important;
       box-sizing:border-box!important;
-      padding:2px!important;
-      background:#071b4d!important;
+      padding:0!important;
+      background:none!important;
       border-radius:50%!important;
       overflow:visible!important;
       contain:none!important;
@@ -48,17 +46,25 @@
       z-index:3!important;
     }
 
-    /* Chat Steam : même logo complet, volontairement plus discret. */
+    /* Chat Steam : plus petit et plus discret que les raccourcis de la grille. */
     html body .app .draw .title .steam-chat-top{
+      width:30px!important;
+      height:30px!important;
+      min-width:30px!important;
+      min-height:30px!important;
+      max-width:30px!important;
+      max-height:30px!important;
       overflow:visible!important;
     }
     html body .app .draw .title .steam-chat-top .steam-chat-glyph{
       position:relative!important;
       display:grid!important;
       place-items:center!important;
+      width:100%!important;
+      height:100%!important;
       box-sizing:border-box!important;
-      padding:1px!important;
-      background:#071b4d!important;
+      padding:0!important;
+      background:none!important;
       border-radius:50%!important;
       overflow:visible!important;
       contain:none!important;
@@ -71,12 +77,12 @@
       inset:auto!important;
       display:block!important;
       visibility:visible!important;
-      width:78%!important;
-      height:78%!important;
+      width:84%!important;
+      height:84%!important;
       min-width:0!important;
       min-height:0!important;
-      max-width:78%!important;
-      max-height:78%!important;
+      max-width:84%!important;
+      max-height:84%!important;
       margin:auto!important;
       padding:0!important;
       transform:none!important;
@@ -87,15 +93,26 @@
       background:transparent!important;
       z-index:1!important;
     }
+    html body .app .draw .title .steam-chat-top .steam-chat-badge{
+      width:9px!important;
+      height:9px!important;
+      right:0!important;
+      bottom:0!important;
+      padding:.45px!important;
+    }
+    html body .app .draw .title .steam-chat-top .steam-chat-badge svg{
+      width:6px!important;
+      height:6px!important;
+    }
 
-    /* Gardées : même traitement que le chat, sans agrandir la zone tactile. */
+    /* Gardées : garder la zone tactile, mais réduire nettement le pictogramme. */
     html body #k .wk{
       position:relative!important;
       display:grid!important;
       place-items:center!important;
       box-sizing:border-box!important;
-      padding:1px!important;
-      background:#071b4d!important;
+      padding:0!important;
+      background:none!important;
       border-radius:50%!important;
       overflow:visible!important;
       contain:none!important;
@@ -105,12 +122,12 @@
       position:static!important;
       display:block!important;
       visibility:visible!important;
-      width:78%!important;
-      height:78%!important;
+      width:54%!important;
+      height:54%!important;
       min-width:0!important;
       min-height:0!important;
-      max-width:78%!important;
-      max-height:78%!important;
+      max-width:54%!important;
+      max-height:54%!important;
       margin:auto!important;
       padding:0!important;
       transform:none!important;
@@ -165,8 +182,8 @@
   document.head.appendChild(style);
 
   function upgradeSteamImages(root=document){
-    root.querySelectorAll?.('img[src="/steam-icon.png"],img[src="/steam-icon-fast.svg"]').forEach(img=>{
-      if(img.getAttribute('src')!=='/steam-icon-user.png')img.setAttribute('src','/steam-icon-user.png');
+    root.querySelectorAll?.('img[src="/steam-icon.png"],img[src="/steam-icon-fast.svg"],img[src="/steam-icon-user.png"]').forEach(img=>{
+      if(img.getAttribute('src')!=='/steam-icon-exact-v124.svg')img.setAttribute('src','/steam-icon-exact-v124.svg');
     });
   }
 
