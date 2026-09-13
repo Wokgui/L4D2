@@ -271,9 +271,9 @@
   }
 }
 
-/* v111/v114 — géométrie et pictogrammes définitifs dès le premier rendu.
-   Les raccourcis Steam n'utilisent plus le PNG 3840×2160 pour leur premier paint :
-   un petit SVG dédié est peint en fond immédiatement, sans décodage raster tardif. */
+/* v111/v117 — pictogrammes Steam stables dès le premier rendu.
+   Abonnements et Nouveautés reprennent exactement le gabarit des raccourcis
+   Partenaires et Workshop, tout en utilisant l'icône fournie par l'utilisateur. */
 .draw .res.home-res .welcome-actions{
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
 }
@@ -282,7 +282,10 @@
   position:relative!important;
   overflow:visible!important;
   contain:layout!important;
-  background-image:url('/steam-icon-fast.svg')!important;
+  width:42px!important;
+  height:42px!important;
+  flex-basis:42px!important;
+  background-image:url('/steam-icon-user.png')!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
   background-size:100% 100%!important;
@@ -307,29 +310,42 @@
   right:-8px!important;
   bottom:-6px!important;
 }
+
+/* Chat : même nouvelle icône, mais visuellement plus discrète sans réduire la cible tactile. */
 .draw .steam-chat-top .steam-chat-glyph{
-  background-image:url('/steam-icon-fast.svg')!important;
+  background-image:url('/steam-icon-user.png')!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
-  background-size:contain!important;
+  background-size:78% 78%!important;
 }
 .draw .steam-chat-top .steam-chat-glyph>img{
   visibility:hidden!important;
 }
 
-/* Gardées : le pictogramme léger est peint par le CSS lui-même. Le PNG enfant
-   reste dans le balisage historique mais n'est plus rendu, donc aucun repaint tardif. */
+/* Gardées : la cible reste à sa taille actuelle, le pictogramme est volontairement plus aéré. */
 #k .wk{
-  background-image:url('/steam-icon-fast.svg')!important;
+  background-image:url('/steam-icon-user.png')!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
-  background-size:contain!important;
+  background-size:78% 78%!important;
 }
 #k .wk img{
   display:none!important;
 }
 
 @media(max-width:420px){
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon,
+  html[data-l4d2-height="regular"] body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon{
+    width:37px!important;
+    height:37px!important;
+    flex-basis:37px!important;
+  }
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon,
+  html[data-l4d2-height="compact"] body .app .draw .res.home-res .welcome-actions .news .welcome-steam-icon{
+    width:29px!important;
+    height:29px!important;
+    flex-basis:29px!important;
+  }
   .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after,
   .draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{
     right:-7px!important;
