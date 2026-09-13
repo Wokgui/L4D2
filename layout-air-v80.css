@@ -270,3 +270,77 @@
     max-height:calc(100dvh - var(--l4d2-nav-height) - env(safe-area-inset-bottom))!important;
   }
 }
+
+/* v111 — stabilité du premier rendu.
+   La géométrie finale des raccourcis Steam était encore injectée après affichage
+   par ui-patch-v84/v92. On l'applique maintenant dès le chargement du CSS. */
+.draw .res.home-res .welcome-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon,
+.draw .res.home-res .welcome-actions .news .welcome-steam-icon{
+  position:relative!important;
+  overflow:visible!important;
+  contain:layout!important;
+}
+.draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon img,
+.draw .res.home-res .welcome-actions .news .welcome-steam-icon img{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:178%!important;
+  height:178%!important;
+  max-width:none!important;
+  max-height:none!important;
+  transform:translate(-50%,-50%)!important;
+  object-fit:contain!important;
+  border-radius:50%!important;
+}
+.draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after{
+  content:"+"!important;
+  display:grid!important;
+  background:#2f796d!important;
+  color:#fff!important;
+  right:-8px!important;
+  bottom:-6px!important;
+}
+.draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{
+  content:"✦"!important;
+  display:grid!important;
+  background:#d8841f!important;
+  color:#fff!important;
+  right:-8px!important;
+  bottom:-6px!important;
+}
+
+/* Gardées : le même logo Steam est également peint en fond de la case.
+   Il est donc visible dans le premier rendu de la liste, sans attendre le paint
+   du <img> créé dynamiquement par kept(). L'image enfant reste en place et se
+   superpose ensuite à l'identique, sans changement visuel. */
+#k .wk{
+  background-image:url('/steam-icon.png')!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:contain!important;
+}
+#k .wk img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+}
+
+@media(max-width:420px){
+  .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after,
+  .draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{
+    right:-7px!important;
+    bottom:-5px!important;
+  }
+}
+@media(max-height:720px){
+  .draw .res.home-res .welcome-actions .subscriptions .welcome-steam-icon:after,
+  .draw .res.home-res .welcome-actions .news .welcome-steam-icon:after{
+    right:-6px!important;
+    bottom:-4px!important;
+  }
+}
