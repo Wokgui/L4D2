@@ -1,4 +1,4 @@
-const CACHE="catalogue-l4d2-20260913-118";
+const CACHE="catalogue-l4d2-20260913-119";
 const SHELL=["/","/app.js?v=20260813-82","/polish.css?v=20260823-99","/layout-air-v80.css?v=20260825-108","/bootstrap-data.js?v=20260810-3","/ui-patch-v84.js?v=20260820-92","/ui-patch-v88.js?v=20260814-97","/ui-patch-v92.js?v=20260823-99","/ui-patch-v93.js?v=20260815-5","/ui-patch-v96.js?v=20260823-99","/ui-patch-v97.js?v=20260823-1","/ui-patch-v98.js?v=20260823-1","/campaign-icon.jpg","/welcome-cover.png","/l4d2-final-192-v52.png","/l4d2-splash-safe-512-v101.png?v=20260823-101","/l4d2-maskable-512-v53.png?v=20260823-105","/steam-icon-user.png","/manifest.webmanifest?v=20260823-105","/cloud-backup.js?v=3","/secure-github-save.js?v=1","/vendor/supabase/supabase.js?v=1"];
 const STATIC_DESTINATIONS=new Set(["style","script","image","font","manifest"]);
 const LEGACY_STEAM_ICONS=new Set(["/steam-icon.png","/steam-icon-fast.svg"]);
@@ -6,7 +6,22 @@ const sameOrigin=request=>new URL(request.url).origin===self.location.origin;
 const cacheResponse=(request,response)=>{if(response&&response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(request,copy));}return response;};
 
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting())));
-self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
+self.addEventListener("activate",event=>event.waitUntil((async()=>{
+  const keys=await caches.keys();
+  const previous=keys.filter(key=>key!==CACHE);
+  const hadPreviousAppCache=previous.some(key=>key.startsWith("catalogue-l4d2-"));
+  await Promise.all(previous.map(key=>caches.delete(key)));
+  await self.clients.claim();
+
+  /* Une mise à jour pouvait auparavant s'installer pendant que la page restait
+     peinte avec les anciens CSS/JS jusqu'au lancement suivant. On recharge une
+     seule fois les fenêtres déjà ouvertes quand un ancien cache L4D2 existait,
+     afin que la nouvelle version contrôle immédiatement le rendu courant. */
+  if(hadPreviousAppCache){
+    const windows=await self.clients.matchAll({type:"window",includeUncontrolled:true});
+    await Promise.all(windows.map(client=>client.navigate(client.url).catch(()=>null)));
+  }
+})()));
 self.addEventListener("fetch",event=>{
   const request=event.request;
   if(request.method!=="GET")return;
