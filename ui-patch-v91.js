@@ -66,17 +66,9 @@
     title.appendChild(link);
   }
 
-  function setRealNavHeight(){
-    const nav=document.querySelector('.nav');
-    const height=nav?Math.ceil(nav.getBoundingClientRect().height):43;
-    document.documentElement.style.setProperty('--l4d2-nav-height',height+'px');
-  }
-
-  /* Aucun calcul après affichage : le CSS gère désormais toute la géométrie. */
+  /* La hauteur de navigation est fixée dans le <head> avant le premier rendu.
+     Ne jamais la remesurer ici : sur Android/PWA, cette mesure tardive pouvait
+     modifier la hauteur utile pendant le fondu du splash. */
   window.fitDescription=function(){};
-
   installSteamChatShortcut();
-  setRealNavHeight();
-  window.addEventListener('resize',setRealNavHeight,{passive:true});
-  if(window.visualViewport)window.visualViewport.addEventListener('resize',setRealNavHeight,{passive:true});
 })();

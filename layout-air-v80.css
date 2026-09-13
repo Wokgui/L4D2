@@ -344,3 +344,18 @@
     bottom:-4px!important;
   }
 }
+
+/* v113 — verrouillage avant le premier rendu, sans dépendance à 100dvh ni à une
+   mesure JS tardive. Le mode (compact/régulier) et la hauteur de départ sont
+   choisis dans le <head>; ces dimensions restent donc identiques pendant le
+   fondu du splash Android et les changements de barres système. */
+@media(max-width:420px){
+  html[data-l4d2-height="regular"] body .app>#d.draw.page.on{
+    height:calc(var(--l4d2-start-height) - 58px)!important;
+    max-height:calc(var(--l4d2-start-height) - 58px)!important;
+  }
+  html[data-l4d2-height="compact"] body .app>#d.draw.page.on{
+    height:calc(var(--l4d2-start-height) - 56px)!important;
+    max-height:calc(var(--l4d2-start-height) - 56px)!important;
+  }
+}
