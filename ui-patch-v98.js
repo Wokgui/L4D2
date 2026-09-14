@@ -46,11 +46,14 @@
       z-index:3!important;
     }
 
-    /* Chat v126 : option C, uniquement une bulle de discussion verte. */
+    /* Chat v127 : pictogramme vectoriel propre, aligné sur la ligne principale du bandeau. */
+    html body .app .draw .title{
+      position:relative!important;
+    }
     html body .app .draw .title .steam-chat-top{
       position:absolute!important;
       left:50%!important;
-      top:50%!important;
+      top:calc(50% - 14px)!important;
       transform:translate(-50%,-50%)!important;
       width:26px!important;
       height:26px!important;
@@ -59,57 +62,45 @@
       max-width:26px!important;
       max-height:26px!important;
       padding:0!important;
-      display:grid!important;
-      place-items:center!important;
+      margin:0!important;
+      display:block!important;
       border:0!important;
       border-radius:50%!important;
-      background:var(--g)!important;
-      color:var(--g)!important;
+      background-color:transparent!important;
+      background-image:url('/chat-icon-top-v127.svg')!important;
+      background-position:center!important;
+      background-repeat:no-repeat!important;
+      background-size:26px 26px!important;
+      color:inherit!important;
       text-decoration:none!important;
       box-shadow:none!important;
-      overflow:hidden!important;
+      overflow:visible!important;
       transition:none!important;
       animation:none!important;
       -webkit-tap-highlight-color:transparent!important;
+      z-index:8!important;
     }
     html body .app .draw .title .steam-chat-top>img,
     html body .app .draw .title .steam-chat-top .steam-chat-glyph,
     html body .app .draw .title .steam-chat-top .steam-chat-badge{
       display:none!important;
     }
-    html body .app .draw .title .steam-chat-top:before{
-      content:""!important;
-      position:absolute!important;
-      left:50%!important;
-      top:50%!important;
-      width:15px!important;
-      height:11px!important;
-      transform:translate(-50%,-52%)!important;
-      background:#fff!important;
-      border-radius:6px!important;
-      clip-path:polygon(0 0,100% 0,100% 76%,58% 76%,39% 100%,40% 76%,0 76%)!important;
-      z-index:1!important;
-    }
+    html body .app .draw .title .steam-chat-top:before,
     html body .app .draw .title .steam-chat-top:after{
-      content:"•••"!important;
-      position:absolute!important;
-      left:0!important;
-      right:0!important;
-      top:8px!important;
-      z-index:2!important;
-      color:var(--g)!important;
-      font-size:5.5px!important;
-      font-weight:900!important;
-      line-height:1!important;
-      letter-spacing:.2px!important;
-      text-align:center!important;
+      content:none!important;
+      display:none!important;
     }
     html body .app .draw .title .steam-chat-top:hover,
     html body .app .draw .title .steam-chat-top:focus,
     html body .app .draw .title .steam-chat-top:active{
       transform:translate(-50%,-50%)!important;
-      background:var(--g)!important;
-      color:var(--g)!important;
+      background-color:transparent!important;
+      background-image:url('/chat-icon-top-v127.svg')!important;
+      background-position:center!important;
+      background-repeat:no-repeat!important;
+      background-size:26px 26px!important;
+      border:0!important;
+      box-shadow:none!important;
       outline:0!important;
     }
 
