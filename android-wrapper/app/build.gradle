@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+def generatedResDir = file("$buildDir/generated/res/l4d2")
+
 android {
     namespace 'com.wokgui.l4d2'
     compileSdk 35
@@ -13,4 +15,20 @@ android {
         versionCode 133
         versionName '1.33'
     }
+
+    sourceSets {
+        main {
+            res.srcDirs += generatedResDir
+        }
+    }
+}
+
+tasks.register('prepareAppIcon', Copy) {
+    from rootProject.file('../l4d2-final-192-v52.png')
+    into new File(generatedResDir, 'drawable')
+    rename { 'app_icon.png' }
+}
+
+tasks.named('preBuild').configure {
+    dependsOn 'prepareAppIcon'
 }
