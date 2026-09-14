@@ -24,3 +24,26 @@
     }
   });
 })();
+
+(()=>{
+  'use strict';
+
+  function alignTopChat(){
+    const title=document.querySelector('#d .title');
+    const brand=title&&title.querySelector('.title-brand');
+    const chat=title&&title.querySelector('.steam-chat-top');
+    if(!title||!brand||!chat)return;
+
+    const titleRect=title.getBoundingClientRect();
+    const brandRect=brand.getBoundingClientRect();
+    const brandCenterY=brandRect.top+(brandRect.height/2)-titleRect.top;
+
+    chat.style.setProperty('left','50%','important');
+    chat.style.setProperty('top',brandCenterY+'px','important');
+    chat.style.setProperty('transform','translate(-50%,-50%)','important');
+  }
+
+  alignTopChat();
+  requestAnimationFrame(alignTopChat);
+  window.addEventListener('resize',alignTopChat,{passive:true});
+})();
