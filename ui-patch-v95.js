@@ -47,7 +47,6 @@
       actions.appendChild(chat);
     }
 
-    /* L'ancien raccourci du bandeau est supprimé : il n'y a plus qu'un seul chat. */
     oldTop?.remove();
     legacyCenter?.remove();
 
@@ -58,12 +57,12 @@
     chat.style.setProperty('left','50%','important');
     chat.style.setProperty('top','50%','important');
     chat.style.setProperty('transform','translate(-50%,-50%)','important');
-    chat.style.setProperty('width','44px','important');
-    chat.style.setProperty('height','44px','important');
-    chat.style.setProperty('min-width','44px','important');
-    chat.style.setProperty('min-height','44px','important');
-    chat.style.setProperty('max-width','44px','important');
-    chat.style.setProperty('max-height','44px','important');
+    chat.style.setProperty('width','50px','important');
+    chat.style.setProperty('height','50px','important');
+    chat.style.setProperty('min-width','50px','important');
+    chat.style.setProperty('min-height','50px','important');
+    chat.style.setProperty('max-width','50px','important');
+    chat.style.setProperty('max-height','50px','important');
     chat.style.setProperty('margin','0','important');
     chat.style.setProperty('padding','0','important');
     chat.style.setProperty('display','block','important');
@@ -74,7 +73,7 @@
     chat.style.setProperty('background-image',"url('/chat-icon-top-v127.svg')",'important');
     chat.style.setProperty('background-position','center','important');
     chat.style.setProperty('background-repeat','no-repeat','important');
-    chat.style.setProperty('background-size','44px 44px','important');
+    chat.style.setProperty('background-size','50px 50px','important');
     chat.style.setProperty('box-shadow','0 2px 8px rgba(62,52,38,.14)','important');
     chat.style.setProperty('overflow','visible','important');
     chat.style.setProperty('z-index','12','important');
