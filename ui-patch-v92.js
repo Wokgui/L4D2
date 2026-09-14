@@ -105,90 +105,8 @@
     /* L'ancienne grande tuile "Campagne précédente" disparaît. */
     html body .draw .res:not(.home-res) .previous-draw-slot{display:none!important}
 
-    /* Chat Steam : logo seul, avec le petit badge vert posé sur son coin inférieur droit. */
-    .draw .title{position:relative!important}
-    .draw .steam-chat-top{
-      position:absolute!important;
-      left:50%!important;
-      top:50%!important;
-      transform:translate(-50%,-50%)!important;
-      z-index:8!important;
-      width:var(--steam-chat-size,40px)!important;
-      height:var(--steam-chat-size,40px)!important;
-      min-width:var(--steam-chat-size,40px)!important;
-      min-height:var(--steam-chat-size,40px)!important;
-      max-width:var(--steam-chat-size,40px)!important;
-      max-height:var(--steam-chat-size,40px)!important;
-      padding:0!important;
-      display:block!important;
-      border:0!important;
-      border-radius:0!important;
-      background:transparent!important;
-      color:inherit!important;
-      text-decoration:none!important;
-      box-shadow:none!important;
-      overflow:visible!important;
-      transition:none!important;
-      animation:none!important;
-      -webkit-tap-highlight-color:transparent!important;
-    }
-    .draw .steam-chat-top>img{
-      position:absolute!important;
-      left:0!important;
-      top:0!important;
-      transform:none!important;
-      display:block!important;
-      width:100%!important;
-      height:100%!important;
-      min-width:100%!important;
-      min-height:100%!important;
-      max-width:100%!important;
-      max-height:100%!important;
-      object-fit:contain!important;
-      border:0!important;
-      border-radius:50%!important;
-      background:transparent!important;
-      box-shadow:none!important;
-      transition:none!important;
-      animation:none!important;
-    }
-    .draw .steam-chat-top .steam-chat-badge{
-      position:absolute!important;
-      right:1px!important;
-      bottom:1px!important;
-      width:12px!important;
-      height:12px!important;
-      padding:.75px!important;
-      display:grid!important;
-      place-items:center!important;
-      border-radius:50%!important;
-      background:var(--g)!important;
-      color:#fff!important;
-      border:1.25px solid var(--p)!important;
-      box-shadow:none!important;
-      box-sizing:border-box!important;
-      overflow:hidden!important;
-      pointer-events:none!important;
-      z-index:2!important;
-    }
-    .draw .steam-chat-top .steam-chat-badge svg{
-      width:8px!important;
-      height:8px!important;
-      display:block!important;
-      fill:currentColor!important;
-      stroke:none!important;
-    }
-    .draw .steam-chat-top:hover,
-    .draw .steam-chat-top:focus,
-    .draw .steam-chat-top:active{
-      transform:translate(-50%,-50%)!important;
-      border:0!important;
-      background:transparent!important;
-      box-shadow:none!important;
-      color:inherit!important;
-      outline:0!important;
-      transition:none!important;
-    }
+    /* Le raccourci de chat historique du bandeau ne doit plus apparaître. */
+    html body #d .title .steam-chat-top{display:none!important}
 
     @media(max-height:720px){
       html body .draw .res:not(.home-res) .result-card .rhead{padding-left:62px!important;padding-right:62px!important}
@@ -198,57 +116,12 @@
       html body .draw .res:not(.home-res) .draw-previous-icon{left:34px!important}
       html body .draw .res:not(.home-res) .draw-kept-edit svg,
       html body .draw .res:not(.home-res) .draw-previous-icon svg{width:15px!important;height:15px!important}
-      .draw .steam-chat-top .steam-chat-badge{width:11px!important;height:11px!important;right:1px!important;bottom:1px!important;padding:.6px!important}
-      .draw .steam-chat-top .steam-chat-badge svg{width:7px!important;height:7px!important}
     }
   `;
   document.head.appendChild(style);
 
-  function syncSteamChatSize(){
-    const title=document.querySelector('.draw .title');
-    if(!title)return;
-    const campaignSteam=document.querySelector('#res .result-card .rhead .wk img')||document.querySelector('#res .result-card .rhead .wk');
-    if(!campaignSteam)return;
-    const rect=campaignSteam.getBoundingClientRect();
-    const size=Math.max(1,Math.round(Math.min(rect.width||0,rect.height||rect.width||0)));
-    if(size)title.style.setProperty('--steam-chat-size',size+'px');
-  }
-
-  function ensureSteamChat(){
-    const title=document.querySelector('.draw .title');
-    if(!title)return;
-    let link=title.querySelector('.steam-chat-top');
-    if(!link){
-      link=document.createElement('a');
-      link.className='steam-chat-top';
-      title.appendChild(link);
-    }
-    link.href='https://steamcommunity.com/chat/';
-    link.target='_blank';
-    link.rel='noopener';
-    link.setAttribute('aria-label','Ouvrir le Chat Steam');
-    link.title='Chat Steam';
-
-    /* Le balisage final est déjà présent dans index.html : ne pas le remplacer
-       après le premier affichage, ce qui ferait repeindre et redimensionner l'icône. */
-    if(!link.querySelector('.steam-chat-glyph')){
-      let img=link.querySelector(':scope>img');
-      if(!img){
-        img=document.createElement('img');
-        img.src='/steam-icon-user.png';
-        img.alt='';
-      }
-
-      let badge=link.querySelector('.steam-chat-badge');
-      if(!badge){
-        badge=document.createElement('span');
-        badge.className='steam-chat-badge';
-        badge.setAttribute('aria-hidden','true');
-        badge.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4V4zm3 4v2h10V8H7zm0 4v2h7v-2H7z"/></svg>';
-      }
-      link.replaceChildren(img,badge);
-    }
-    syncSteamChatSize();
+  function removeLegacyTopChat(){
+    document.querySelectorAll('#d .title .steam-chat-top').forEach(link=>link.remove());
   }
 
   function compactPreviousButton(){
@@ -269,9 +142,8 @@
   }
 
   function apply(){
-    ensureSteamChat();
+    removeLegacyTopChat();
     compactPreviousButton();
-    syncSteamChatSize();
   }
 
   apply();
@@ -290,5 +162,4 @@
     });
     observer.observe(root,{childList:true,subtree:true});
   }
-  window.addEventListener('resize',syncSteamChatSize,{passive:true});
 })();
