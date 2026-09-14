@@ -68,13 +68,15 @@
     chat.style.setProperty('display','block','important');
     chat.style.setProperty('box-sizing','border-box','important');
     chat.style.setProperty('border','0','important');
+    chat.style.setProperty('outline','0','important');
     chat.style.setProperty('border-radius','50%','important');
-    chat.style.setProperty('background-color','transparent','important');
+    chat.style.setProperty('background-color','#2f8d7c','important');
     chat.style.setProperty('background-image',"url('/chat-icon-top-v127.svg')",'important');
     chat.style.setProperty('background-position','center','important');
     chat.style.setProperty('background-repeat','no-repeat','important');
     chat.style.setProperty('background-size','50px 50px','important');
-    chat.style.setProperty('box-shadow','0 2px 8px rgba(62,52,38,.14)','important');
+    chat.style.setProperty('box-shadow','none','important');
+    chat.style.setProperty('filter','none','important');
     chat.style.setProperty('overflow','visible','important');
     chat.style.setProperty('z-index','12','important');
     chat.style.setProperty('text-decoration','none','important');
