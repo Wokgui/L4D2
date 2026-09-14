@@ -28,22 +28,49 @@
 (()=>{
   'use strict';
 
-  function alignTopChat(){
-    const title=document.querySelector('#d .title');
-    const brand=title&&title.querySelector('.title-brand');
-    const chat=title&&title.querySelector('.steam-chat-top');
-    if(!title||!brand||!chat)return;
+  function placeChatBetweenSteamTiles(){
+    const actions=document.querySelector('#d .welcome-actions');
+    const chat=document.querySelector('#d .steam-chat-top');
+    if(!actions||!chat)return;
 
-    const titleRect=title.getBoundingClientRect();
-    const brandRect=brand.getBoundingClientRect();
-    const brandCenterY=brandRect.top+(brandRect.height/2)-titleRect.top;
+    if(chat.parentElement!==actions)actions.appendChild(chat);
 
+    actions.style.setProperty('position','relative','important');
+    actions.style.setProperty('overflow','visible','important');
+
+    chat.style.setProperty('position','absolute','important');
     chat.style.setProperty('left','50%','important');
-    chat.style.setProperty('top',brandCenterY+'px','important');
+    chat.style.setProperty('top','50%','important');
     chat.style.setProperty('transform','translate(-50%,-50%)','important');
+    chat.style.setProperty('width','36px','important');
+    chat.style.setProperty('height','36px','important');
+    chat.style.setProperty('min-width','36px','important');
+    chat.style.setProperty('min-height','36px','important');
+    chat.style.setProperty('max-width','36px','important');
+    chat.style.setProperty('max-height','36px','important');
+    chat.style.setProperty('margin','0','important');
+    chat.style.setProperty('padding','3px','important');
+    chat.style.setProperty('display','block','important');
+    chat.style.setProperty('box-sizing','border-box','important');
+    chat.style.setProperty('border','3px solid #f6efe2','important');
+    chat.style.setProperty('border-radius','50%','important');
+    chat.style.setProperty('background-color','#f6efe2','important');
+    chat.style.setProperty('background-image',"url('/chat-icon-top-v127.svg')",'important');
+    chat.style.setProperty('background-position','center','important');
+    chat.style.setProperty('background-repeat','no-repeat','important');
+    chat.style.setProperty('background-size','28px 28px','important');
+    chat.style.setProperty('box-shadow','0 3px 10px rgba(62,52,38,.18)','important');
+    chat.style.setProperty('overflow','visible','important');
+    chat.style.setProperty('z-index','12','important');
+    chat.style.setProperty('text-decoration','none','important');
+
+    const glyph=chat.querySelector('.steam-chat-glyph');
+    if(glyph)glyph.style.setProperty('display','none','important');
+    chat.querySelectorAll('img,.steam-chat-badge,.steam-chat-corner-badge').forEach(node=>{
+      node.style.setProperty('display','none','important');
+    });
   }
 
-  alignTopChat();
-  requestAnimationFrame(alignTopChat);
-  window.addEventListener('resize',alignTopChat,{passive:true});
+  placeChatBetweenSteamTiles();
+  requestAnimationFrame(placeChatBetweenSteamTiles);
 })();
