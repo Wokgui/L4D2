@@ -81,6 +81,37 @@
     chat.style.setProperty('-webkit-tap-highlight-color','transparent','important');
   }
 
+  let scheduled=false;
+  function scheduleChatPlacement(){
+    if(scheduled)return;
+    scheduled=true;
+    requestAnimationFrame(()=>{
+      scheduled=false;
+      placeChatBetweenSteamTiles();
+    });
+  }
+
   placeChatBetweenSteamTiles();
-  requestAnimationFrame(placeChatBetweenSteamTiles);
+  scheduleChatPlacement();
+
+  /* La navigation masque/affiche les pages. On revérifie le bouton après chaque changement d’onglet. */
+  document.querySelectorAll('.nav button').forEach(button=>{
+    button.addEventListener('click',scheduleChatPlacement,{passive:true});
+  });
+
+  /* Si l’accueil est reconstruit par un autre patch, le bouton est recréé une seule fois. */
+  const drawPage=document.getElementById('d');
+  if(drawPage){
+    const observer=new MutationObserver(records=>{
+      if(!records.some(record=>record.type==='childList'))return;
+      const actions=drawPage.querySelector('.welcome-actions');
+      if(actions&&!actions.querySelector('.steam-chat-center'))scheduleChatPlacement();
+    });
+    observer.observe(drawPage,{childList:true,subtree:true});
+  }
+
+  /* Couvre aussi un aller-retour vers un autre onglet du navigateur/PWA. */
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden)scheduleChatPlacement();
+  },{passive:true});
 })();
