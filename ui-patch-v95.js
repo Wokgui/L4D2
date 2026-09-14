@@ -30,10 +30,26 @@
 
   function placeChatBetweenSteamTiles(){
     const actions=document.querySelector('#d .welcome-actions');
-    const chat=document.querySelector('#d .steam-chat-top');
-    if(!actions||!chat)return;
+    if(!actions)return;
 
-    if(chat.parentElement!==actions)actions.appendChild(chat);
+    const oldTop=document.querySelector('#d .title .steam-chat-top');
+    const legacyCenter=actions.querySelector('.steam-chat-top');
+    let chat=actions.querySelector('.steam-chat-center');
+
+    if(!chat){
+      chat=document.createElement('a');
+      chat.className='steam-chat-center';
+      chat.href=oldTop?.href||legacyCenter?.href||'https://steamcommunity.com/chat/';
+      chat.target='_blank';
+      chat.rel='noopener';
+      chat.title='Chat Steam';
+      chat.setAttribute('aria-label','Ouvrir le Chat Steam');
+      actions.appendChild(chat);
+    }
+
+    /* L'ancien raccourci du bandeau est supprimé : il n'y a plus qu'un seul chat. */
+    oldTop?.remove();
+    legacyCenter?.remove();
 
     actions.style.setProperty('position','relative','important');
     actions.style.setProperty('overflow','visible','important');
@@ -42,33 +58,28 @@
     chat.style.setProperty('left','50%','important');
     chat.style.setProperty('top','50%','important');
     chat.style.setProperty('transform','translate(-50%,-50%)','important');
-    chat.style.setProperty('width','36px','important');
-    chat.style.setProperty('height','36px','important');
-    chat.style.setProperty('min-width','36px','important');
-    chat.style.setProperty('min-height','36px','important');
-    chat.style.setProperty('max-width','36px','important');
-    chat.style.setProperty('max-height','36px','important');
+    chat.style.setProperty('width','44px','important');
+    chat.style.setProperty('height','44px','important');
+    chat.style.setProperty('min-width','44px','important');
+    chat.style.setProperty('min-height','44px','important');
+    chat.style.setProperty('max-width','44px','important');
+    chat.style.setProperty('max-height','44px','important');
     chat.style.setProperty('margin','0','important');
-    chat.style.setProperty('padding','3px','important');
+    chat.style.setProperty('padding','0','important');
     chat.style.setProperty('display','block','important');
     chat.style.setProperty('box-sizing','border-box','important');
-    chat.style.setProperty('border','3px solid #f6efe2','important');
+    chat.style.setProperty('border','0','important');
     chat.style.setProperty('border-radius','50%','important');
-    chat.style.setProperty('background-color','#f6efe2','important');
+    chat.style.setProperty('background-color','transparent','important');
     chat.style.setProperty('background-image',"url('/chat-icon-top-v127.svg')",'important');
     chat.style.setProperty('background-position','center','important');
     chat.style.setProperty('background-repeat','no-repeat','important');
-    chat.style.setProperty('background-size','28px 28px','important');
-    chat.style.setProperty('box-shadow','0 3px 10px rgba(62,52,38,.18)','important');
+    chat.style.setProperty('background-size','44px 44px','important');
+    chat.style.setProperty('box-shadow','0 2px 8px rgba(62,52,38,.14)','important');
     chat.style.setProperty('overflow','visible','important');
     chat.style.setProperty('z-index','12','important');
     chat.style.setProperty('text-decoration','none','important');
-
-    const glyph=chat.querySelector('.steam-chat-glyph');
-    if(glyph)glyph.style.setProperty('display','none','important');
-    chat.querySelectorAll('img,.steam-chat-badge,.steam-chat-corner-badge').forEach(node=>{
-      node.style.setProperty('display','none','important');
-    });
+    chat.style.setProperty('-webkit-tap-highlight-color','transparent','important');
   }
 
   placeChatBetweenSteamTiles();
