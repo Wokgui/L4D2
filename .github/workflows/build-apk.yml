@@ -14,8 +14,47 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - run: gradle -p android-wrapper :app:assembleDebug --no-daemon
+      - name: Build installable APK
+        run: gradle -p android-wrapper :app:assembleDebug --no-daemon
+      - name: Prepare APK and full restoration bundle
+        run: |
+          mkdir -p dist/bundle
+          cp android-wrapper/app/build/outputs/apk/debug/app-debug.apk dist/L4D2-v133.apk
+          git archive --format=zip --output=dist/L4D2-v133-sources-complets.zip HEAD
+          cp dist/L4D2-v133.apk dist/bundle/
+          cp dist/L4D2-v133-sources-complets.zip dist/bundle/
+          cat > dist/bundle/RESTAURATION.txt <<'EOF'
+          L4D2 - sauvegarde complète v133
+
+          Version web de référence : commit 87eb849719526c0fdc84d5f0e35f9b57ac40e79a
+          URL production : https://catalogue-l4d2.vercel.app/
+          Dépôt : Wokgui/L4D2
+
+          Contenu :
+          - L4D2-v133.apk : APK Android installable.
+          - L4D2-v133-sources-complets.zip : toutes les sources suivies par Git, y compris les données sauvegardées, le service worker, les assets et le projet Android de reconstruction.
+
+          Restauration du site :
+          1. Décompresser L4D2-v133-sources-complets.zip.
+          2. Remettre ces fichiers dans le dépôt Wokgui/L4D2.
+          3. La version web de référence correspond au commit indiqué ci-dessus.
+          4. Redéployer sur Vercel si nécessaire.
+
+          Restauration des données :
+          - Le dépôt contient data/catalogue-l4d2-sauvegarde.json.
+          - Les sauvegardes exportées depuis l'application peuvent aussi être réimportées via l'interface.
+
+          Reconstruction APK :
+          - Projet Android : android-wrapper/
+          - Java 17 + Gradle 8.9.
+          - Commande : gradle -p android-wrapper :app:assembleDebug --no-daemon
+          EOF
+          (cd dist/bundle && zip -r ../L4D2-v133-restauration-complete.zip .)
       - uses: actions/upload-artifact@v4
         with:
-          name: L4D2-v133-APK
-          path: android-wrapper/app/build/outputs/apk/debug/app-debug.apk
+          name: L4D2-v133-fichiers
+          path: |
+            dist/L4D2-v133.apk
+            dist/L4D2-v133-sources-complets.zip
+            dist/L4D2-v133-restauration-complete.zip
+          if-no-files-found: error
