@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-11T20:24:28.288Z",
+  "savedAt": "2026-09-15T19:34:28.356Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5888,6 +5888,15 @@
       "workshopUrl": "",
       "maps": 1,
       "difficulty": "facile"
+    },
+    {
+      "name": "Breaking point",
+      "remark": "Orange...",
+      "category": "Non",
+      "excelRow": 1789500857189,
+      "workshopUrl": "",
+      "maps": null,
+      "difficulty": "moyen"
     }
   ],
   "lastDrawn": null
