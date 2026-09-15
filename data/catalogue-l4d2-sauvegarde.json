@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-15T19:34:28.356Z",
+  "savedAt": "2026-09-15T19:34:40.576Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5894,6 +5894,15 @@
       "remark": "Orange...",
       "category": "Non",
       "excelRow": 1789500857189,
+      "workshopUrl": "",
+      "maps": null,
+      "difficulty": "moyen"
+    },
+    {
+      "name": "Slop toll",
+      "remark": "Variation de death toll sans intérêt",
+      "category": "Non",
+      "excelRow": 1789500874602,
       "workshopUrl": "",
       "maps": null,
       "difficulty": "moyen"
