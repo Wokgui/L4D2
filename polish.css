@@ -399,14 +399,14 @@ html body .app .draw .title .steam-chat-top{
   }
 }
 
-/* Sur mobile, la hauteur choisie avant le premier rendu reste verrouillée tant
-   que l'orientation ne change pas. Les barres du navigateur ne relancent plus
-   le breakpoint compact et ne peuvent plus déplacer ou redimensionner l'accueil. */
+/* Sur mobile, l'accueil suit la hauteur réellement disponible.
+   Ne pas figer la mesure prise pendant le splash Android : innerHeight peut être
+   temporairement trop petit et couper la seconde rangée des raccourcis Steam. */
 @media(max-width:420px){
   html[data-l4d2-height="compact"] body .app>.draw.page.on,
   html[data-l4d2-height="regular"] body .app>.draw.page.on{
-    height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
-    max-height:calc(var(--l4d2-start-height) - var(--l4d2-nav-height))!important;
+    height:calc(100dvh - var(--l4d2-nav-height))!important;
+    max-height:calc(100dvh - var(--l4d2-nav-height))!important;
   }
 
   html[data-l4d2-height="compact"] body .app>.draw.page.on{padding-top:8px!important}
