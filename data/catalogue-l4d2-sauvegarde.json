@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-24T09:44:09.915Z",
+  "savedAt": "2026-09-24T14:34:39.667Z",
   "campaigns": [
     {
       "id": "s0",
@@ -2229,6 +2229,17 @@
       "customPhoto": true,
       "excelRemark": "Bien mais chacune des 3 cartes et longue et difficile.",
       "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3798061830"
+    },
+    {
+      "name": "Poolcore",
+      "maps": 5,
+      "difficulty": "difficile",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3806552123",
+      "notes": "Beau, un peu répétitif, mais difficile sur la fin",
+      "excelRemark": "Beau, un peu répétitif, mais difficile sur la fin",
+      "photo": "",
+      "id": "x1790247906210",
+      "category": "Oui"
     }
   ],
   "otherCampaigns": [
@@ -5915,6 +5926,15 @@
       "excelRow": 1789758278682,
       "difficulty": "moyen",
       "workshopUrl": ""
+    },
+    {
+      "name": "Backroom : liminal",
+      "remark": "Pas assez intéressant",
+      "category": "Bof",
+      "excelRow": 1790260472316,
+      "workshopUrl": "",
+      "maps": 3,
+      "difficulty": "facile"
     }
   ],
   "lastDrawn": null
