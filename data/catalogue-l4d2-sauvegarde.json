@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-24T14:34:39.667Z",
+  "savedAt": "2026-09-24T18:38:12.603Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5934,6 +5934,15 @@
       "excelRow": 1790260472316,
       "workshopUrl": "",
       "maps": 3,
+      "difficulty": "facile"
+    },
+    {
+      "name": "Return Henan Erqi Square",
+      "remark": "N'importe quoi",
+      "category": "Non",
+      "excelRow": 1790261088755,
+      "workshopUrl": "",
+      "maps": 1,
       "difficulty": "facile"
     }
   ],
