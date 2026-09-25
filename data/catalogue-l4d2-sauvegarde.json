@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-25T09:35:09.199Z",
+  "savedAt": "2026-09-25T18:48:15.609Z",
   "campaigns": [
     {
       "id": "s0",
@@ -2220,26 +2220,26 @@
       "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3798061830"
     },
     {
-      "name": "Poolcore",
-      "maps": 5,
-      "difficulty": "difficile",
-      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3806552123",
-      "notes": "Beau, un peu répétitif, mais difficile sur la fin",
-      "excelRemark": "Beau, un peu répétitif, mais difficile sur la fin",
-      "photo": "",
       "id": "x1790247906210",
-      "category": "Oui"
+      "maps": 5,
+      "name": "Poolcore",
+      "notes": "Beau, un peu répétitif, mais difficile sur la fin",
+      "photo": "",
+      "category": "Oui",
+      "difficulty": "difficile",
+      "excelRemark": "Beau, un peu répétitif, mais difficile sur la fin",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3806552123"
     },
     {
-      "name": "Deep descent",
-      "maps": 4,
-      "difficulty": "difficile",
-      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2893097407",
-      "notes": "Vraiment difficile surtout la fin",
-      "excelRemark": "Vraiment difficile surtout la fin",
-      "photo": "",
       "id": "x1790283998471",
-      "category": "Oui"
+      "maps": 4,
+      "name": "Deep descent",
+      "notes": "Vraiment difficile surtout la fin",
+      "photo": "",
+      "category": "Oui",
+      "difficulty": "difficile",
+      "excelRemark": "Vraiment difficile surtout la fin",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2893097407"
     }
   ],
   "otherCampaigns": [
@@ -5928,22 +5928,22 @@
       "workshopUrl": ""
     },
     {
+      "maps": 3,
       "name": "Backroom : liminal",
       "remark": "Pas assez intéressant",
       "category": "Bof",
       "excelRow": 1790260472316,
-      "workshopUrl": "",
-      "maps": 3,
-      "difficulty": "facile"
+      "difficulty": "facile",
+      "workshopUrl": ""
     },
     {
+      "maps": 1,
       "name": "Return Henan Erqi Square",
       "remark": "N'importe quoi",
       "category": "Non",
       "excelRow": 1790261088755,
-      "workshopUrl": "",
-      "maps": 1,
-      "difficulty": "facile"
+      "difficulty": "facile",
+      "workshopUrl": ""
     },
     {
       "name": "Deep phobia",
