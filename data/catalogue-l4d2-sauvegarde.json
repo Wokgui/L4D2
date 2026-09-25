@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-24T20:00:20.547Z",
+  "savedAt": "2026-09-25T09:35:09.199Z",
   "campaigns": [
     {
       "id": "s0",
@@ -2228,6 +2228,17 @@
       "excelRemark": "Beau, un peu répétitif, mais difficile sur la fin",
       "photo": "",
       "id": "x1790247906210",
+      "category": "Oui"
+    },
+    {
+      "name": "Deep descent",
+      "maps": 4,
+      "difficulty": "difficile",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2893097407",
+      "notes": "Vraiment difficile surtout la fin",
+      "excelRemark": "Vraiment difficile surtout la fin",
+      "photo": "",
+      "id": "x1790283998471",
       "category": "Oui"
     }
   ],
