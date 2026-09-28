@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-28T15:06:06.175Z",
+  "savedAt": "2026-09-28T15:15:53.310Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5952,13 +5952,13 @@
       "excelRow": 1790280006756
     },
     {
+      "maps": 1,
       "name": "Shanghai bund",
       "remark": "Pas fini dommage",
       "category": "Non",
       "excelRow": 1790607888943,
-      "workshopUrl": "",
-      "maps": 1,
-      "difficulty": "facile"
+      "difficulty": "facile",
+      "workshopUrl": ""
     }
   ],
   "lastDrawn": null
