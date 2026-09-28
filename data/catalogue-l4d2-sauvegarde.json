@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-27T18:48:29.612Z",
+  "savedAt": "2026-09-28T15:04:53.138Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5950,6 +5950,15 @@
       "remark": "Très bien, rythmé et bien fait",
       "category": "Pourquoi pas",
       "excelRow": 1790280006756
+    },
+    {
+      "name": "Shanghai bund",
+      "remark": "Pas fini dommage",
+      "category": "Non",
+      "excelRow": 1790607888943,
+      "workshopUrl": "",
+      "maps": 1,
+      "difficulty": "facile"
     }
   ],
   "lastDrawn": null
