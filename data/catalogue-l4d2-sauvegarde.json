@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-29T20:46:51.168Z",
+  "savedAt": "2026-09-29T20:56:38.327Z",
   "campaigns": [
     {
       "id": "s0",
@@ -5961,13 +5961,13 @@
       "workshopUrl": ""
     },
     {
+      "maps": 3,
       "name": "The heavenly tower",
       "remark": "Bonne idée de tour mais mauvaise réalisation",
       "category": "Non",
       "excelRow": 1790714807439,
-      "workshopUrl": "",
-      "maps": 3,
-      "difficulty": "moyen"
+      "difficulty": "moyen",
+      "workshopUrl": ""
     }
   ],
   "lastDrawn": null
