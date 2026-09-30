@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-09-30T11:36:52.350Z",
+  "savedAt": "2026-09-30T19:48:53.322Z",
   "campaigns": [
     {
       "id": "s0",
@@ -2241,6 +2241,17 @@
       "difficulty": "difficile",
       "excelRemark": "Vraiment difficile surtout la fin",
       "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2893097407"
+    },
+    {
+      "name": "Absolute colors",
+      "maps": 4,
+      "difficulty": "moyen",
+      "workshopUrl": "",
+      "notes": "Dépouillé mais pas mal",
+      "excelRemark": "Dépouillé mais pas mal",
+      "photo": "",
+      "id": "x1790797719468",
+      "category": "Oui"
     }
   ],
   "otherCampaigns": [
