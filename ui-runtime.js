@@ -2349,13 +2349,13 @@ const st=document.createElement('style');st.textContent='.pick-modal{position:fi
 (()=>{
   'use strict';
   const normalized=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr');
-  const query=document.getElementById('q'),results=document.getElementById('sr');
+  function attachSearch(query,results,keptOnly){
   query.oninput=()=>{
     const needle=normalized(query.value.trim());
     results.replaceChildren();
     results.classList.toggle('on',!!needle);
     if(!needle)return;
-    const matches=[...C.map(c=>({c,kept:true})),...A.map(c=>({c,kept:false}))].filter(({c})=>normalized([c.name,c.notes,c.excelRemark,c.remark].join(' ')).includes(needle)).slice(0,30);
+    const matches=[...C.map(c=>({c,kept:true})),...(keptOnly?[]:A.map(c=>({c,kept:false})))].filter(({c})=>normalized([c.name,c.notes,c.excelRemark,c.remark].join(' ')).includes(needle)).slice(0,30);
     for(const {c,kept} of matches){
       const button=document.createElement('button');button.type='button';
       const title=document.createElement('b');title.textContent=c.name;
@@ -2374,8 +2374,11 @@ const st=document.createElement('style');st.textContent='.pick-modal{position:fi
     }
     if(!matches.length){const empty=document.createElement('p');empty.textContent='Aucune campagne trouvée';results.append(empty);}
   };
+  document.addEventListener('click',event=>{if(!query.parentElement.contains(event.target))results.classList.remove('on');});
+  }
+  attachSearch(document.getElementById('kq'),document.getElementById('ksr'),true);
+  attachSearch(document.getElementById('q'),document.getElementById('sr'),false);
   document.getElementById('oq').oninput=others;
-  document.addEventListener('click',event=>{if(!event.target.closest('#k .search'))results.classList.remove('on');});
   const exportStatus=document.createElement('div');exportStatus.className='drive-export-status';exportStatus.setAttribute('role','status');
   document.querySelector('#k .backup').after(exportStatus);
   document.getElementById('drive-import').onclick=()=>window.L4D2Drive?.import();
