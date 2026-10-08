@@ -37,7 +37,7 @@
 
     const panel = document.createElement('div');
     panel.className = 'cloud-backup-panel cloud-backup-hidden';
-    panel.innerHTML = '<div class="cloud-backup-card"><button class="cloud-backup-close secondary" type="button" aria-label="Fermer">✕</button><h2>Sauvegardes automatiques</h2><div class="cloud-backup-status">Vérification…</div><div class="cloud-backup-auth"><p>Utilisez la même adresse et le même mot de passe dans les trois applications. Cette connexion n’est à faire qu’une fois par appareil.</p><input class="cloud-backup-email" type="email" inputmode="email" autocomplete="email" placeholder="votre@email.fr"><input class="cloud-backup-password" type="password" autocomplete="current-password" minlength="6" placeholder="Mot de passe (6 caractères minimum)"><button class="cloud-backup-login" type="button">Se connecter</button><button class="cloud-backup-signup secondary" type="button">Créer mon accès de sauvegarde</button></div><div class="cloud-backup-tools cloud-backup-hidden"><button class="cloud-backup-now" type="button">Sauvegarder maintenant</button><button class="cloud-backup-download secondary" type="button">Télécharger les données actuelles</button><button class="cloud-backup-download-all secondary" type="button">Télécharger les 20 dernières versions</button><h3>20 dernières versions — données + ZIP du site</h3><ul class="cloud-backup-history"></ul><button class="cloud-backup-logout secondary" type="button">Déconnecter cet appareil</button></div><p class="cloud-backup-note">Chaque nouvelle sauvegarde est liée au ZIP exact du site publié. Une restauration crée une nouvelle version : rien n’est écrasé sans laisser de trace.</p></div>';
+    panel.innerHTML = '<div class="cloud-backup-card"><button class="cloud-backup-close secondary" type="button" aria-label="Fermer">✕</button><h2>Sauvegardes automatiques</h2><div class="cloud-backup-status">Vérification…</div><div class="cloud-backup-auth"><p>Utilisez la même adresse et le même mot de passe dans les trois applications. Cette connexion n’est à faire qu’une fois par appareil.</p><input class="cloud-backup-email" type="email" inputmode="email" autocomplete="email" placeholder="votre@email.fr"><input class="cloud-backup-password" type="password" autocomplete="current-password" minlength="6" placeholder="Mot de passe (6 caractères minimum)"><button class="cloud-backup-login" type="button">Se connecter</button><button class="cloud-backup-signup secondary" type="button">Créer mon accès de sauvegarde</button></div><div class="cloud-backup-tools cloud-backup-hidden"><button class="cloud-backup-now" type="button">Sauvegarder maintenant</button><button class="cloud-backup-download secondary" type="button">Exporter</button><h3>5 dernières versions Google Drive</h3><div class="cloud-backup-drive-status">Vérification Google Drive…</div><ul class="cloud-backup-history"></ul><button class="cloud-backup-logout secondary" type="button">Déconnecter cet appareil</button></div><p class="cloud-backup-note">Google Drive conserve la dernière sauvegarde et les quatre précédentes. L’export contient tes données actuelles, même hors connexion.</p></div>';
     document.body.appendChild(panel);
 
     const $ = selector => panel.querySelector(selector);
@@ -89,6 +89,7 @@
         const saved = data || await currentMeta();
         if (saved) localStorage.setItem(revisionKey(user.id), String(saved.revision));
         status(saved ? `Sauvegardé automatiquement — version ${saved.revision}` : 'Déjà à jour');
+        if(saved)await mirrorDrive(payload,saved.revision);
         loadHistory().catch(() => {});
         return true;
       } catch (error) {
@@ -141,45 +142,58 @@
         if (await upload('release')) localStorage.setItem(releaseKey(user.id), '1');
       }
       await loadHistory();
+      const driveCurrent = await currentFull();
+      if (driveCurrent) await mirrorDrive(driveCurrent.payload, driveCurrent.revision);
+    }
+
+    async function driveRequest(path='',body) {
+      const {data}=await client.auth.getSession();
+      const token=data.session?.access_token;
+      if(!token)throw Error('Connexion nécessaire.');
+      const response=await fetch('/api/drive-backup'+path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
+      const result=await response.json();
+      if(!response.ok)throw Error(result.error||'Google Drive est indisponible.');
+      return result;
+    }
+
+    function showDriveVersions(versions) {
+      const list=$('.cloud-backup-history');list.replaceChildren();
+      for(const item of versions||[]){
+        const li=document.createElement('li'),label=document.createElement('span'),restore=document.createElement('button');
+        label.textContent=`Version ${item.appProperties.revision} · ${new Date(item.modifiedTime).toLocaleString('fr-FR')}`;
+        restore.type='button';restore.textContent='Restaurer';restore.dataset.driveId=item.id;
+        li.append(label,restore);list.append(li);
+      }
+      if(!list.children.length){const li=document.createElement('li');li.textContent='Aucune version Google Drive pour le moment.';list.append(li);}
+    }
+
+    async function mirrorDrive(payload,revision) {
+      try{
+        const result=await driveRequest('',{payload:applicationPayload(payload),revision:Number(revision)});
+        showDriveVersions(result.versions);
+        $('.cloud-backup-drive-status').textContent='Sauvegarde Google Drive à jour.';
+      }catch(error){
+        $('.cloud-backup-drive-status').textContent=error.message+' Les données restent sauvegardées dans le cloud.';
+      }
     }
 
     async function loadHistory() {
-      if (!user) return;
-      const { data, error } = await client.from('user_app_backup_history').select('revision,created_at,source').eq('user_id', user.id).eq('app_id', options.appId).order('revision', { ascending: false }).limit(20);
-      if (error) throw error;
-      const list = $('.cloud-backup-history');
-      list.innerHTML = '';
-      for (const item of data || []) {
-        const li = document.createElement('li');
-        const date = new Date(item.created_at).toLocaleString('fr-FR');
-        li.innerHTML = `<span>Version ${item.revision}<br><small>${date}</small></span><span class="cloud-backup-history-actions"><button type="button" data-revision="${item.revision}">Restaurer</button><button type="button" class="secondary" data-zip-revision="${item.revision}">ZIP du site</button></span>`;
-        list.appendChild(li);
-      }
-      if (!list.children.length) list.innerHTML = '<li>Aucune ancienne version pour le moment.</li>';
-    }
-
-    async function restoreRevision(revision) {
-      if (!confirm(`Restaurer la version ${revision} ? La version actuelle restera dans l’historique.`)) return;
-      try {
-        const data = await historyPayload(revision);
-        await apply(data.payload, `Version ${revision} restaurée`);
-        await upload(`restore-${revision}`);
-      } catch (error) {
-        status(`Restauration impossible : ${error.message}`);
+      if(!user)return;
+      try{
+        const result=await driveRequest();showDriveVersions(result.versions);
+        $('.cloud-backup-drive-status').textContent='Dernière sauvegarde et quatre précédentes.';
+      }catch(error){
+        showDriveVersions([]);$('.cloud-backup-drive-status').textContent=error.message;
       }
     }
 
-    async function openRevisionZip(revision) {
-      try {
-        status(`Ouverture du ZIP de la version ${revision}…`);
-        const data = await historyPayload(revision);
-        const release = payloadRelease(data.payload);
-        if (!release?.sourceZipUrl) return status('Aucun ZIP associé à cette ancienne version.');
-        window.open(release.sourceZipUrl, '_blank', 'noopener');
-        status(`Sauvegarde active — version ${localStorage.getItem(revisionKey(user.id)) || revision}`);
-      } catch (error) {
-        status(`ZIP impossible à ouvrir : ${error.message}`);
-      }
+    async function restoreDrive(id) {
+      if(!confirm('Restaurer cette version Google Drive ?'))return;
+      try{
+        const result=await driveRequest('?id='+encodeURIComponent(id));
+        await apply(result.payload,'Version Google Drive restaurée');
+        await upload('restore-drive');
+      }catch(error){status('Restauration impossible : '+error.message);}
     }
 
     async function setSession(session) {
@@ -235,39 +249,11 @@
       status(data.session ? 'Accès créé et sauvegarde activée.' : 'Accès créé. Confirmez l’e-mail reçu, revenez ici, puis appuyez sur « Se connecter ».');
     });
     $('.cloud-backup-now').addEventListener('click', () => upload('manual'));
-    $('.cloud-backup-download').addEventListener('click', async () => {
-      if (!user) return;
-      try {
-        const saved = await currentFull();
-        downloadJson({ app: options.appId, exportedAt: new Date().toISOString(), current: saved }, `${options.appId}-sauvegarde-${new Date().toISOString().slice(0, 10)}.json`);
-      } catch (error) {
-        status(`Téléchargement impossible : ${error.message}`);
-      }
-    });
-    $('.cloud-backup-download-all').addEventListener('click', async () => {
-      if (!user) return;
-      try {
-        status('Préparation des 20 versions…');
-        const current = await currentFull();
-        const { data: metas, error } = await client.from('user_app_backup_history').select('revision,created_at,source').eq('user_id', user.id).eq('app_id', options.appId).order('revision', { ascending: false }).limit(20);
-        if (error) throw error;
-        const history = [];
-        for (let i = 0; i < (metas || []).length; i++) {
-          status(`Téléchargement des versions… ${i + 1}/${metas.length}`);
-          history.push(await historyPayload(metas[i].revision));
-        }
-        downloadJson({ app: options.appId, exportedAt: new Date().toISOString(), current, history }, `${options.appId}-20-versions-${new Date().toISOString().slice(0, 10)}.json`);
-        status('Les versions ont été téléchargées sur cet appareil.');
-      } catch (error) {
-        status(`Téléchargement impossible : ${error.message}`);
-      }
-    });
+    $('.cloud-backup-download').addEventListener('click', () => document.getElementById('exp').click());
     $('.cloud-backup-logout').addEventListener('click', () => client.auth.signOut());
     $('.cloud-backup-history').addEventListener('click', event => {
-      const revision = event.target.dataset.revision;
-      const zipRevision = event.target.dataset.zipRevision;
-      if (revision) restoreRevision(Number(revision));
-      else if (zipRevision) openRevisionZip(Number(zipRevision));
+      const id=event.target.closest('[data-drive-id]')?.dataset.driveId;
+      if(id)restoreDrive(id);
     });
     window.addEventListener(options.eventName, scheduleUpload);
     client.auth.onAuthStateChange((_event, session) => setTimeout(() => setSession(session), 0));

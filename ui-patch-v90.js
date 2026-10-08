@@ -227,13 +227,14 @@
     #k .campaign-name-block .dlab{margin-top:0!important}
     #k .campaign-name-edit{
       width:100%!important;
-      min-height:50px!important;
+      min-height:38px!important;
       height:auto!important;
+      field-sizing:content!important;
       resize:none!important;
       overflow:hidden!important;
       white-space:pre-wrap!important;
       overflow-wrap:anywhere!important;
-      padding:10px 11px!important;
+      padding:8px 11px!important;
       box-sizing:border-box!important;
       font:inherit!important;
       font-size:16px!important;
