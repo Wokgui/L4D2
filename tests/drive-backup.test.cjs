@@ -2,7 +2,7 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const handler=require('../api/drive-backup.js');
 test('seven uploads retain the latest five, errors keep existing versions, and duplicate/stale uploads do not replace the latest',async()=>{
-  const original=global.fetch,files=[];let failed=false;
+  const original=global.fetch,files=[{id:'manual-export',name:'Export.json',modifiedTime:new Date().toISOString(),appProperties:{kind:'export'},trashed:false}];let failed=false;
   process.env.L4D2_DRIVE_FOLDER_ID='dedicated-folder';
   global.fetch=async(url,options={})=>{
     if(url.includes('upload/')){
@@ -19,14 +19,15 @@ test('seven uploads retain the latest five, errors keep existing versions, and d
   };
   try{
     for(let i=1;i<=7;i++)await handler.saveVersion('token','owner',{campaigns:[{name:'version '+i}],otherCampaigns:[]},i);
-    assert.deepEqual(files.filter(x=>!x.trashed).map(x=>+x.appProperties.revision).sort((a,b)=>a-b),[3,4,5,6,7]);
+    assert.deepEqual(files.filter(x=>!x.trashed&&x.appProperties.kind!=='export').map(x=>+x.appProperties.revision).sort((a,b)=>a-b),[3,4,5,6,7]);
+    assert.equal(files[0].trashed,false);
     const count=files.length;
     await handler.saveVersion('token','owner',{campaigns:[{name:'version 7'}],otherCampaigns:[]},8);
     assert.equal(files.length,count);
     await handler.saveVersion('token','owner',{campaigns:[{name:'stale'}],otherCampaigns:[]},2);
     assert.equal(files.length,count);
     failed=true;await assert.rejects(handler.saveVersion('token','owner',{campaigns:[],otherCampaigns:[]},9));
-    assert.deepEqual(files.filter(x=>!x.trashed).map(x=>+x.appProperties.revision).sort((a,b)=>a-b),[3,4,5,6,7]);
+    assert.deepEqual(files.filter(x=>!x.trashed&&x.appProperties.kind!=='export').map(x=>+x.appProperties.revision).sort((a,b)=>a-b),[3,4,5,6,7]);
   }finally{global.fetch=original;}
 });
 test('requests without authentication are rejected before Google access',async()=>{

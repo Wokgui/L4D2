@@ -35,7 +35,23 @@ async function versions(token,uid){
     if(pageToken)params.set('pageToken',pageToken);
     const result=await drive(token,`drive/v3/files?${params}`);files.push(...result.files);pageToken=result.nextPageToken;
   }while(pageToken);
-  return files.sort((a,b)=>Number(b.appProperties.revision)-Number(a.appProperties.revision)||b.modifiedTime.localeCompare(a.modifiedTime));
+  return files.filter(file=>file.appProperties?.kind!=='export').sort((a,b)=>Number(b.appProperties.revision)-Number(a.appProperties.revision)||b.modifiedTime.localeCompare(a.modifiedTime));
+}
+async function importFiles(token){
+  const files=[];let pageToken;
+  do{
+    const params=new URLSearchParams({q:`'${quote(process.env.L4D2_DRIVE_FOLDER_ID)}' in parents and trashed=false and mimeType='application/json'`,orderBy:'modifiedTime desc',pageSize:'100',fields:'nextPageToken,files(id,name,modifiedTime)'});
+    if(pageToken)params.set('pageToken',pageToken);
+    const result=await drive(token,`drive/v3/files?${params}`);files.push(...result.files);pageToken=result.nextPageToken;
+  }while(pageToken);
+  return files;
+}
+async function exportFile(token,uid,payload){
+  const stamp=new Date().toISOString(),boundary='l4d2_export_'+createHash('sha256').update(uid+stamp).digest('hex').slice(0,24);
+  const metadata={name:`L4D2-export-${stamp.replace(/[:.]/g,'-')}.json`,mimeType:'application/json',parents:[process.env.L4D2_DRIVE_FOLDER_ID],appProperties:{app:APP,owner:uid,kind:'export'}};
+  const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(payload,null,2)}\r\n--${boundary}--\r\n`;
+  const file=await drive(token,'upload/drive/v3/files?uploadType=multipart&fields=id,name',{method:'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
+  return {...file,url:`https://drive.google.com/file/d/${file.id}/view`};
 }
 function valid(payload){return Array.isArray(payload?.campaigns)&&Array.isArray(payload?.otherCampaigns);}
 function unpack(value){
@@ -97,6 +113,15 @@ async function handler(req,res){
     if(required.some(name=>!process.env[name]))return res.status(503).json({configured:false,error:'Google Drive reste à connecter pour cette application.'});
     const token=await accessToken();
     if(req.method==='GET'){
+      if(['imports','import'].includes(req.query?.action)){
+        const files=await importFiles(token);
+        if(req.query.action==='imports')return res.status(200).json({files});
+        if(!files.some(file=>file.id===req.query.id))return res.status(404).json({error:'Fichier absent du dossier de sauvegardes'});
+        const value=await drive(token,`drive/v3/files/${encodeURIComponent(req.query.id)}?alt=media`);
+        const payload=value?.format==='wokgui-complete-backup-v2'&&value.appId===APP?value.data:value;
+        if(!valid(payload))return res.status(422).json({error:'Ce fichier ne contient pas une sauvegarde L4D2 valide'});
+        return res.status(200).json(pack({payload}));
+      }
       const files=await seedHistory(token,uid,req.headers.authorization);
       if(req.query?.id){
         if(!files.slice(0,5).some(file=>file.id===req.query.id))return res.status(404).json({error:'Version introuvable'});
@@ -107,6 +132,10 @@ async function handler(req,res){
       return res.status(200).json({configured:true,versions:files.slice(0,5)});
     }
     const data=unpack(typeof req.body==='string'?JSON.parse(req.body):req.body);
+    if(data?.action==='export'){
+      if(!valid(data.payload))return res.status(400).json({error:'Données d’export invalides'});
+      return res.status(200).json({file:await exportFile(token,uid,data.payload)});
+    }
     if(!valid(data?.payload)||!Number.isSafeInteger(data?.revision)||data.revision<1)return res.status(400).json({error:'Données de sauvegarde invalides'});
     const files=await saveVersion(token,uid,data.payload,data.revision);
     return res.status(200).json({configured:true,versions:files});
@@ -117,3 +146,4 @@ module.exports.saveVersion=saveVersion;
 module.exports.seedHistory=seedHistory;
 module.exports.pack=pack;
 module.exports.unpack=unpack;
+module.exports.exportFile=exportFile;

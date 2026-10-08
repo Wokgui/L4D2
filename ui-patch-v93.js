@@ -161,11 +161,11 @@
   button.type='button';
   button.className='cloud-backup-import secondary';
   button.textContent='Importer';
-  button.addEventListener('click',()=>input.click());
+  button.addEventListener('click',()=>window.L4D2Drive?.import());
   const exportButton=tools.querySelector('.cloud-backup-export');
   if(exportButton) exportButton.insertAdjacentElement('afterend',button);
   else {
-    const before=tools.querySelector('.cloud-backup-download');
+    const before=tools.querySelector('.cloud-backup-download')||tools.querySelector('h3');
     tools.insertBefore(button,before||tools.firstChild);
   }
 })();

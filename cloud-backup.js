@@ -15,6 +15,7 @@
     let timer = null;
     let syncPromise = null;
     let lastSyncAt = 0;
+    let importMode = false;
 
     const style = document.createElement('style');
     style.textContent = '.cloud-backup-button{position:fixed;right:14px;bottom:calc(56px + env(safe-area-inset-bottom));z-index:9998;border:0;border-radius:999px;padding:11px 16px;background:#173b32;color:#fff;font:700 14px system-ui;box-shadow:0 6px 22px #0004}.cloud-backup-panel{position:fixed;inset:0;z-index:9999;background:#0008;display:grid;place-items:center;padding:16px}.cloud-backup-card{width:min(520px,100%);max-height:88vh;overflow:auto;background:#fff;color:#17221f;border-radius:18px;padding:20px;font:15px/1.4 system-ui;box-shadow:0 20px 60px #0008}.cloud-backup-card h2{margin:0 0 8px}.cloud-backup-card input,.cloud-backup-card button,.cloud-backup-card select{box-sizing:border-box;width:100%;margin-top:9px;padding:11px;border:1px solid #bcc9c5;border-radius:10px;font:inherit}.cloud-backup-card button{background:#173b32;color:#fff;font-weight:700}.cloud-backup-card button.secondary{background:#eef3f1;color:#173b32}.cloud-backup-close{float:right;width:auto!important;margin:0!important;padding:5px 9px!important}.cloud-backup-status{padding:9px 0;color:#36544b}.cloud-backup-note{font-size:13px;color:#52655f}.cloud-backup-history{margin:10px 0 0;padding:0;list-style:none}.cloud-backup-history li{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid #e2e8e6;padding:8px 0}.cloud-backup-history-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}.cloud-backup-history button{width:auto;margin:0;padding:7px 9px}.cloud-backup-history small{color:#65736f}.cloud-backup-hidden{display:none!important}';
@@ -37,8 +38,17 @@
 
     const panel = document.createElement('div');
     panel.className = 'cloud-backup-panel cloud-backup-hidden';
-    panel.innerHTML = '<div class="cloud-backup-card"><button class="cloud-backup-close secondary" type="button" aria-label="Fermer">✕</button><h2>Sauvegardes automatiques</h2><div class="cloud-backup-status">Vérification…</div><div class="cloud-backup-auth"><p>Utilisez la même adresse et le même mot de passe dans les trois applications. Cette connexion n’est à faire qu’une fois par appareil.</p><input class="cloud-backup-email" type="email" inputmode="email" autocomplete="email" placeholder="votre@email.fr"><input class="cloud-backup-password" type="password" autocomplete="current-password" minlength="6" placeholder="Mot de passe (6 caractères minimum)"><button class="cloud-backup-login" type="button">Se connecter</button><button class="cloud-backup-signup secondary" type="button">Créer mon accès de sauvegarde</button></div><div class="cloud-backup-tools cloud-backup-hidden"><button class="cloud-backup-now" type="button">Sauvegarder maintenant</button><button class="cloud-backup-download secondary" type="button">Exporter</button><h3>5 dernières versions Google Drive</h3><div class="cloud-backup-drive-status">Vérification Google Drive…</div><ul class="cloud-backup-history"></ul><button class="cloud-backup-logout secondary" type="button">Déconnecter cet appareil</button></div><p class="cloud-backup-note">Google Drive conserve la dernière sauvegarde et les quatre précédentes. L’export contient tes données actuelles, même hors connexion.</p></div>';
+    panel.innerHTML = `<div class="cloud-backup-card" role="dialog" aria-modal="true" aria-labelledby="cloud-backup-title">
+      <div class="cloud-backup-header"><h2 id="cloud-backup-title">Sauvegardes automatiques</h2><button class="cloud-backup-close secondary" type="button" aria-label="Fermer les sauvegardes"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="cloud-backup-status" role="status">Vérification…</div>
+      <div class="cloud-backup-content"><div class="cloud-backup-auth cloud-backup-hidden"><p>Utilisez la même adresse et le même mot de passe dans les trois applications. Cette connexion n’est à faire qu’une fois par appareil.</p><input class="cloud-backup-email" type="email" inputmode="email" autocomplete="email" placeholder="votre@email.fr"><input class="cloud-backup-password" type="password" autocomplete="current-password" minlength="6" placeholder="Mot de passe (6 caractères minimum)"><button class="cloud-backup-login" type="button">Se connecter</button><button class="cloud-backup-signup secondary" type="button">Créer mon accès de sauvegarde</button></div><div class="cloud-backup-tools cloud-backup-hidden"><button class="cloud-backup-now" type="button">Sauvegarder maintenant</button><h3>5 dernières versions Google Drive</h3><div class="cloud-backup-drive-status">Vérification Google Drive…</div><ul class="cloud-backup-history"></ul><button class="cloud-backup-logout secondary" type="button">Déconnecter cet appareil</button></div><p class="cloud-backup-note">Google Drive conserve la dernière sauvegarde et les quatre précédentes. L’export dans Gardées contient tes données actuelles, même hors connexion.</p></div>
+    </div>`;
     document.body.appendChild(panel);
+    const picker=document.createElement('div');
+    picker.className='cloud-backup-file-picker cloud-backup-hidden';
+    picker.innerHTML='<h3>Importer depuis Google Drive</h3><p class="cloud-backup-import-status" role="status"></p><ul class="cloud-backup-history cloud-backup-import-files"></ul><button class="cloud-backup-import-cancel secondary" type="button">Retour aux sauvegardes</button>';
+    panel.querySelector('.cloud-backup-content').prepend(picker);
+    panel.querySelector('.cloud-backup-note').textContent='Google Drive conserve la dernière sauvegarde et les quatre précédentes. Importer et exporter utilisent le même dossier Google Drive et nécessitent une connexion Internet.';
 
     const $ = selector => panel.querySelector(selector);
     const status = message => { $('.cloud-backup-status').textContent = message; options.onStatus?.(message); };
@@ -206,10 +216,48 @@
       }catch(error){status('Restauration impossible : '+error.message);}
     }
 
+    function showImportMode(active){
+      importMode=active;
+      $('.cloud-backup-tools').classList.toggle('cloud-backup-hidden',!user||active);
+      picker.classList.toggle('cloud-backup-hidden',!user||!active);
+      $('.cloud-backup-content').scrollTop=0;
+    }
+    async function openDriveImport(){
+      panel.classList.remove('cloud-backup-hidden');
+      showImportMode(true);
+      if(!user){status('Connectez-vous pour importer depuis Google Drive.');return;}
+      const list=$('.cloud-backup-import-files'),message=$('.cloud-backup-import-status');
+      list.replaceChildren();message.textContent='Chargement du dossier L4D2 – Sauvegardes…';
+      try{
+        const {files}=await driveRequest('?action=imports');
+        message.textContent=files.length?'Choisissez une exportation ou une sauvegarde dans votre dossier.':'Aucun fichier L4D2 dans ce dossier.';
+        for(const file of files){
+          const row=document.createElement('li'),label=document.createElement('span'),select=document.createElement('button');
+          label.textContent=file.name+' · '+new Date(file.modifiedTime).toLocaleString('fr-FR');
+          select.type='button';select.textContent='Importer';select.dataset.importId=file.id;
+          select.onclick=async()=>{
+            if(!confirm('Importer « '+file.name+' » et remplacer les données actuelles ?'))return;
+            for(const button of list.querySelectorAll('button'))button.disabled=true;
+            message.textContent='Importation en cours…';
+            try{
+              const {payload}=await driveRequest('?action=import&id='+encodeURIComponent(file.id));
+              await apply(payload,'Fichier Google Drive importé');
+              await upload('restore-import');
+              showImportMode(false);
+            }catch(error){message.textContent='Importation impossible : '+error.message;}
+            finally{for(const button of list.querySelectorAll('button'))button.disabled=false;}
+          };
+          row.append(label,select);list.append(row);
+        }
+      }catch(error){message.textContent=error.message;}
+    }
+    window.L4D2Drive={import:openDriveImport,export:payload=>driveRequest('',{action:'export',payload})};
+    $('.cloud-backup-import-cancel').onclick=()=>showImportMode(false);
+
     async function setSession(session) {
       user = session?.user || null;
       $('.cloud-backup-auth').classList.toggle('cloud-backup-hidden', !!user);
-      $('.cloud-backup-tools').classList.toggle('cloud-backup-hidden', !user);
+      showImportMode(importMode);
       if (!user) {
         syncPromise = null;
         lastSyncAt = 0;
@@ -232,6 +280,8 @@
     }
 
     button.addEventListener('click', () => {
+      showImportMode(false);
+      $('.cloud-backup-content').scrollTop=0;
       panel.classList.remove('cloud-backup-hidden');
       if (user) loadHistory().catch(() => {});
     });
@@ -259,7 +309,6 @@
       status(data.session ? 'Accès créé et sauvegarde activée.' : 'Accès créé. Confirmez l’e-mail reçu, revenez ici, puis appuyez sur « Se connecter ».');
     });
     $('.cloud-backup-now').addEventListener('click', () => upload('manual'));
-    $('.cloud-backup-download').addEventListener('click', () => document.getElementById('exp').click());
     $('.cloud-backup-logout').addEventListener('click', () => client.auth.signOut());
     $('.cloud-backup-history').addEventListener('click', event => {
       const id=event.target.closest('[data-drive-id]')?.dataset.driveId;

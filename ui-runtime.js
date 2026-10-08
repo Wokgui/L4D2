@@ -540,11 +540,11 @@ const st=document.createElement('style');st.textContent='.pick-modal{position:fi
   button.type='button';
   button.className='cloud-backup-import secondary';
   button.textContent='Importer';
-  button.addEventListener('click',()=>input.click());
+  button.addEventListener('click',()=>window.L4D2Drive?.import());
   const exportButton=tools.querySelector('.cloud-backup-export');
   if(exportButton) exportButton.insertAdjacentElement('afterend',button);
   else {
-    const before=tools.querySelector('.cloud-backup-download');
+    const before=tools.querySelector('.cloud-backup-download')||tools.querySelector('h3');
     tools.insertBefore(button,before||tools.firstChild);
   }
 })();
@@ -2376,15 +2376,18 @@ const st=document.createElement('style');st.textContent='.pick-modal{position:fi
   };
   document.getElementById('oq').oninput=others;
   document.addEventListener('click',event=>{if(!event.target.closest('#k .search'))results.classList.remove('on');});
+  const exportStatus=document.createElement('div');exportStatus.className='drive-export-status';exportStatus.setAttribute('role','status');
+  document.querySelector('#k .backup').after(exportStatus);
+  document.getElementById('drive-import').onclick=()=>window.L4D2Drive?.import();
   document.getElementById('exp').onclick=async()=>{
-    const payload={campaigns:C,otherCampaigns:A,lastPlayed:LP,lastDrawn:LP,exportedAt:new Date().toISOString()};
-    const file=new File([JSON.stringify(payload,null,2)],`campagnes-l4d2-${new Date().toISOString().slice(0,10)}.json`,{type:'application/json'});
-    if(navigator.canShare?.({files:[file]})){
-      try{await navigator.share({files:[file],title:'Sauvegarde L4D2'});return;}
-      catch(error){if(error.name==='AbortError')return;}
-    }
-    const url=URL.createObjectURL(file),link=document.createElement('a');link.href=url;link.download=file.name;
-    document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+    const button=document.getElementById('exp');button.disabled=true;exportStatus.textContent='Exportation vers Google Drive…';
+    try{
+      if(!window.L4D2Drive)throw Error('La connexion de sauvegarde est indisponible.');
+      const {file}=await window.L4D2Drive.export({campaigns:C,otherCampaigns:A,lastPlayed:LP,lastDrawn:LP,exportedAt:new Date().toISOString()});
+      const link=document.createElement('a');link.href=file.url;link.target='_blank';link.rel='noopener';link.textContent='Voir le fichier dans Google Drive';
+      exportStatus.replaceChildren(document.createTextNode('Export enregistré dans L4D2 – Sauvegardes. '),link);
+    }catch(error){exportStatus.textContent='Exportation impossible : '+error.message;}
+    finally{button.disabled=false;}
   };
   const oldKept=kept;
   kept=function(){oldKept();const visible=document.querySelectorAll('#kl .item').length;document.getElementById('kn').textContent=`${visible}/${C.length}`;};
