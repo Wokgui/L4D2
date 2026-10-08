@@ -51,6 +51,21 @@
     panel.querySelector('.cloud-backup-note').textContent='Google Drive conserve la dernière sauvegarde et les quatre précédentes. Importer et exporter utilisent le même dossier Google Drive et nécessitent une connexion Internet.';
 
     const $ = selector => panel.querySelector(selector);
+    const scrollArea = $('.cloud-backup-content');
+    let scrollbarTimer = null;
+    let ignoreScrollUntil = 0;
+    function resetScrollbar() {
+      clearTimeout(scrollbarTimer);
+      ignoreScrollUntil = Date.now() + 150;
+      scrollArea.classList.remove('is-scrolling');
+      scrollArea.scrollTop = 0;
+    }
+    scrollArea.addEventListener('scroll', () => {
+      if (Date.now() < ignoreScrollUntil) return;
+      clearTimeout(scrollbarTimer);
+      scrollArea.classList.add('is-scrolling');
+      scrollbarTimer = setTimeout(() => scrollArea.classList.remove('is-scrolling'), 900);
+    }, { passive: true });
     const status = message => { $('.cloud-backup-status').textContent = message; options.onStatus?.(message); };
     const migratedKey = uid => `cloud_backup_migrated_${options.appId}_${uid}`;
     const revisionKey = uid => `cloud_backup_revision_${options.appId}_${uid}`;
@@ -220,7 +235,7 @@
       importMode=active;
       $('.cloud-backup-tools').classList.toggle('cloud-backup-hidden',!user||active);
       picker.classList.toggle('cloud-backup-hidden',!user||!active);
-      $('.cloud-backup-content').scrollTop=0;
+      resetScrollbar();
     }
     async function openDriveImport(){
       panel.classList.remove('cloud-backup-hidden');
@@ -281,7 +296,7 @@
 
     button.addEventListener('click', () => {
       showImportMode(false);
-      $('.cloud-backup-content').scrollTop=0;
+      resetScrollbar();
       panel.classList.remove('cloud-backup-hidden');
       if (user) loadHistory().catch(() => {});
     });

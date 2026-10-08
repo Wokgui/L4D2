@@ -38,3 +38,10 @@ html body .nav button.on .nav-other-icon path:nth-child(2){stroke:#ffdb8d}
 html body .nav button.on .nav-other-icon path:nth-child(3){stroke:#e2bdff}
 
 html body #oq{text-align:center!important}
+
+html body .cloud-backup-content{scrollbar-width:thin;scrollbar-color:transparent transparent}
+html body .cloud-backup-content.is-scrolling{scrollbar-color:#91aaa1 transparent}
+html body .cloud-backup-content::-webkit-scrollbar{width:6px}
+html body .cloud-backup-content::-webkit-scrollbar-track{background:transparent}
+html body .cloud-backup-content::-webkit-scrollbar-thumb{background:transparent;border-radius:6px}
+html body .cloud-backup-content.is-scrolling::-webkit-scrollbar-thumb{background:#91aaa1}
