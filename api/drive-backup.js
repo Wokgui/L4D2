@@ -1,4 +1,5 @@
 const {createHash}=require('node:crypto');
+const {gzipSync,gunzipSync}=require('node:zlib');
 const SUPABASE_URL='https://oxdrhwveuctrorrkuurw.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94ZHJod3ZldWN0cm9ycmt1dXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU2MjYzNDQsImV4cCI6MjEwMTIwMjM0NH0.lrdF-JILpgAwSrMLVjeU0fcKd2anOhp_T0qtEtJTVc0';
 const APP='l4d2-selector';
@@ -37,23 +38,56 @@ async function versions(token,uid){
   return files.sort((a,b)=>Number(b.appProperties.revision)-Number(a.appProperties.revision)||b.modifiedTime.localeCompare(a.modifiedTime));
 }
 function valid(payload){return Array.isArray(payload?.campaigns)&&Array.isArray(payload?.otherCampaigns);}
-async function saveVersion(token,uid,payload,revision){
+function unpack(value){
+  if(value?.encoding!=='gzip-base64')return value;
+  if(typeof value.content!=='string'||value.content.length>4600000)throw Error('La sauvegarde compressée est invalide.');
+  return JSON.parse(gunzipSync(Buffer.from(value.content,'base64'),{maxOutputLength:20000000}).toString('utf8'));
+}
+function pack(value){
+  const content=JSON.stringify(value);
+  return Buffer.byteLength(content)>1000000?{encoding:'gzip-base64',content:gzipSync(content).toString('base64')}:value;
+}
+async function writeVersion(token,uid,payload,revision,modifiedTime){
   const content=JSON.stringify(payload,null,2),digest=createHash('sha256').update(content).digest('hex');
+  const boundary='l4d2_'+createHash('sha256').update(`${uid}:${revision}`).digest('hex').slice(0,24);
+  const metadata={name:`L4D2-v${revision}.json`,mimeType:'application/json',appProperties:{app:APP,owner:uid,revision:String(revision),digest}};
+  metadata.parents=[process.env.L4D2_DRIVE_FOLDER_ID];
+  if(modifiedTime&&Number.isFinite(Date.parse(modifiedTime)))metadata.modifiedTime=new Date(modifiedTime).toISOString();
+  const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${content}\r\n--${boundary}--\r\n`;
+  await drive(token,'upload/drive/v3/files?uploadType=multipart&fields=id',{method:'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
+}
+async function saveVersion(token,uid,payload,revision){
+  const digest=createHash('sha256').update(JSON.stringify(payload,null,2)).digest('hex');
   const before=await versions(token,uid);
   if(before[0]?.appProperties.digest===digest)return before.slice(0,5);
   // A stale concurrent upload must never overwrite a more recent revision.
   if(before[0]&&Number(before[0].appProperties.revision)>=revision)return before.slice(0,5);
-  const boundary='l4d2_'+createHash('sha256').update(`${uid}:${revision}`).digest('hex').slice(0,24);
-  const metadata={name:`L4D2-v${revision}.json`,mimeType:'application/json',appProperties:{app:APP,owner:uid,revision:String(revision),digest}};
-  metadata.parents=[process.env.L4D2_DRIVE_FOLDER_ID];
-  const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${content}\r\n--${boundary}--\r\n`;
-  await drive(token,'upload/drive/v3/files?uploadType=multipart&fields=id',{method:'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
+  await writeVersion(token,uid,payload,revision);
+  return pruneVersions(token,uid);
+}
+async function pruneVersions(token,uid){
   const after=await versions(token,uid);
   // Recoverable trash only, after the new version has been uploaded successfully.
   const distinct=[],extra=[];const seen=new Set();
   for(const file of after){if(seen.has(file.appProperties.revision)||distinct.length>=5)extra.push(file);else{seen.add(file.appProperties.revision);distinct.push(file);}}
   for(const file of extra)await drive(token,`drive/v3/files/${encodeURIComponent(file.id)}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({trashed:true})});
   return distinct;
+}
+async function seedHistory(token,uid,authorization){
+  const before=await versions(token,uid);
+  if(new Set(before.map(file=>file.appProperties.revision)).size>=5)return pruneVersions(token,uid);
+  // Read through the authenticated owner's existing RLS-protected backup history.
+  const params=new URLSearchParams({select:'payload,revision,created_at',user_id:'eq.'+uid,app_id:'eq.'+APP,order:'revision.desc',limit:'5'});
+  const response=await fetch(`${SUPABASE_URL}/rest/v1/user_app_backup_history?${params}`,{headers:{apikey:SUPABASE_KEY,Authorization:authorization}});
+  if(!response.ok)throw Error('Les anciennes sauvegardes sont temporairement indisponibles.');
+  const rows=await response.json(),present=new Set(before.map(f=>Number(f.appProperties.revision)));
+  const desired=[...new Set([...present,...rows.map(row=>Number(row.revision))])].sort((a,b)=>b-a).slice(0,5);
+  for(const row of rows.slice().reverse()){
+    const revision=Number(row.revision);
+    const payload=row.payload?.format==='wokgui-complete-backup-v2'&&row.payload.appId===APP?row.payload.data:row.payload;
+    if(desired.includes(revision)&&!present.has(revision)&&valid(payload))await writeVersion(token,uid,payload,revision,row.created_at);
+  }
+  return pruneVersions(token,uid);
 }
 async function handler(req,res){
   res.setHeader('Cache-Control','no-store');
@@ -63,16 +97,16 @@ async function handler(req,res){
     if(required.some(name=>!process.env[name]))return res.status(503).json({configured:false,error:'Google Drive reste à connecter pour cette application.'});
     const token=await accessToken();
     if(req.method==='GET'){
-      const files=await versions(token,uid);
+      const files=await seedHistory(token,uid,req.headers.authorization);
       if(req.query?.id){
         if(!files.slice(0,5).some(file=>file.id===req.query.id))return res.status(404).json({error:'Version introuvable'});
         const payload=await drive(token,`drive/v3/files/${encodeURIComponent(req.query.id)}?alt=media`);
         if(!valid(payload))return res.status(422).json({error:'Sauvegarde invalide'});
-        return res.status(200).json({payload});
+        return res.status(200).json(pack({payload}));
       }
       return res.status(200).json({configured:true,versions:files.slice(0,5)});
     }
-    const data=typeof req.body==='string'?JSON.parse(req.body):req.body;
+    const data=unpack(typeof req.body==='string'?JSON.parse(req.body):req.body);
     if(!valid(data?.payload)||!Number.isSafeInteger(data?.revision)||data.revision<1)return res.status(400).json({error:'Données de sauvegarde invalides'});
     const files=await saveVersion(token,uid,data.payload,data.revision);
     return res.status(200).json({configured:true,versions:files});
@@ -80,3 +114,6 @@ async function handler(req,res){
 }
 module.exports=handler;
 module.exports.saveVersion=saveVersion;
+module.exports.seedHistory=seedHistory;
+module.exports.pack=pack;
+module.exports.unpack=unpack;

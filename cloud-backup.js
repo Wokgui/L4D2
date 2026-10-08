@@ -90,7 +90,6 @@
         if (saved) localStorage.setItem(revisionKey(user.id), String(saved.revision));
         status(saved ? `Sauvegardé automatiquement — version ${saved.revision}` : 'Déjà à jour');
         if(saved)await mirrorDrive(payload,saved.revision);
-        loadHistory().catch(() => {});
         return true;
       } catch (error) {
         status(`Sauvegarde impossible : ${error.message}`);
@@ -150,8 +149,19 @@
       const {data}=await client.auth.getSession();
       const token=data.session?.access_token;
       if(!token)throw Error('Connexion nécessaire.');
-      const response=await fetch('/api/drive-backup'+path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
-      const result=await response.json();
+      let encoded=body;
+      if(body&&JSON.stringify(body).length>1000000){
+        const compressed=await new Response(new Blob([JSON.stringify(body)]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer();
+        const bytes=new Uint8Array(compressed);let binary='';
+        for(let i=0;i<bytes.length;i+=32768)binary+=String.fromCharCode(...bytes.subarray(i,i+32768));
+        encoded={encoding:'gzip-base64',content:btoa(binary)};
+      }
+      const response=await fetch('/api/drive-backup'+path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(encoded)}:{})});
+      let result;try{result=await response.json();}catch{throw Error('Le transfert Google Drive a échoué ('+response.status+').');}
+      if(result?.encoding==='gzip-base64'){
+        const bytes=Uint8Array.from(atob(result.content),c=>c.charCodeAt(0));
+        result=JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text());
+      }
       if(!response.ok)throw Error(result.error||'Google Drive est indisponible.');
       return result;
     }
@@ -181,7 +191,7 @@
       if(!user)return;
       try{
         const result=await driveRequest();showDriveVersions(result.versions);
-        $('.cloud-backup-drive-status').textContent='Dernière sauvegarde et quatre précédentes.';
+        $('.cloud-backup-drive-status').textContent=result.versions.length?'Dernière sauvegarde et quatre précédentes.':'Aucune sauvegarde Google Drive pour le moment.';
       }catch(error){
         showDriveVersions([]);$('.cloud-backup-drive-status').textContent=error.message;
       }
