@@ -941,17 +941,25 @@ const st=document.createElement('style');st.textContent='.pick-modal{position:fi
       const {data}=await authClient.auth.getSession();
       const token=data?.session?.access_token;
       if(!token)throw new Error('Connectez-vous d’abord à la sauvegarde cloud.');
+      let body={campaigns:C,otherCampaigns:A,lastPlayed:LP};
+      const json=JSON.stringify(body);
+      if(new TextEncoder().encode(json).length>1000000){
+        const compressed=await new Response(new Blob([json]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer();
+        const bytes=new Uint8Array(compressed);let binary='';
+        for(let i=0;i<bytes.length;i+=32768)binary+=String.fromCharCode(...bytes.subarray(i,i+32768));
+        body={encoding:'gzip-base64',content:btoa(binary)};
+      }
       const response=await fetch('/api/save',{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
-        body:JSON.stringify({campaigns:C,otherCampaigns:A,lastPlayed:LP})
+        body:JSON.stringify(body)
       });
       const result=await response.json().catch(()=>({}));
       if(!response.ok||!result.ok)throw new Error(result.error||'Échec sauvegarde');
       syncLabel('Sauvegarde externe '+new Date(result.savedAt).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}));
       if(showAlert)alert('Sauvegarde externe enregistrée');
     }catch(error){
-      syncLabel('Sauvegarde externe indisponible');
+      syncLabel('Sauvegarde externe : '+(error.message||'indisponible'));
       if(showAlert)alert(error.message||'Sauvegarde externe indisponible');
     }finally{
       syncing=false;
