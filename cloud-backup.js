@@ -177,7 +177,7 @@
     }
 
     function showDriveVersions(versions) {
-      const list=$('.cloud-backup-history');list.replaceChildren();
+      const list=$('.cloud-backup-tools .cloud-backup-history');list.replaceChildren();
       for(const item of versions||[]){
         const li=document.createElement('li'),label=document.createElement('span'),restore=document.createElement('button');
         label.textContent=`Version ${item.appProperties.revision} · ${new Date(item.modifiedTime).toLocaleString('fr-FR')}`;
@@ -310,7 +310,7 @@
     });
     $('.cloud-backup-now').addEventListener('click', () => upload('manual'));
     $('.cloud-backup-logout').addEventListener('click', () => client.auth.signOut());
-    $('.cloud-backup-history').addEventListener('click', event => {
+    $('.cloud-backup-tools .cloud-backup-history').addEventListener('click', event => {
       const id=event.target.closest('[data-drive-id]')?.dataset.driveId;
       if(id)restoreDrive(id);
     });
