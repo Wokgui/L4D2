@@ -2365,7 +2365,7 @@ const st=document.createElement('style');st.textContent='.pick-modal{position:fi
         results.classList.remove('on');query.value=c.name;
         if(kept){document.querySelector('[data-p="d"]').click();draw(c);}
         else{
-          ac='Toutes';document.getElementById('oq').value=c.name;
+          ac='Toutes';
           document.querySelector('[data-p="o"]').click();
           const item=[...document.querySelectorAll('#ol .item')].find(item=>String(item.dataset.r)===String(c.excelRow));
           if(item){item.classList.add('open');item.scrollIntoView({block:'center'});}
@@ -2378,7 +2378,6 @@ const st=document.createElement('style');st.textContent='.pick-modal{position:fi
   }
   attachSearch(document.getElementById('kq'),document.getElementById('ksr'),true);
   attachSearch(document.getElementById('q'),document.getElementById('sr'),false);
-  document.getElementById('oq').oninput=others;
   const exportStatus=document.createElement('div');exportStatus.className='drive-export-status';exportStatus.setAttribute('role','status');
   document.querySelector('#k .backup').after(exportStatus);
   document.getElementById('drive-import').onclick=()=>window.L4D2Drive?.import();

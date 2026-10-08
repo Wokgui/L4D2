@@ -48,7 +48,7 @@
     picker.className='cloud-backup-file-picker cloud-backup-hidden';
     picker.innerHTML='<h3>Importer depuis Google Drive</h3><p class="cloud-backup-import-status" role="status"></p><ul class="cloud-backup-history cloud-backup-import-files"></ul><button class="cloud-backup-import-cancel secondary" type="button">Retour aux sauvegardes</button>';
     panel.querySelector('.cloud-backup-content').prepend(picker);
-    panel.querySelector('.cloud-backup-note').textContent='Google Drive conserve la dernière sauvegarde et les quatre précédentes. Importer et exporter utilisent le même dossier Google Drive et nécessitent une connexion Internet.';
+    panel.querySelector('.cloud-backup-note').replaceChildren(document.createTextNode('Google Drive conserve la dernière sauvegarde et les quatre précédentes.'),document.createElement('br'),document.createTextNode('Importer et exporter utilisent le même dossier Google Drive et nécessitent une connexion Internet.'));
 
     const $ = selector => panel.querySelector(selector);
     const scrollArea = $('.cloud-backup-content');
