@@ -8,6 +8,7 @@ android {
 }
 def webAssets = layout.buildDirectory.dir('generated/web-assets')
 tasks.register('prepareWebAssets', Sync) {
+ filteringCharset = 'UTF-8'
  from(rootProject.projectDir.parentFile) {
  include '*.html','*.css','*.js','*.json','*.webmanifest','*.png','*.jpg','*.webp','*.svg','assets/**','icons/**','vendor/**','services/**'
  exclude 'package*.json','vercel.json'
