@@ -27,7 +27,7 @@ html body #k .det .sv,html body #k .det .dk{flex:0 1 auto!important;width:auto!i
 .cloud-backup-import-files span{overflow-wrap:anywhere;min-width:0}
 .cloud-backup-import-status{text-align:center}
 
-html body .nav{padding:0!important;gap:0!important;border:0!important;border-top:3px solid var(--g)!important;box-shadow:none!important;height:calc(var(--l4d2-nav-height,58px) + env(safe-area-inset-bottom))!important;min-height:0!important;overflow:hidden!important}
+html body .nav{padding:0!important;gap:0!important;border:0!important;border-top:2.25px solid var(--g)!important;box-shadow:none!important;height:calc(var(--l4d2-nav-height,58px) + env(safe-area-inset-bottom))!important;min-height:0!important;overflow:hidden!important}
 html body .nav button{margin:0!important;border-radius:0!important;min-height:0!important;height:100%!important;padding:4px 2px calc(4px + env(safe-area-inset-bottom))!important}
 html body .nav i svg{width:1em;height:1em;display:inline-block;vertical-align:middle}
 html body .nav .nav-kept-icon{color:#37a276}
