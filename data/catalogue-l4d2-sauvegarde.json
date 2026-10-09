@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-10-09T12:55:00.877Z",
+  "savedAt": "2026-10-09T16:34:37.328Z",
   "campaigns": [
     {
       "id": "s0",
@@ -6025,25 +6025,25 @@
   "lastPlayed": {
     "id": "s183",
     "name": "Welcome to hell",
-    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=381848620",
     "drawnAt": "2026-10-09T12:54:51.116Z",
     "previous": {
       "id": "s112",
       "name": "Lockdown",
-      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2108461892",
-      "drawnAt": "2026-10-09T12:54:50.832Z"
-    }
+      "drawnAt": "2026-10-09T12:54:50.832Z",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2108461892"
+    },
+    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=381848620"
   },
   "lastDrawn": {
     "id": "s183",
     "name": "Welcome to hell",
-    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=381848620",
     "drawnAt": "2026-10-09T12:54:51.116Z",
     "previous": {
       "id": "s112",
       "name": "Lockdown",
-      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2108461892",
-      "drawnAt": "2026-10-09T12:54:50.832Z"
-    }
+      "drawnAt": "2026-10-09T12:54:50.832Z",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2108461892"
+    },
+    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=381848620"
   }
 }
