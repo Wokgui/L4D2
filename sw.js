@@ -1,5 +1,5 @@
-const CACHE="catalogue-l4d2-20261009-147";
-const SHELL=["/ui-runtime.js?v=20261009-147","/ui-current.css?v=20261009-147","/","/app.js?v=20261009-147","/polish.css?v=20260919-100","/layout-air-v80.css?v=20260919-114","/bootstrap-data.js?v=20260810-3","/campaign-icon.jpg","/welcome-cover-centered-v145.png","/l4d2-final-192-v52.png","/l4d2-splash-safe-512-v101.png?v=20260823-101","/l4d2-maskable-512-v53.png?v=20260823-105","/steam-icon-exact-v124.svg","/chat-icon-top-v127.svg","/manifest.webmanifest?v=20260823-105","/cloud-backup.js?v=20261009-147","/vendor/supabase/supabase.js?v=1"];
+const CACHE="catalogue-l4d2-20261009-148";
+const SHELL=["/ui-runtime.js?v=20261009-148","/ui-current.css?v=20261009-148","/","/app.js?v=20261009-148","/polish.css?v=20260919-100","/layout-air-v80.css?v=20260919-114","/bootstrap-data.js?v=20260810-3","/campaign-icon.jpg","/welcome-cover-centered-v145.png","/l4d2-final-192-v52.png","/l4d2-splash-safe-512-v101.png?v=20260823-101","/l4d2-maskable-512-v53.png?v=20260823-105","/steam-icon-exact-v124.svg","/chat-icon-top-v127.svg","/manifest.webmanifest?v=20260823-105","/cloud-backup.js?v=20261009-148","/vendor/supabase/supabase.js?v=1"];
 const STATIC_DESTINATIONS=new Set(["style","script","image","font","manifest"]);
 const LEGACY_STEAM_ICONS=new Set(["/steam-icon.png","/steam-icon-fast.svg","/steam-icon-user.png"]);
 const sameOrigin=request=>new URL(request.url).origin===self.location.origin;
