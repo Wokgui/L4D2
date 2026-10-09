@@ -27,7 +27,7 @@ html body #k .det .sv,html body #k .det .dk{flex:0 1 auto!important;width:auto!i
 .cloud-backup-import-files span{overflow-wrap:anywhere;min-width:0}
 .cloud-backup-import-status{text-align:center}
 
-html body .nav{padding:0!important;gap:0!important;border:0!important;border-top:1px solid #c5d2cb!important;box-shadow:none!important;height:calc(var(--l4d2-nav-height,58px) + env(safe-area-inset-bottom))!important;min-height:0!important;overflow:hidden!important}
+html body .nav{padding:0!important;gap:0!important;border:0!important;border-top:1px solid #8da79b!important;box-shadow:none!important;height:calc(var(--l4d2-nav-height,58px) + env(safe-area-inset-bottom))!important;min-height:0!important;overflow:hidden!important}
 html body .nav button{margin:0!important;border-radius:0!important;min-height:0!important;height:100%!important;padding:4px 2px calc(4px + env(safe-area-inset-bottom))!important}
 html body .nav i svg{width:1em;height:1em;display:inline-block;vertical-align:middle}
 html body .nav .nav-kept-icon{color:#37a276}
@@ -48,3 +48,9 @@ html body .cloud-backup-content.is-scrolling::-webkit-scrollbar-thumb{background
 html body .cloud-backup-tools h3{margin-bottom:4px!important}
 
 html body .cloud-backup-note{text-align:justify!important}
+
+/* Welcome artwork and Steam shortcut accents. */
+html body .draw .home-res .welcome{background-image:url('/welcome-cover-centered-v145.png')!important;background-size:cover!important;background-position:center!important}
+html body .home-res .welcome-actions a.workshop{box-shadow:0 7px 17px #715f4019,inset 0 3px 0 #7855a6!important}
+html body .home-res .welcome-actions .workshop svg circle{fill:#7855a6}
+html body .home-res .welcome-actions .workshop svg path:last-child{fill:#efe5fa}
