@@ -1,5 +1,5 @@
 {
-  "savedAt": "2026-10-09T20:02:47.559Z",
+  "savedAt": "2026-10-10T12:58:41.055Z",
   "campaigns": [
     {
       "id": "s0",
@@ -6023,27 +6023,27 @@
     }
   ],
   "lastPlayed": {
-    "id": "x1786355213578",
-    "name": "New York",
-    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3603092403",
-    "drawnAt": "2026-10-09T20:02:36.161Z",
+    "id": "x1786355045324",
+    "name": "Alley war",
+    "drawnAt": "2026-10-08T19:51:20.698Z",
     "previous": {
-      "id": "s183",
-      "name": "Welcome to hell",
-      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=381848620",
-      "drawnAt": "2026-10-09T12:54:51.116Z"
-    }
+      "id": "s109",
+      "name": "Lego wonderlands",
+      "drawnAt": "2026-10-08T19:51:19.528Z",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3679200707"
+    },
+    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2757036194"
   },
   "lastDrawn": {
-    "id": "x1786355213578",
-    "name": "New York",
-    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3603092403",
-    "drawnAt": "2026-10-09T20:02:36.161Z",
+    "id": "x1786355045324",
+    "name": "Alley war",
+    "drawnAt": "2026-10-08T19:51:20.698Z",
     "previous": {
-      "id": "s183",
-      "name": "Welcome to hell",
-      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=381848620",
-      "drawnAt": "2026-10-09T12:54:51.116Z"
-    }
+      "id": "s109",
+      "name": "Lego wonderlands",
+      "drawnAt": "2026-10-08T19:51:19.528Z",
+      "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=3679200707"
+    },
+    "workshopUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=2757036194"
   }
 }
