@@ -1,0 +1,32 @@
+name: Inspect public Android release certificates
+on:
+  push:
+    branches:
+      - codex/classement-reglages
+
+permissions:
+  contents: read
+
+jobs:
+  certificates:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Read public APK signing certificate fingerprints
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          SIGNER="$(find "${ANDROID_SDK_ROOT:-$ANDROID_HOME}/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
+          test -x "$SIGNER"
+          while read -r APP TAG ASSET; do
+            APK="$RUNNER_TEMP/$ASSET"
+            gh release download "$TAG" --repo "Wokgui/$APP" --pattern "$ASSET" --output "$APK"
+            printf '%s ' "$APP"
+            "$SIGNER" verify --print-certs "$APK" | sed -n 's/^Signer #[0-9]* certificate SHA-256 digest: //p'
+          done <<'RELEASES'
+          L4D2 android-v1.0 L4D2-Android-1.0.apk
+          Emploi-du-temps v7.79 Emploi-du-temps-7.79.apk
+          mon-actualite android-v98.68 Mon-Actualite-98.68.apk
+          Radio-intelligente apk-34 Radio-intelligente-v111-debug.apk
+          RELEASES
