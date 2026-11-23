@@ -23,7 +23,7 @@ jobs:
             APK="$RUNNER_TEMP/$ASSET"
             gh release download "$TAG" --repo "Wokgui/$APP" --pattern "$ASSET" --output "$APK"
             printf '%s ' "$APP"
-            "$SIGNER" verify --print-certs "$APK" | sed -n 's/^Signer #[0-9]* certificate SHA-256 digest: //p'
+            "$SIGNER" verify --print-certs "$APK" | grep -Ei 'SHA.?256'
           done <<'RELEASES'
           L4D2 android-v1.0 L4D2-Android-1.0.apk
           Emploi-du-temps v7.79 Emploi-du-temps-7.79.apk
