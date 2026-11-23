@@ -1,0 +1,61 @@
+name: Publish Android APK
+
+on:
+  push:
+    branches:
+      - codex/classement-reglages
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/codex/classement-reglages'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+      - name: Install Android SDK
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Restore the existing Android signing key
+        env:
+          SIGNING_KEY_B64: ${{ secrets.WOKGUI_NATIVE_KEYSTORE_B64 }}
+        run: |
+          set -euo pipefail
+          test -n "$SIGNING_KEY_B64" || { echo '::error::Secret de signature WOKGUI_NATIVE_KEYSTORE_B64 indisponible.'; exit 1; }
+          umask 077
+          printf '%s' "$SIGNING_KEY_B64" | base64 --decode > "$RUNNER_TEMP/l4d2.keystore"
+
+      - name: Build Android APK
+        env:
+          WOKGUI_NATIVE_KEYSTORE: ${{ runner.temp }}/l4d2.keystore
+        run: |
+          gradle -p android-app :app:assembleDebug --no-daemon
+          cp android-app/app/build/outputs/apk/debug/app-debug.apk L4D2-Android-1.1.apk
+      - name: Verify compatible signature and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download 'android-v1.0' --pattern 'L4D2-Android-1.0.apk' --output "$RUNNER_TEMP/previous-release.apk"
+          APKSIGNER="$(find "${ANDROID_SDK_ROOT:-$ANDROID_HOME}/build-tools" -name apksigner -type f | sort -V | tail -n 1)"
+          test -x "$APKSIGNER"
+          signer_digest() {
+            "$APKSIGNER" verify --print-certs "$1" | sed -n 's/^Signer #[0-9]* certificate SHA-256 digest: //p' | sort
+          }
+          OLD_SIGNER="$(signer_digest "$RUNNER_TEMP/previous-release.apk")"
+          NEW_SIGNER="$(signer_digest "L4D2-Android-1.1.apk")"
+          test -n "$OLD_SIGNER"
+          if [ "$OLD_SIGNER" != "$NEW_SIGNER" ]; then
+            echo "::error::La signature diffère de celle de l’APK déjà publié."
+            exit 1
+          fi
+          gh release create android-v1.1 L4D2-Android-1.1.apk --target "$GITHUB_SHA" --title 'L4D2 Android 1.1' --notes 'Classement dans les réglages et ouverture des abonnements Steam corrigée.' --latest
