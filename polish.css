@@ -9,7 +9,7 @@ html,body{height:100%;overflow-x:hidden;font-size:16px;background:#f6efe2}.app{m
 html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:hidden}.page{height:calc(100dvh - 48px);overflow-y:auto}.draw.page.on{height:calc(100dvh - 48px);overflow:hidden;padding:10px 16px 8px}
 .draw .title{position:relative;flex:0 0 46px;justify-content:center}.title-icon{position:absolute;left:0;width:44px;height:44px;border-radius:13px}.draw .title h1{width:100%;text-align:center;font-size:clamp(27px,7vw,34px)}.draw .title .count{position:absolute;right:0;max-width:92px;text-align:right}
 .draw .lab{margin-top:4px;font-size:12px}.draw .chips{gap:6px}.draw .chip{padding:7px 12px;font-size:14px;line-height:1.1}
-.result-card .meta{gap:6px;padding:0;background:transparent;justify-content:stretch}.result-card .meta span{flex:1;min-width:0;text-align:center;background:linear-gradient(150deg,#f5ead8,#ebdcc3);border:1px solid #dfceb2;border-radius:11px;padding:7px 3px;font-size:13px;font-weight:850}.result-card .meta b{font-size:9px;margin-bottom:2px}.result-card .desc{color:#5f5c52}.result-card .note{margin-top:0;border:0;padding:8px 10px 8px 30px;border-radius:11px;background:#f1e4cf;position:relative}.result-card .note:before{content:'“';position:absolute;left:10px;top:1px;color:var(--g);font-size:25px;font-weight:900}
+.result-card .meta{gap:6px;padding:0;background:transparent;justify-content:stretch}.result-card .meta span{flex:1;min-width:0;text-align:center;background:linear-gradient(150deg,#f5ead8,#ebdcc3);border:1px solid #dfceb2;border-radius:11px;padding:7px 3px;font-size:13px;font-weight:850}.result-card .meta b{font-size:9px;margin-bottom:2px}.result-card .desc{color:#5f5c52}.result-card .note{margin-top:0;border:0;padding:8px 10px 8px 30px;border-radius:11px;background:#f1e4cf;position:relative}.result-card .note:before{content:'"';position:absolute;left:10px;top:1px;color:var(--g);font-size:25px;font-weight:900}
 @media(max-height:720px){.draw.page.on{padding-top:5px}.draw .title{flex-basis:42px}.title-icon{width:40px;height:40px}.draw .search{margin:4px 0}.draw .lab{margin:2px 0 1px}.draw .chip{padding:5px 9px;font-size:13px}.drawbtn{margin:5px 0;padding:8px}.welcome-icon{width:60px;height:60px;font-size:32px;margin-bottom:8px}.welcome span{margin:5px 0 7px}.result-card>img,.photo-fallback{max-height:27dvh}.result-content{padding:9px 11px;gap:6px}}
 .category-box{padding:0;overflow:hidden;cursor:pointer}.category-box b{padding-top:7px}.category-box select{width:100%;border:0;background:transparent;color:var(--g);font-weight:900;text-align:center;text-align-last:center;padding:2px 3px 7px;cursor:pointer;appearance:auto}.item>.det .grid{align-items:stretch}.item>.det .box{min-height:58px;display:flex;flex-direction:column;justify-content:center}
 
@@ -60,9 +60,9 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
 .draw .title-icon{object-fit:contain;background:transparent;border:0;box-shadow:none}
 .draw .title-icon{object-fit:cover;background:transparent;border:2px solid #fffaf2;box-shadow:0 5px 15px #4b3d2730}.draw .brand-icon{width:44px;height:44px;object-fit:contain;padding:0;background:transparent;border:0;box-shadow:none}
 @media(max-height:720px){.draw .brand-icon{width:39px;height:39px}}
-.steam-quick-links{position:absolute;left:50%;transform:translateX(-50%);width:110px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}.steam-quick{position:relative;width:28px;height:28px;border-radius:8px;background:#08294d;display:grid;place-items:center;box-shadow:0 3px 9px #193e5d35;pointer-events:auto}.steam-quick img{width:100%;height:100%;object-fit:cover;border-radius:8px}.steam-quick:after{position:absolute;right:-2px;bottom:-2px;width:13px;height:13px;border-radius:50%;display:grid;place-items:center;background:#2f796d;color:#fff;border:2px solid #f6efe2;font:900 8px/1 system-ui}.steam-quick.subscriptions:after{content:"✓"}.steam-quick.news:after{content:"✦";background:#d8841f}@media(max-height:720px){.steam-quick-links{width:102px}.steam-quick{width:25px;height:25px}}
+.steam-quick-links{position:absolute;left:50%;transform:translateX(-50%);width:110px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}.steam-quick{position:relative;width:28px;height:28px;border-radius:8px;background:#08294d;display:grid;place-items:center;box-shadow:0 3px 9px #193e5d35;pointer-events:auto}.steam-quick img{width:100%;height:100%;object-fit:cover;border-radius:8px}.steam-quick:after{position:absolute;right:-2px;bottom:-2px;width:13px;height:13px;border-radius:50%;display:grid;place-items:center;background:#2f796d;color:#fff;border:2px solid #f6efe2;font:900 8px/1 system-ui}.steam-quick.subscriptions:after{content:"V"}.steam-quick.news:after{content:"?";background:#d8841f}@media(max-height:720px){.steam-quick-links{width:102px}.steam-quick{width:25px;height:25px}}
 #k .wk{width:40px;height:40px;background:transparent!important;border-radius:50%;overflow:visible;box-shadow:none}#k .wk img{object-fit:contain;border-radius:50%}#k .acts{align-items:center;gap:7px}
-.welcome-actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.welcome-actions a{min-height:76px;border-radius:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:7px 10px;color:#fff;text-decoration:none;text-align:center;font-size:14px;line-height:1.08;font-weight:900;box-shadow:0 8px 20px #203b5030}.welcome-actions a:first-child{background:linear-gradient(145deg,#123f6a,#08294d)}.welcome-actions a:last-child{background:linear-gradient(145deg,#3a8b7d,#286a60)}.welcome-steam-icon{position:relative;width:34px;height:34px;flex:0 0 34px}.welcome-steam-icon img{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}.welcome-steam-icon:after{position:absolute;right:-3px;bottom:-2px;width:15px;height:15px;border-radius:50%;display:grid;place-items:center;color:#fff;border:2px solid #fff;font:900 9px/1 system-ui}.welcome-actions .subscriptions .welcome-steam-icon:after{content:"✓";background:#2f796d}.welcome-actions .news .welcome-steam-icon:after{content:"✦";background:#d8841f}.draw .title-profile{position:absolute;left:0;width:44px;height:44px;display:block}.draw .title-profile .title-icon{position:static;width:100%;height:100%;display:block}@media(max-height:720px){.welcome-actions{gap:8px;margin-top:7px}.welcome-actions a{min-height:61px;padding:5px 8px;font-size:12px;border-radius:14px;gap:6px}.welcome-steam-icon{width:28px;height:28px;flex-basis:28px}.welcome-steam-icon:after{width:13px;height:13px;font-size:8px}.draw .title-profile{width:39px;height:39px}}
+.welcome-actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.welcome-actions a{min-height:76px;border-radius:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:7px 10px;color:#fff;text-decoration:none;text-align:center;font-size:14px;line-height:1.08;font-weight:900;box-shadow:0 8px 20px #203b5030}.welcome-actions a:first-child{background:linear-gradient(145deg,#123f6a,#08294d)}.welcome-actions a:last-child{background:linear-gradient(145deg,#3a8b7d,#286a60)}.welcome-steam-icon{position:relative;width:34px;height:34px;flex:0 0 34px}.welcome-steam-icon img{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}.welcome-steam-icon:after{position:absolute;right:-3px;bottom:-2px;width:15px;height:15px;border-radius:50%;display:grid;place-items:center;color:#fff;border:2px solid #fff;font:900 9px/1 system-ui}.welcome-actions .subscriptions .welcome-steam-icon:after{content:"V";background:#2f796d}.welcome-actions .news .welcome-steam-icon:after{content:"?";background:#d8841f}.draw .title-profile{position:absolute;left:0;width:44px;height:44px;display:block}.draw .title-profile .title-icon{position:static;width:100%;height:100%;display:block}@media(max-height:720px){.welcome-actions{gap:8px;margin-top:7px}.welcome-actions a{min-height:61px;padding:5px 8px;font-size:12px;border-radius:14px;gap:6px}.welcome-steam-icon{width:28px;height:28px;flex-basis:28px}.welcome-steam-icon:after{width:13px;height:13px;font-size:8px}.draw .title-profile{width:39px;height:39px}}
 .result-card .campaign-description{margin-top:8px}
 @media(max-height:720px){.result-card .campaign-description{margin-top:6px}}
 .sync-row{display:flex;align-items:center;gap:3px}.sync-row small{margin-top:0}.sync-row button{width:18px;height:18px;padding:0;border:0;background:transparent;color:var(--m);font-size:13px;line-height:18px}.history-modal{position:fixed;inset:0;z-index:100;background:#171612aa;display:grid;place-items:center;padding:18px}.history-panel{width:min(100%,390px);max-height:82dvh;overflow:auto;background:var(--p);border-radius:18px;padding:14px;box-shadow:0 20px 70px #0008}.history-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:17px}.history-close{border:0;background:var(--p2);width:32px;height:32px;border-radius:10px;font-size:22px}.history-list{display:flex;flex-direction:column;gap:7px}.history-list>button{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;border:1px solid var(--l);border-radius:11px;background:#fff;padding:10px;text-align:left}.history-list span{font-size:11px;color:var(--m)}
@@ -105,11 +105,11 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
 .editable-meta-box b{padding-top:7px}
 .editable-meta-box input,.editable-meta-box select{width:100%;min-height:31px;border:0;background:transparent;color:var(--g);font-weight:900;text-align:center;text-align-last:center;padding:2px 3px 7px;cursor:pointer}
 
-/* Accès direct aux favoris Workshop */
-.steam-quick.favorites:after{content:"♥";background:#b95555}
-.welcome-actions .favorites .welcome-steam-icon:after{content:"♥";background:#b95555}
+/* Acc�s direct aux favoris Workshop */
+.steam-quick.favorites:after{content:"";background:#b95555}
+.welcome-actions .favorites .welcome-steam-icon:after{content:"";background:#b95555}
 
-/* v78 — accueil réorganisé, fidèle à la maquette validée */
+/* v78 - accueil r�organis�, fid�le � la maquette valid�e */
 .app>.draw.page.on{padding:14px 16px 8px;gap:0}
 .draw .title{position:relative;flex:0 0 58px;height:58px;margin:0 0 9px;display:flex;align-items:center;justify-content:flex-start}
 .brand-lockup{height:100%;display:flex;align-items:center;gap:12px;min-width:0}
@@ -192,7 +192,7 @@ html,body{height:100%;overflow:hidden}.app{height:100dvh;min-height:0;overflow:h
   .home-res .welcome-steam-icon{width:29px;height:29px;flex-basis:29px}
 }
 
-/* Icône Chat Steam : une seule géométrie dès son premier rendu.
+/* Ic�ne Chat Steam : une seule g�om�trie d�s son premier rendu.
    Les anciens patches peuvent encore remplacer son balisage, mais plus sa position. */
 html body .app .draw .title .steam-chat-top{
   position:absolute!important;
@@ -285,7 +285,7 @@ html body .app .draw .title .steam-chat-top .steam-chat-corner-badge svg{
   transform:translate(-50%,calc(-50% + .32px))!important;
 }
 @media(max-width:420px){
-  /* svh reste constant quand les barres système changent la hauteur visible.
+  /* svh reste constant quand les barres syst�me changent la hauteur visible.
      Le point d'ancrage ne traverse donc plus brutalement le seuil de 720 px. */
   html body .app .draw .title .steam-chat-top{
     position:fixed!important;
@@ -293,8 +293,8 @@ html body .app .draw .title .steam-chat-top .steam-chat-corner-badge svg{
   }
 }
 
-/* État initial v99 : mêmes dimensions que l'état final, avant les patches JS.
-   Le chargement ne peut donc plus compacter le sélecteur ni agrandir l'accueil. */
+/* �tat initial v99 : m�mes dimensions que l'�tat final, avant les patches JS.
+   Le chargement ne peut donc plus compacter le s�lecteur ni agrandir l'accueil. */
 html body .app .draw .selector-card{
   margin:3px 0 6px!important;
   padding:8px 11px 10px!important;
@@ -399,9 +399,9 @@ html body .app .draw .title .steam-chat-top{
   }
 }
 
-/* Sur mobile, l'accueil suit la hauteur réellement disponible.
-   Ne pas figer la mesure prise pendant le splash Android : innerHeight peut être
-   temporairement trop petit et couper la seconde rangée des raccourcis Steam. */
+/* Sur mobile, l'accueil suit la hauteur r�ellement disponible.
+   Ne pas figer la mesure prise pendant le splash Android : innerHeight peut �tre
+   temporairement trop petit et couper la seconde rang�e des raccourcis Steam. */
 @media(max-width:420px){
   html[data-l4d2-height="compact"] body .app>.draw.page.on,
   html[data-l4d2-height="regular"] body .app>.draw.page.on{
@@ -451,3 +451,27 @@ html body .app .draw .title .steam-chat-top{
   html[data-l4d2-height="regular"] body .nav button{min-height:50px!important;font-size:13px!important}
   html[data-l4d2-height="regular"] body .nav i{font-size:19px!important}
 }
+
+html body .app .draw .title{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:clamp(4px,2vw,12px)}
+html body .app .draw .title.title .steam-chat-top{grid-column:2;grid-row:1;position:static!important;transform:none!important}
+.draw .title .brand-lockup{grid-column:1;grid-row:1}
+.draw .title .header-status{grid-column:3;grid-row:1;left:0;right:0;position:static;margin-inline-start:auto;transform:none;min-width:0;max-width:100%}
+.draw .title .header-status .count,.draw .title .header-status small{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.draw .title .header-status .sync-row{max-width:100%}
+.draw-ranking-dialog{width:min(30rem,calc(100% - 2rem));max-height:75dvh;overflow:auto;border:1px solid #deceb4;border-radius:18px;background:#fff9ef;color:#20211d;padding:1rem}
+.draw-ranking-dialog::backdrop{background:#211b1588}
+.draw-ranking-dialog h2{margin:0 0 .75rem}
+.draw-ranking-dialog ol{padding-inline-start:1.7rem}
+.draw-ranking-dialog li{padding:.5rem 0;border-bottom:1px solid #deceb4}
+.draw-ranking-dialog li strong{margin-inline-start:.75rem;white-space:nowrap;color:#624b32}
+.draw-ranking-dialog form{text-align:right}
+.draw-ranking-dialog button{padding:.55rem 1rem}
+
+.draw-settings-options{display:grid;gap:8px;margin-bottom:12px}
+#draw-settings-title{text-align:center}
+#draw-settings-menu .chip{margin:0;min-height:44px;cursor:pointer;font-size:1rem;font-weight:800}
+#draw-settings-menu .draw-settings-options .chip{width:100%;text-align:center;border-radius:14px}
+#draw-settings-menu form{text-align:center}
+#draw-settings-menu form .chip{min-width:7rem}
+
+.draw .sync-row #draw-settings{flex:none;cursor:pointer}
