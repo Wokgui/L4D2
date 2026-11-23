@@ -4,11 +4,54 @@ const $=x=>document.getElementById(x),E=s=>String(s??"").replace(/[&<>"']/g,c=>(
 function save(){localStorage.setItem(SK,JSON.stringify(C));localStorage.setItem(OK,JSON.stringify(A));cnt();scheduleGitHubSave();window.dispatchEvent(new Event("l4d2-backup-change"))}
 function cnt(){C.forEach(c=>{if(!c.notes&&c.excelRemark)c.notes=c.excelRemark});$("kc").textContent=C.length+" campagnes";$("kn").textContent=C.length+" / "+C.length}
 function dl(d){return({facile:"Facile",moyen:"Moyen",difficile:"Difficile"})[d]||"Moyen"}function lc(m){return!m?"i":m<=3?"c":m<=5?"m":"l"}function w(u,id){return u?`<a class=wk target=_blank rel=noopener href="${E(u)}" aria-label="Ouvrir sur le Workshop Steam"><img src="/steam-icon.png" alt="Steam"></a>`:`<button type=button class="wk empty-workshop" data-wid="${E(id)}" aria-label="Ajouter le lien Workshop Steam"><img src="/steam-icon.png" alt="Steam"></button>`}
-function bindWorkshop(root,rerender){root.querySelectorAll(".empty-workshop").forEach(button=>button.onclick=()=>{let c=C.find(x=>String(x.id)===button.dataset.wid);if(!c)return;let url=prompt("Lien Workshop Steam",c.workshopUrl||"");if(url===null||!url.trim())return;c.workshopUrl=url.trim();save();rerender();window.open(c.workshopUrl,"_blank","noopener")})}
+function bindWorkshop(root,rerender){root.querySelectorAll(".empty-workshop").forEach(button=>button.onclick=()=>{let c=C.find(x=>String(x.id)===button.dataset.wid);if(!c)return;let url=prompt("Lien Workshop Steam",c.workshopUrl||"");if(url===null||!url.trim())return;c.workshopUrl=url.trim();save();rerender();if(window.NativeShell&&window.NativeFiles?.openExternal)NativeFiles.openExternal(c.workshopUrl);else window.open(c.workshopUrl,"_blank","noopener")})}
 function filters(){let D=[["t","Toutes"],["facile","Facile"],["moyen","Moyen"],["difficile","Difficile"]],L=[["t","Toutes"],["c","≤3"],["m","4–5"],["l","6+"]];$("df").innerHTML=D.map(x=>`<button class="chip ${ad==x[0]?"on":""}" data-d="${x[0]}">${x[1]}</button>`).join("");$("lf").innerHTML=L.map(x=>`<button class="chip ${al==x[0]?"on":""}" data-l="${x[0]}">${x[1]}</button>`).join("");document.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{ad=b.dataset.d;filters()});document.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{al=b.dataset.l;filters()})}
 function pool(){return C.filter(c=>(ad=="t"||c.difficulty==ad)&&(al=="t"||lc(c.maps)==al))}
 function fitDescription(){let card=$("res").querySelector(".result-card"),desc=card&&card.querySelector(".campaign-description"),title=card&&card.querySelector(".rname"),values=card?[...card.querySelectorAll(".meta span")]:[],labels=card?[...card.querySelectorAll(".meta b")]:[];if(!card||!desc||!title)return;let fit=()=>{let elements=[desc,title,...values,...labels];elements.forEach(e=>{e.style.fontSize="";e.style.lineHeight=""});let bases=elements.map(e=>parseFloat(getComputedStyle(e).fontSize)||12),scale=1;while((desc.scrollHeight>desc.clientHeight+1||card.scrollHeight>card.clientHeight+1)&&scale>.58){scale-=.04;elements.forEach((e,i)=>{e.style.fontSize=bases[i]*scale+"px";e.style.lineHeight=i===0?"1.2":"1.08"})}};requestAnimationFrame(()=>requestAnimationFrame(fit))}
-function rememberDraw(c){LD={id:c.id,name:c.name,workshopUrl:c.workshopUrl||"",drawnAt:new Date().toISOString()};LP=LD;localStorage.setItem(LDK,JSON.stringify(LD));scheduleGitHubSave();window.dispatchEvent(new Event("l4d2-backup-change"))}
+function drawRanking(lastDrawn) {
+  if (Array.isArray(lastDrawn?.ranking)) return lastDrawn.ranking;
+  const entries = [];
+  for (const draw of [lastDrawn?.previous, lastDrawn]) {
+    if (!draw?.drawnAt || draw.id == null) continue;
+    const entry = entries.find(item => String(item.id) === String(draw.id));
+    if (entry) {
+      entry.count++;
+      entry.drawnAt = draw.drawnAt;
+    } else {
+      entries.push({id:draw.id, name:draw.name, count:1, drawnAt:draw.drawnAt});
+    }
+  }
+  return entries;
+}
+function drawRankingAfter(campaign, lastDrawn) {
+  const ranking = drawRanking(lastDrawn);
+  const entry = ranking.find(item => String(item.id) === String(campaign.id));
+  const updated = {id:campaign.id, name:campaign.name, count:(entry?.count || 0)+1, drawnAt:new Date().toISOString()};
+  return [...ranking.filter(item => String(item.id) !== String(campaign.id)), updated];
+}
+const drawSettings = $("draw-settings-menu");
+$("draw-settings").onclick = () => drawSettings.showModal();
+drawSettings.addEventListener("click", event => {
+  if (event.target.closest("#history")) drawSettings.close();
+});
+$("draw-ranking").onclick = () => {
+  drawSettings.close();
+  const dialog = document.createElement("dialog");
+  dialog.className = "draw-ranking-dialog";
+  dialog.setAttribute("aria-labelledby", "draw-ranking-title");
+  const entries = [...drawRanking(LP)].sort((a,b) => b.count-a.count || String(b.drawnAt).localeCompare(String(a.drawnAt)));
+  const rows = entries.map(entry => {
+    const campaign = C.find(item => String(item.id) === String(entry.id));
+    return '<li><span>'+E(campaign?.name || entry.name)+'</span><strong>'+E(entry.count)+' tirage'+(entry.count > 1 ? 's' : '')+'</strong></li>';
+  }).join("");
+  dialog.innerHTML = '<h2 id="draw-ranking-title">Classement des tirages</h2>' +
+    (rows ? '<ol>'+rows+'</ol>' : '<p>Aucune campagne tirée au sort.</p>') +
+    '<form method="dialog"><button autofocus>Fermer</button></form>';
+  dialog.addEventListener("close", () => dialog.remove(), {once:true});
+  document.body.appendChild(dialog);
+  dialog.showModal();
+};
+function rememberDraw(c){LD={id:c.id,name:c.name,workshopUrl:c.workshopUrl||"",drawnAt:new Date().toISOString(),ranking:drawRankingAfter(c,LD)};LP=LD;localStorage.setItem(LDK,JSON.stringify(LD));scheduleGitHubSave();window.dispatchEvent(new Event("l4d2-backup-change"))}
 function restoreLastDrawn(){if(!LD&&LP)LD=LP;let last=LD&&C.find(c=>String(c.id)===String(LD.id));if(last)draw(last)}
 window.addEventListener("l4d2-backup-change",()=>{if(LP!==LD){LD=LP;restoreLastDrawn()}});
 function draw(c,remember=false){let description=c.notes||c.excelRemark||"",category=c.category||"Oui";if(description&&!c.notes)c.notes=description;if(remember)rememberDraw(c);let isLast=LD&&String(LD.id)===String(c.id);$("res").classList.remove("home-res");$("res").innerHTML=`<div class=result-card>${c.photo?`<img src="${c.photo}" alt="Miniature de ${E(c.name)}">`:`<div class=photo-fallback>☠</div>`}<div class=result-content>${isLast?`<div class=last-drawn-label>Dernière campagne tirée au sort</div>`:""}<div class=rhead><div class=rname>${E(c.name)}</div>${w(c.workshopUrl,c.id)}</div><div class=meta><span class=editable-result-field data-field=category><b>Catégorie</b>${E(category)}</span><span class=editable-result-field data-field=maps><b>Cartes</b>${c.maps||"—"}</span><span class=editable-result-field data-field=difficulty><b>Difficulté</b>${dl(c.difficulty)}</span></div><div class="campaign-description editable-result-field" data-field=description>${description?E(description):"&nbsp;"}</div></div></div>`;$("res").querySelectorAll(".editable-result-field").forEach(tile=>tile.onclick=()=>editResult(c,tile.dataset.field));bindWorkshop($("res"),()=>draw(c));fitDescription()}

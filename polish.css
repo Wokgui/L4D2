@@ -451,3 +451,27 @@ html body .app .draw .title .steam-chat-top{
   html[data-l4d2-height="regular"] body .nav button{min-height:50px!important;font-size:13px!important}
   html[data-l4d2-height="regular"] body .nav i{font-size:19px!important}
 }
+
+html body .app .draw .title{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:clamp(4px,2vw,12px)}
+html body .app .draw .title.title .steam-chat-top{grid-column:2;grid-row:1;position:static!important;transform:none!important}
+.draw .title .brand-lockup{grid-column:1;grid-row:1}
+.draw .title .header-status{grid-column:3;grid-row:1;left:0;right:0;position:static;margin-inline-start:auto;transform:none;min-width:0;max-width:100%}
+.draw .title .header-status .count,.draw .title .header-status small{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.draw .title .header-status .sync-row{max-width:100%}
+.draw-ranking-dialog{width:min(30rem,calc(100% - 2rem));max-height:75dvh;overflow:auto;border:1px solid #deceb4;border-radius:18px;background:#fff9ef;color:#20211d;padding:1rem}
+.draw-ranking-dialog::backdrop{background:#211b1588}
+.draw-ranking-dialog h2{margin:0 0 .75rem}
+.draw-ranking-dialog ol{padding-inline-start:1.7rem}
+.draw-ranking-dialog li{padding:.5rem 0;border-bottom:1px solid #deceb4}
+.draw-ranking-dialog li strong{margin-inline-start:.75rem;white-space:nowrap;color:#624b32}
+.draw-ranking-dialog form{text-align:right}
+.draw-ranking-dialog button{padding:.55rem 1rem}
+
+.draw-settings-options{display:grid;gap:8px;margin-bottom:12px}
+#draw-settings-title{text-align:center}
+#draw-settings-menu .chip{margin:0;min-height:44px;cursor:pointer;font-size:1rem;font-weight:800}
+#draw-settings-menu .draw-settings-options .chip{width:100%;text-align:center;border-radius:14px}
+#draw-settings-menu form{text-align:center}
+#draw-settings-menu form .chip{min-width:7rem}
+
+.draw .sync-row #draw-settings{flex:none;cursor:pointer}

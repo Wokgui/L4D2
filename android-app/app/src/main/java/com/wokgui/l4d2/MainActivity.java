@@ -25,7 +25,19 @@ public class MainActivity extends Activity {
  if(state==null||web.restoreState(state)==null)web.loadUrl("https://catalogue-l4d2.vercel.app/?native=1");else web.postDelayed(this::reveal,650);
  }
  private void reveal(){runOnUiThread(()->{if(revealed||isFinishing()||isDestroyed())return;long delay=Math.max(0,650-(SystemClock.uptimeMillis()-started));web.postDelayed(()->{if(revealed||isDestroyed())return;revealed=true;root.removeView(loading);loading=null;web.invalidate();if(importRequested){importRequested=false;pickBackup();}else if(Intent.ACTION_SEND.equals(getIntent().getAction()))receiveBackup(getIntent());},delay);});}
+ private void openExternalLink(Uri uri) {
+  String scheme = uri.getScheme();
+  if ((!"https".equalsIgnoreCase(scheme) && !"http".equalsIgnoreCase(scheme)) || uri.getHost() == null) return;
+  try {
+   startActivity(new Intent(Intent.ACTION_VIEW, uri).addCategory(Intent.CATEGORY_BROWSABLE));
+  } catch (ActivityNotFoundException | SecurityException e) {
+   Toast.makeText(this, "Impossible d'ouvrir ce lien", Toast.LENGTH_SHORT).show();
+  }
+ }
  public class NativeBridge {@JavascriptInterface public void ready(){reveal();}
+ @JavascriptInterface public void openExternal(String url) {
+  if (url != null) runOnUiThread(() -> openExternalLink(Uri.parse(url)));
+ }
  @JavascriptInterface public void save(String data,String name,String mime){try{byte[] decoded=android.util.Base64.decode(data,android.util.Base64.DEFAULT);runOnUiThread(()->{if(pendingExport!=null)return;pendingExport=decoded;Intent save=new Intent(Intent.ACTION_CREATE_DOCUMENT);save.addCategory(Intent.CATEGORY_OPENABLE);save.setType(mime);save.putExtra(Intent.EXTRA_TITLE,name);try{startActivityForResult(save,11);}catch(Exception e){pendingExport=null;Toast.makeText(MainActivity.this,"Enregistrement indisponible",Toast.LENGTH_LONG).show();}});}catch(Exception ignored){}}
  }
  @Override protected void onActivityResult(int req,int result,Intent data){super.onActivityResult(req,result,data);if(req==12&&result==RESULT_OK&&data!=null&&data.getData()!=null)readBackup(data.getData());if(req==10&&fileCallback!=null){fileCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(result,data));fileCallback=null;}if(req==11){byte[] bytes=pendingExport;pendingExport=null;if(result==RESULT_OK&&data!=null&&data.getData()!=null&&bytes!=null){try(OutputStream stream=getContentResolver().openOutputStream(data.getData())){stream.write(bytes);Toast.makeText(this,"Sauvegarde enregistrée",Toast.LENGTH_SHORT).show();}catch(Exception e){Toast.makeText(this,"Échec de l’enregistrement",Toast.LENGTH_LONG).show();}}}}
